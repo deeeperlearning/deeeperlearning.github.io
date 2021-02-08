@@ -1,7 +1,9 @@
----
+<!-- ---
 layout: post
 title: chapter 1: Introduction
 ---
+
+ -->
 # chapter 1: Introduction
 
 ## 1-0 개괄
