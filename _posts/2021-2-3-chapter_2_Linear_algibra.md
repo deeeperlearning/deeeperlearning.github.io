@@ -20,7 +20,7 @@ title: chapter 2: Linear algibra
 
 ### 2.3 단위행렬, 역행렬
 
-- Identity matrix: $\forall{x} \in \R^{n}, I_{n}x = x$인 $I$
+- Identity matrix: $\forall x \in \mathbb{R}^{n}, I_{n}x = x$인 $I$
 - inverse matrix: $A^{-1}A = I_n$인 $A^{-1}$
 
 ### 2.4 Linear dependence and span(생성공간)
