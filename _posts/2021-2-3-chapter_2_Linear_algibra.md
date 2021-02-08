@@ -2,6 +2,8 @@
 layout: post
 title: chapter 2: Linear algibra
 ---
+
+
 # chapter 2: Linear algibra
 
 ## 2.1 Scalars, Vectors, Metrices, and Tensors
@@ -18,7 +20,7 @@ title: chapter 2: Linear algibra
 
 ### 2.3 단위행렬, 역행렬
 
-- Identity matrix: $\forall x \in \R^{n}, I_{n}x = x$인 $I$
+- Identity matrix: $\forall{x} \in \R^{n}, I_{n}x = x$인 $I$
 - inverse matrix: $A^{-1}A = I_n$인 $A^{-1}$
 
 ### 2.4 Linear dependence and span(생성공간)
@@ -128,7 +130,7 @@ $$A^+=VD^+U^T$$
 
 - U, D, V는 A의 고윳값 분해 결과임.
 
-### 2.10 대각합 연산자 (trace operator)
+### 2.10 대각합 연산자(trace operator)
 
 - 대각합 연산자 Tr는 행렬의 모든  main diagonal의 합을 계산한다.
 

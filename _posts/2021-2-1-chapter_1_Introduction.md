@@ -88,11 +88,11 @@ distributed representation을 사용하면 이를 더 가볍게 만들 수 있�
 
 - sequential model
 
-LSTM[Hochreiter et al, 1997] 
+LSTM\[Hochreiter et al, 1997\] 
 
 - 암흑기
 
-딥러닝 코인은 90년대에 크게 좋은 성과를 내지 못했고, 다른 ML 방법론들, 예를 들어 kenel machine[Boser elt al 1992], graphical model[jordan, 1998] 등이 대두되며 2007년까지 침체됨. 
+딥러닝 코인은 90년대에 크게 좋은 성과를 내지 못했고, 다른 ML 방법론들, 예를 들어 kenel machine\[Boser elt al 1992\], graphical model\[jordan, 1998\] 등이 대두되며 2007년까지 침체됨. 
 
 - 다시 떡상
 
