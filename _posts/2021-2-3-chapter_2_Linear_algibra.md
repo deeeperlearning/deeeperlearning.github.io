@@ -18,7 +18,7 @@ title: chapter 2: Linear algibra
 
 ### 2.3 단위행렬, 역행렬
 
-- Identity matrix: $\forall x \in \R^{n},  I_{n}x = x$인 $I$
+- Identity matrix: $\forall x \in \R^{n}, I_{n}x = x$인 $I$
 - inverse matrix: $A^{-1}A = I_n$인 $A^{-1}$
 
 ### 2.4 Linear dependence and span(생성공간)
@@ -75,7 +75,7 @@ $A$의 eigenvector의 집합, 혹은 직교행렬을 V$=\{v^{(1)},...v^{(n)}\}$�
 
 $$A = Vdiag(\lambda)V^{-1}$$
 
-![2021-2-3-chapter_2_Linear_algibra/Untitled.png](https://deeeperlearning.github.io/assets/ch1/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch2/Untitled.png)
 
 - 모든 eigen value가 양수인 행렬을 positive definite matrix라고 한다.
 - 모든 eigen value가 0 이상인 행렬을 positive semidefinite matrix라고 한다.
@@ -98,19 +98,19 @@ $$A = UDV^T$$
         - diagonal matrix의 의미는 작 좌표성분의 스케일 변환
     - $A = UDV^T$ 에서 U, V는 직교행렬, D는 대각행렬이므로 Ax는 x를 먼저 $V^T$에 의해 회전시킨 후 D로 스케일을 변화시키고 다시 U로 회전시키는 것임을 알 수 있다.
 
-![2021-2-3-chapter_2_Linear_algibra/Untitled%201.png](https://deeeperlearning.github.io/assets/ch1/Untitled%201.png)
+![_config.yml]({{ site.baseurl }}/assets/ch2/Untitled%201.png)
 
 - Thin SVD, compact SVD, Truncated SVD 등도 있음. → 이미지 압축에 사용가능
 
-![2021-2-3-chapter_2_Linear_algibra/Untitled%202.png](https://deeeperlearning.github.io/assets/ch1/Untitled%202.png)
+![_config.yml]({{ site.baseurl }}/assets/ch2/Untitled%202.png)
 
 Thin SVD
 
-![2021-2-3-chapter_2_Linear_algibra/Untitled%203.png](https://deeeperlearning.github.io/assets/ch1/Untitled%203.png)
+![_config.yml]({{ site.baseurl }}/assets/ch2/Untitled%203.png)
 
 Truncated SVD
 
-![2021-2-3-chapter_2_Linear_algibra/Untitled%204.png](https://deeeperlearning.github.io/assets/ch1/Untitled%204.png)
+![_config.yml]({{ site.baseurl }}/assets/ch2/Untitled%204.png)
 
 50개의 singular value로 근사한 이미지. 
 

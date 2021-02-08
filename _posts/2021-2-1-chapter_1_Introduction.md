@@ -32,7 +32,7 @@ representation learning이 주어진 문제 자체를 푸는 것보다 어려운
 
 딥러닝에서는 자료를 좀 더 간단한 표현들을 이용해 표현함으로써 표현학습의 인자가 많은 문제를 해결함. 아래처럼 모서리가 edge들이라는 좀 더 간단한 개념들로 구성됨. 
 
-![2021-2-1_chapter_1_Introduction/Untitled.png](2021-2-1_chapter_1_Introduction/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch1/Untitled.png)
 
 심층학습은 학습이 깊게, 여러 층으로 이루어지기 때문에 컴퓨터가 다단게 프로그램을 배울 수 있다. 이런 층별 실행 방식은 다음 층의 명령들이 이전 층의 명령들의 결과를 참조할 수 있으므로 강력하다. 한 층에서 활성화된 정보 중 입력을 설명하는 변동 인자들(factor of variation→ 이거 latent variable이라고 할 수 있나?)을 부호화하지 않는 것들도 있을 것이다. 
 
@@ -102,16 +102,16 @@ LSTM[Hochreiter et al, 1997]
 
   
 
-![2021-2-1_chapter_1_Introduction/Untitled%201.png](2021-2-1_chapter_1_Introduction/Untitled%201.png)
+![_config.yml]({{ site.baseurl }}/assets/ch1/Untitled%201.png)
 
 빅데이터의 대두! → 양질의 데이터가 큰 사이즈로 마련되니 학습의 부담인 "통계적 추정(statistical estimation)"의 부담이 줄어들었다. 일반화가 쉬워졌다. 
 
 ### 1.2.3 모형의 크기 증가
 
-![2021-2-1_chapter_1_Introduction/Untitled%202.png](2021-2-1_chapter_1_Introduction/Untitled%202.png)
+![_config.yml]({{ site.baseurl }}/assets/ch1/Untitled%202.png)
 
-![2021-2-1_chapter_1_Introduction/Untitled%203.png](2021-2-1_chapter_1_Introduction/Untitled%203.png)
+![_config.yml]({{ site.baseurl }}/assets/ch1/Untitled%203.png)
 
 ### 1.2.4 Increasing accuracy, complexity, and real-world impact
 
-![2021-2-1_chapter_1_Introduction/Untitled%204.png](2021-2-1_chapter_1_Introduction/Untitled%204.png)
+![_config.yml]({{ site.baseurl }}/assets/ch1/Untitled%204.png)
