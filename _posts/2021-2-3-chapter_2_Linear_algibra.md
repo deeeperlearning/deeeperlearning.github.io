@@ -1,3 +1,7 @@
+---
+layout: post
+title: chapter 2: Linear algibra
+---
 # chapter 2: Linear algibra
 
 ## 2.1 Scalars, Vectors, Metrices, and Tensors
