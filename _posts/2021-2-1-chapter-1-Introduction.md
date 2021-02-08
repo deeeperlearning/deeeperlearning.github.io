@@ -1,4 +1,4 @@
-# chapter 1: Introduction
+Ian Goodfellow Deeplearning책의 시작. 
 
 ## 1-0 개괄
 

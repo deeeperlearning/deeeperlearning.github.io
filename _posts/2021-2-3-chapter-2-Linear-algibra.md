@@ -1,4 +1,4 @@
-# chapter 2: Linear algibra
+선형대수학에 대해 간략하게 다루는 페이지. 
 
 ## 2.1 Scalars, Vectors, Metrices, and Tensors
 
