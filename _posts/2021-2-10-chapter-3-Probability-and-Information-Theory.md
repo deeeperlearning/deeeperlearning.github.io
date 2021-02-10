@@ -1,4 +1,80 @@
-3.7 ~ 3.10까지의 내용
+chapter3: 확률과 정보 이론
+
+# chapter 3: Probability and Information Theory
+확률론은 과학과 공학의 여러 분야에서 근본적인 도구로 쓰인다. 확률론을 이요하면 북확실한 명제를 서술할 수 잇으며, 불확실성이 존재하는 상황에서 뭔가를 추론할 수 있다. 
+
+정보이론을 이용하면 주어진 확률분포에 존재하는 불확실성의 양을 추정할 수 있다. 
+
+## 3.1 Why Probability?
+
+- 기계학습은 불확실한 수치들을 다루며 확률적, 비결정론석 수치를 다룰 때도 있다.
+- 불확실성을 다루는 세가지 원천
+    - **모형화할 시스템에 내재한 확률성**. 예를 들어 양자역학. , 카드들이 무작위 순서로 완저히 섞인다고 가정하는 카드겡미
+    - **불완전한 관측 가능성.** 결정론적 시스템이어도 행동의 모든 변수들을 관측할 수 없는 경우
+    - **불완전한 모형화.**  관측한 정보 일부가 소실되는 경우. 예를 들어 float64 data가 int16이 된다면 정보가 많이 소실됨.
+
+- 간단하지만 불확실한 규칙이 더 나을 때가 많음.
+- 반복하기 어려운 명제들에 "반복의 비율이 확률임"을 대입하는 게 어려울 때가 있다. 의사가 환자를 진단하는 경우 등.(평행우주가 존재하지 않는 이상 반복 불가)
+- 이 경우 확률은 사건의 비율이 아니라 degree of belief(믿음의 정도)임.
+- 전자의 확률: frequentist probability, 후자를 bayesian probability라고 한다.
+- 확률을 "논리를 불확실성까지 다룰 수 있도로 확장한 것"이라고 봐도 좋다. 확률론은 다른 명제들의 likelihood(가능도)가 주어졌을 때 어떤 명제가 참일 가능도를 결정하는 형식 규칙을 제공.
+
+## 3.2 random variable(확률 변수)
+
+- random variable은 여러 값을 무작위로 가지는 변수. 변수 자체는 영문 소문자, 값은 이탤릭 소문자로 표기.
+- random variable은 discrete일 수도 있고, continuous일 수도 있음.
+
+## 3.3 Probability distribution
+
+- 하나의 random variable, 혹은 random variable의 집합이 각각의 상태를 가질 likelihood를 정의.
+- 이산/연속 여부에 따라 식 전개가 상이함
+
+### 3.3.1 Descrete variables, Probability mass function
+
+- Descrete variable을 서술하는 방법으로 probability mass function(PMF)를 사용, 대분자 P
+- P(x=$x)$와 같이 특정 변수값에 대한 확률 수치를 나타낼 수 있음.
+- PMF의 조건:
+    - P의 domain(정의역)은 x의 모든 가능한 상태의 집합이어야 함.
+    - $\forall x \in \mathsf{x}, 1\geq p(x) \geq 0$
+    - $\sum{p(x)} = 1$
+
+### 3.3.2 Continuous Variable, Probability Density Function
+
+- 연속확률변수에선 Probability Density Function 사용
+- PDF의 조건:
+    - P의 domain(정의역)은 x의 모든 가능한 상태의 집합이어야 함.
+    - $\forall x \in \mathsf{x}, p(x) \geq 0$
+    - $\int{p(x)dx} = 1$
+- 확률분포 $u(x;a, b)$에서 x는 함수의 argument이고, **;**기호는  매개변수가 이후에 서술됨을 뜻함.(parameterization)
+
+## 3.4 Marginal Probability(주변 확률)
+
+- marginal probability distribution은 어떤 변수들의 집합에 관한 확률분포 정보를 알고있을 때 그 집합의 한 부분집합에 관한 확률분포.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/1.png)
+
+x에 대한 marginal distribution
+
+- 물론 연속 변수에 대해선 sigma가 아니라 integral을 붙여야겠지요
+
+## 3.5 Conditional Probability
+
+- 어떤 사건이 발생했을 때, 다른 한 사건이 발생할 확률.
+- $\mathsf{x}=x일 때,  \mathsf{y}=y$일 조건부 확률은 $p(\mathsf{y}=y| \mathsf{x}=x)$와 같이 표기한다.
+- 조건부 확률 계산식:
+
+$$P(\mathsf{y}=y|\mathsf{x}=x) = {P(\mathsf{y}=y, \mathsf{x}=x) \over P(\mathsf{x}=x)}$$
+
+## 3.6 The chain rule of conditional probability
+
+- 많은 random variable들로 구성된 joint probability distribution들은 아래와 같은 conditional distribution으로 분해될 수 있다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/2.png)
+
+- 이를 product/chain rule of probability이라고 한다. 아래 예시.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/3.png)
+
 
 ## 3.7 Independence and Conditional Independence
 
@@ -16,7 +92,7 @@ $$\forall x \in X, y \in Y, z \in Z,  p(X=x, Y=y|Z=z) = p(X=x|Z=z)p(Y=y|Z=z)$$
 
 - 조건부 독립의 정의 역시 풀어서 쓰는것이 더 이해하기 편한 듯 (아래 식의 양변에 $p(Y=y, Z=z)$를 곱한 후 정리하면 위 식이 유도됨).
 
-$p(X=x|Y=y,Z=z) = p(X=x|Z=z)$
+$$p(X=x|Y=y,Z=z) = p(X=x|Z=z)$$
 
 ## 3.8 Expectation, Variance and Covariance
 
