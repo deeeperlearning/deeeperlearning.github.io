@@ -92,6 +92,7 @@
   - 예시 2: Karush-Kuhn-Tucker (KKT)
     - 제약조건이 부등식일 때 적용 가능 (ex-f(x) > 0)
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_KKT.png)
+KKT, Wikipedia
 
 ## 4.5 Example: Linear Least Squares
 - 자세한 계산 과정 풀이: https://leejunhyun.github.io/deep%20learning/2018/09/27/DLB-04/
