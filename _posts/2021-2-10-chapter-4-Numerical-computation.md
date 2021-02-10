@@ -25,12 +25,12 @@
 - f(x): objective function 혹은 criterion, 최소화해야 할때는 cost function, loss function, error function
 - f(x)를 최적화해야 할 때 *로 표시 -> x ∗ = arg min f ( x )
 - Gradient descent: x 값을 약간 바꾸었을 때 f(x) 값이 감소한다면, 해당 방향으로 x 값을 수정하는 과정을 반복하여 f(x)의 최소값을 만드는 x를 찾는 방법
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_1.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_1.PNG)
 - f’(x) = 0: critical point, stationary point (local minimum or maximum of saddle point)
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_2.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_2.PNG)
 - Global minimum: 전체 정의역에 대해 가장 작은 함수값
   - 여러개의 local minima를 갖거나 평평한 saddle point가 많은 경우에는 optimization이 어렵다.
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_3.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_3.PNG)
   - critical point: 모든 element가 0
 - directional derivative in direction u (a unit vector)
   - 함수 f의 u  방향으로의 기울기
@@ -46,7 +46,7 @@
 ### 4.3.1 Beyond the Gradient: Jacobian and Hessian Matrices
 - Jacobian matrix: f: Rm -> Rn에서 모든 편미분에 대한 행렬
 - Second derivative: 미분에 대한 미분으로, curvature를 측정한다고 볼 수 있음
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_4.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_4.PNG)
   - -: 아래로 볼록, cost function이 입실론 보다 많이 감소
   - 0: curvature가 없음, cost function의 기울기가 1일 때, 입실론 만큼 감소
   - +: 위로 볼록, cost function이 입실론 보다 적게 감소
@@ -64,10 +64,10 @@
   - H가 positive definite (모든 eigenvalue가 양수): local minimum
   - H가 negative definite (모든 eigenvalue가 음수): local maximum
   - 양/음인 eigenvalue가 모두 있음: 방향에 따라 min/max 여부가 다름
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_5.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_5.PNG)
 - Hessian의 condition number가 클 때, gradient descent는 효과가 좋지 않은 예시
   - 한 방향으로는 급격하게 변하고 (예-$\lambda_{max}$에 대한 eigenvector 방향), 다른 방향으로는 조금 변함 (예-$\lambda_{min}$에 대한 eigenvector 방향)
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.png)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.PNG)
 - Newton’s method로 이와 같은 문제를 해결 가능
   - second-order Taylor series expansion을 이용해 x(0) 근처의 f(x)를 근사함
   - <Eq 4.11, 4.12>
