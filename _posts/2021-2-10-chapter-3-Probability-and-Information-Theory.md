@@ -1,6 +1,4 @@
 chapter3: 확률과 정보 이론
-
-# chapter 3: Probability and Information Theory
 확률론은 과학과 공학의 여러 분야에서 근본적인 도구로 쓰인다. 확률론을 이요하면 북확실한 명제를 서술할 수 잇으며, 불확실성이 존재하는 상황에서 뭔가를 추론할 수 있다. 
 
 정보이론을 이용하면 주어진 확률분포에 존재하는 불확실성의 양을 추정할 수 있다. 
@@ -51,16 +49,16 @@ chapter3: 확률과 정보 이론
 
 - marginal probability distribution은 어떤 변수들의 집합에 관한 확률분포 정보를 알고있을 때 그 집합의 한 부분집합에 관한 확률분포.
 
-![_config.yml]({{ site.baseurl }}/assets/ch3/1.png)
+![_config.yml]({{ site.baseurl }}/assets/ch3/0.png)
 
 x에 대한 marginal distribution
-
+ !
 - 물론 연속 변수에 대해선 sigma가 아니라 integral을 붙여야겠지요
 
 ## 3.5 Conditional Probability
 
 - 어떤 사건이 발생했을 때, 다른 한 사건이 발생할 확률.
-- $\mathsf{x}=x일 때,  \mathsf{y}=y$일 조건부 확률은 $p(\mathsf{y}=y| \mathsf{x}=x)$와 같이 표기한다.
+- $\mathsf{x}=x$일 때, $\mathsf{y}=y$일 조건부 확률은 $p(\mathsf{y}=y| \mathsf{x}=x)$와 같이 표기한다.
 - 조건부 확률 계산식:
 
 $$P(\mathsf{y}=y|\mathsf{x}=x) = {P(\mathsf{y}=y, \mathsf{x}=x) \over P(\mathsf{x}=x)}$$
@@ -69,11 +67,11 @@ $$P(\mathsf{y}=y|\mathsf{x}=x) = {P(\mathsf{y}=y, \mathsf{x}=x) \over P(\mathsf{
 
 - 많은 random variable들로 구성된 joint probability distribution들은 아래와 같은 conditional distribution으로 분해될 수 있다.
 
-![_config.yml]({{ site.baseurl }}/assets/ch3/2.png)
+![_config.yml]({{ site.baseurl }}/assets/ch3/1.png)
 
 - 이를 product/chain rule of probability이라고 한다. 아래 예시.
 
-![_config.yml]({{ site.baseurl }}/assets/ch3/3.png)
+![_config.yml]({{ site.baseurl }}/assets/ch3/2.png)
 
 
 ## 3.7 Independence and Conditional Independence
