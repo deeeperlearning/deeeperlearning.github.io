@@ -67,7 +67,8 @@
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_5.PNG)
 - Hessian의 condition number가 클 때, gradient descent는 효과가 좋지 않은 예시
   - 한 방향으로는 급격하게 변하고 (예-$\lambda_{max}$에 대한 eigenvector 방향), 다른 방향으로는 조금 변함 (예-$\lambda_{min}$에 대한 eigenvector 방향)
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.PNG)
+![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.png)
+
 - Newton’s method로 이와 같은 문제를 해결 가능
   - second-order Taylor series expansion을 이용해 x(0) 근처의 f(x)를 근사함
   - <Eq 4.11, 4.12>
