@@ -203,7 +203,7 @@ $$P(x) = \sum_i P(c=i)P(x|c=i)$$
 ![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2014.png)
 
 - $p(y)$는 보통 $\Sigma_xP(y|x)p(x)$로 구한다.
-
+- 조건부 확률의 정의 $P(\mathsf{y} \mid \mathsf{x}) = P(\mathsf{x,y})/P(\mathsf{x})\ ,\ P(\mathsf{x} \mid \mathsf{y}) = P(\mathsf{x,y})/P(\mathsf{y})$로 부터 쉽게 유도 가능하다. ($P(\mathsf{x,y})$ 를 소거해 주면 됨)
 ## 3.12 Continuous Variabledml Technical detail
 
 - continuous variable과 probability density function을 제대로 이해하기 위해선 measure theory(측도론)을 이해해야 함.
