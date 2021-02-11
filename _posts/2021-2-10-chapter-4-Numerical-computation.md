@@ -80,7 +80,7 @@
 ### 4.3.1 Beyond the Gradient: Jacobian and Hessian Matrices
 - Jacobian matrix: $f: R^m  \rightarrow R^n$에서 모든 편미분에 대한 행렬
 
-  ![_config.yml]({{ site.baseurl }}/assets/ch4/jacobian.PNG)
+  ![_config.yml]({{ site.baseurl }}/assets/ch4/jacobian.png)
 
 - Second derivative: 미분에 대한 미분으로, curvature를 측정한다고 볼 수 있음
 
@@ -94,44 +94,64 @@
   
 - Hessian matrix
   - 다변수를 입력 받을 때의 모든 조합을 고려하는 second derivative와 같은 개념의 행렬이며, Hessian matrix의 각 성분은 아래와 같이 정의된다.
-  
+
     $$H(f)(x)_{i, j} = {\partial^2 \over \partial x_i \partial x_j}f(x)$$
-  
+
   - Gradient의 Jacobian이라 할 수 있다.
-  
+
   - 미분의 순서가 바뀌어도 값은 유지되므로, 2차 미분이 continuous하다면 symmetric matrix임
-  
+
   - Real, symmetric하므로 real eigenvalues와 orthogonal basis eigenvector로 분해 가능
-  
+
   - $d^{T}Hd$: unit vector $d$방향으로의 2차 미분
-  
-  - 2차 미분과 Hessian matrix를 이용하여 적절한 learning rate를 예상 할 수 있음
-    - <Eq 4.8 ~ 4.10>
-    - 최악의 경우: g가 가장 큰 eigenvalue $\lambda_{max}$와 상응하는 H의 eigenvector의 방향과 일치 -> step size = 1/ $\lambda_{max}$가 됨
-  
+
+  - $f(x)$를 Talor series로 전개할 때, 2차 미분과 Hessian matrix를 이용하여 표현할 수 있다. 이 때, $g$는 gradient이고, $H$는 $x^{(0)}$에서의 Hessian이다. 
+
+    $$f(x)≈f(x)+(x−x^{(0)})^Tg + {1 \over 2}(x−x^{(0)})^T H(x−x^{(0)} )$$
+
+  - minimum point를 찾기 위해 $x^{(0)}$에서 $x$를 gradient $g$ 방향으로 learning rate $\epsilon$ 만큼 이동한다고 했을 때 $x=x^{(0)} - \epsilon g$ 가 된다. 이를 위 Talor series에 대입하면, 
+
+    $$f(x^{(0)} − \epsilon g) ≈ f(x^{(0)}) − \epsilon g^Tg + {1 \over 2}\epsilon^2g^THg.$$ 가 된다.
+
+  - $g^THg$ 가 양수일 때, 테일러 급수 근사를 가장 많이 감소하게 하는 최적의 $\epsilon$ 은 아래와 같다. 
+
+    $$\epsilon^* = {g^Tg \over g^THg}$$
+
+  - 최악의 경우는 $g$가 가장 큰 eigenvalue $\lambda_{max}$와 상응하는 H의 eigenvector의 방향과 일치할 때다.
+
+  - 이때, 최적의 step size는  ${1 \over \lambda_{max}}$가 됨
+
 - Hessian matrix, H를 이용하면 critical point의 성질을 알 수 있음
   - H가 positive definite (모든 eigenvalue가 양수): local minimum
   - H가 negative definite (모든 eigenvalue가 음수): local maximum
   - 양/음인 eigenvalue가 모두 있음: 방향에 따라 min/max 여부가 다름
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_5.PNG)
   
-- Hessian의 condition number가 클 때, gradient descent는 효과가 좋지 않은 예시
+- Hessian의 condition number가 클 때, gradient descent 방법의 효과가 좋지 않은 예시
   - 한 방향으로는 급격하게 변하고 (예-$\lambda_{max}$에 대한 eigenvector 방향), 다른 방향으로는 조금 변함 (예-$\lambda_{min}$에 대한 eigenvector 방향)
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.png)
 
 - Newton’s method로 이와 같은 문제를 해결 가능
   - second-order Taylor series expansion을 이용해 x(0) 근처의 f(x)를 근사함
-  - <Eq 4.11, 4.12>
-  - 함수 f가 positive deﬁnite quadratic 이면 Newton’s method는 위 식을 이용해서 한번에 minimum으로 갈 수 있음
+  
+    ![_config.yml]({{ site.baseurl }}/assets/ch4/newton1.png)
+  
+  - 위 식을 풀면 아래와 같은 $x^*$을 구할 수 있다. 
+  
+    ![_config.yml]({{ site.baseurl }}/assets/ch4/newton2.png)
+  
+  - 함수 f가 positive deﬁnite quadratic 이면Newton’s method는 위 식을 이용해서 한번에 minimum으로 갈 수 있음
+  
   - 하지만 현실적으로 f는 국소적으로 positive deﬁnite quadratic이고 전체적으로는 아니므로, 여러번 반복해야 함
+  
   - 이와 같이 gradient descent보다 더 빠르게 critical point로 도달할 수 있지만, local minimum 근처 한정이며 saddle point에서는 오히려 안 좋을 수 있음
   
-- First-order optimization algorithms의 예시 - gradient 만을 이용하는 gradient descent
+- First-order optimization algorithms의 예시: gradient 만을 이용하는 gradient descent
 
-- Second-order optimization예시 - Hessian matrix를 이용하는 Newton’s method
+- Second-order optimization algorithms의 예시: Hessian matrix를 이용하는 Newton’s method
 
 - 함수에 제약을 걸어 성능을 보장하기도 함: 예) Lipschitz continuous 혹은 Lipschitz continuous derivatives를 가지는 함수
-  - 변화율이 Lipschitz constant L에 의해 제한되는 함수 f
+  - 변화율이 Lipschitz constant L에 의해 제한되는 함수 $f$
   - <Eq 4.13>
   - 입력의 변화가 작을 때, 출력의 변화가 작을 것이라 보장함
   
