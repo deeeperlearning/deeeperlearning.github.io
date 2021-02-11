@@ -41,49 +41,80 @@
 
 ## 4.3 Gradient-Based optimization
 - 대부분의 딥러닝 알고리즘은 어떤 함수$f(x)$의 최대값이나 최소값에 대한 x를 구하는 최적화 과정을 포함한다.
+
 - 최적화를 수행할 $f(x)$를 objective function 혹은 criterion, 최소화해야 할때는 cost function, loss function, error function 등으로 부른다. 
+
 - f(x)를 최적화하는 x값은 다음과 같이 *을 병기해 표기한다.  $x^∗ = arg min\ f(x)$
+
 - Gradient descent: x 값을 약간 바꾸었을 때 f(x) 값이 감소한다면, 해당 방향으로 x 값을 수정하는 과정을 반복하여 f(x)의 최소값을 만드는 x를 찾는 방법
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_1.PNG)
-- f’(x) = 0: critical point, stationary point (local minimum or maximum of saddle point)
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_2.PNG)
+  ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_1.PNG)
+
+- $f’(x) = 0$: critical point, stationary point (local minimum or maximum of saddle point)
+  ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_2.PNG)
+
 - Global minimum: 전체 정의역에 대해 가장 작은 함수값
   - 여러개의 local minima를 갖거나 평평한 saddle point가 많은 경우에는 optimization이 어렵다.
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_3.PNG)
-  - critical point: 모든 element가 0
-- directional derivative in direction u (a unit vector)
-  - 함수 f의 u  방향으로의 기울기
-  - 함수 f를 최소화하기 위해 f를 가장 빠르게 감소시키는 방향을 찾고자 함
-  - <Eq 4.3, 4.4>
-  - u에 무관한 텀을 무시하면, min u cos theta로 간소화되고, u가 gradient와 반대 방향일 때 최소가 됨
-  - 위의 방법을 method of steepest descent 혹은 gradient descent라고 함
-- 위에서 구한 방향으로 새로운 x값을 찾음
-  - <Eq 4.5>
-  - $\epsilon$: learning rate
-  - Learning rate는 보통 상수를 사용하나, line search라는 방법에서는 몇 가지 learning rate 값을 동시에 테스트해서 f를 최소화 시키는 값을 고름
+  
+- $f'(x) = 0$인 지점을 critical point라고 부른다. 
+
+- directional derivative in direction $u$: 함수 $f$의 $u$ 방향으로의 기울기
+  - 함수 $f$를 최소화하기 위해 $f$를 가장 빠르게 감소시키는 방향을 찾고자 할 때 사용.
+
+  $$min_{u, u^Tu = 1}u^T \bigtriangledown_xf(x) = min_{u, u^Tu = 1}||u||_2 * ||\bigtriangledown_xf(x)||_2cos(\theta)$$
+
+  - $u$에 무관한 텀을 무시하면, $min_u\ cos(\theta)$로 간소화되고, $u$가 gradient와 반대 방향일 때 최소가 됨
+  - 위의 방법을 method of steepest descent 혹은 gradient descent라고 한다.
+
+- Gradient Descent 방법을 이용한 minimum 탐색
+  - gradient descent를 이용해 새로운 $x$ 값을 찾는 과정은 아래 식과 같다.
+  
+    $$x' = x-\epsilon \bigtriangledown_x f(x)$$
+  
+  - 여기서 $\epsilon$ 은 learning rate이며, 한 번에 최대 경사 방향으로 얼마나 많은 거리를 움직일 것인지를 결정한다. 
+  
+  - Learning rate는 보통 상수를 사용하나, line search라는 방법에서는 몇 가지 learning rate 값을 동시에 테스트해서 $f$를 최소화 시키는 값을 고른다.
+  
+  - $\bigtriangledown_x f(x)$값이 0에 근접하면 탐색을 종료한다. 
 
 ### 4.3.1 Beyond the Gradient: Jacobian and Hessian Matrices
-- Jacobian matrix: f: Rm -> Rn에서 모든 편미분에 대한 행렬
+- Jacobian matrix: $f: R^m  \rightarrow R^n$에서 모든 편미분에 대한 행렬
+
+  ![_config.yml]({{ site.baseurl }}/assets/ch4/jacobian.PNG)
+
 - Second derivative: 미분에 대한 미분으로, curvature를 측정한다고 볼 수 있음
-![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_4.PNG)
+
   - -: 아래로 볼록, cost function이 입실론 보다 많이 감소
+  
   - 0: curvature가 없음, cost function의 기울기가 1일 때, 입실론 만큼 감소
+  
   - +: 위로 볼록, cost function이 입실론 보다 적게 감소
+  
+    ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_4.PNG)
+  
 - Hessian matrix
-  - <Eq 4.6>
-  - 다변수를 입력 받을 때의 모든 조합을 고려하는 second derivative와 같은 개념
-  - Gradient의 Jacobian이라 할 수 있음
+  - 다변수를 입력 받을 때의 모든 조합을 고려하는 second derivative와 같은 개념의 행렬이며, Hessian matrix의 각 성분은 아래와 같이 정의된다.
+  
+    $$H(f)(x)_{i, j} = {\partial^2 \over \partial x_i \partial x_j}f(x)$$
+  
+  - Gradient의 Jacobian이라 할 수 있다.
+  
   - 미분의 순서가 바뀌어도 값은 유지되므로, 2차 미분이 continuous하다면 symmetric matrix임
+  
   - Real, symmetric하므로 real eigenvalues와 orthogonal basis eigenvector로 분해 가능
+  
   - $d^{T}Hd$: unit vector $d$방향으로의 2차 미분
+  
   - 2차 미분과 Hessian matrix를 이용하여 적절한 learning rate를 예상 할 수 있음
     - <Eq 4.8 ~ 4.10>
     - 최악의 경우: g가 가장 큰 eigenvalue $\lambda_{max}$와 상응하는 H의 eigenvector의 방향과 일치 -> step size = 1/ $\lambda_{max}$가 됨
+  
 - Hessian matrix, H를 이용하면 critical point의 성질을 알 수 있음
   - H가 positive definite (모든 eigenvalue가 양수): local minimum
   - H가 negative definite (모든 eigenvalue가 음수): local maximum
   - 양/음인 eigenvalue가 모두 있음: 방향에 따라 min/max 여부가 다름
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_5.PNG)
+  
 - Hessian의 condition number가 클 때, gradient descent는 효과가 좋지 않은 예시
   - 한 방향으로는 급격하게 변하고 (예-$\lambda_{max}$에 대한 eigenvector 방향), 다른 방향으로는 조금 변함 (예-$\lambda_{min}$에 대한 eigenvector 방향)
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_6.png)
@@ -94,12 +125,16 @@
   - 함수 f가 positive deﬁnite quadratic 이면 Newton’s method는 위 식을 이용해서 한번에 minimum으로 갈 수 있음
   - 하지만 현실적으로 f는 국소적으로 positive deﬁnite quadratic이고 전체적으로는 아니므로, 여러번 반복해야 함
   - 이와 같이 gradient descent보다 더 빠르게 critical point로 도달할 수 있지만, local minimum 근처 한정이며 saddle point에서는 오히려 안 좋을 수 있음
+  
 - First-order optimization algorithms의 예시 - gradient 만을 이용하는 gradient descent
+
 - Second-order optimization예시 - Hessian matrix를 이용하는 Newton’s method
+
 - 함수에 제약을 걸어 성능을 보장하기도 함: 예) Lipschitz continuous 혹은 Lipschitz continuous derivatives를 가지는 함수
   - 변화율이 Lipschitz constant L에 의해 제한되는 함수 f
   - <Eq 4.13>
   - 입력의 변화가 작을 때, 출력의 변화가 작을 것이라 보장함
+  
 - Convex optimization: 강한 제약을 이용해 좋은 성능을 보장함
   - 모든 지점에서 Hessian이 positive semidefinite (eigenvalue가 모두 0 이상)인 confex function에만 적용 가능함
   - 이러한 함수는 saddle point가 없고, local minima가 global minima라 최적화가 용이함
