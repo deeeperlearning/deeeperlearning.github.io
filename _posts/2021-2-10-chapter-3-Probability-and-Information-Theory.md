@@ -205,7 +205,11 @@ $$P(x) = \sum_i P(c=i)P(x|c=i)$$
 - $p(y)$는 보통 $\Sigma_xP(y|x)p(x)$로 구한다.
 - 조건부 확률의 정의 $P(\mathsf{y} \mid \mathsf{x}) = P(\mathsf{x,y})/P(\mathsf{x})\ ,\ P(\mathsf{x} \mid \mathsf{y}) = P(\mathsf{x,y})/P(\mathsf{y})$로 부터 쉽게 유도 가능하다. ($P(\mathsf{x,y})$ 를 소거해 주면 됨)
 ## 3.12 Continuous Variabledml Technical detail
-
+- Measure zero
+    측정하고 있는 공간에서 어떠한 부피도 차지하지 않을 때 사용하는 표현.
+    Ex) 2차원 공간에 놓인 도형의 면적을 측정할 때, 점 또는 선과 같이 측정 값이 0 일 경우 measure zero.
+- Almost everywhere
+    Measure zero들의 집합을 제외한 모든 공간에서 어떤 조건이 만족할 경우, 그 조건은 almost everywhere 에서 만족한다고 한다.
 - continuous variable과 probability density function을 제대로 이해하기 위해선 measure theory(측도론)을 이해해야 함.
 - x와 y가 $y=g(x)$의 관계를 만족한다고 가정해보자. 그러면 $p_y(y) = p_x(g^{-1}(y))$이 성립할 줄 알았는데 안 한다. 아래가 성립함.
 
@@ -236,7 +240,7 @@ $$I(x) = -logP(x)$$
     - 두 확률분포 P(x), Q(x)가 있을 때, 그 두 분포의 정보량 차이를 KL divergence로 표현할 수 있다.
     - $D_{KL}(P||Q)$의 뜻: 확률분포 Q에서 뽑은 기호들로 이루어진 메세지의 길이가 최소가 되는 부호화 방식을 사용한다고 할 때, 확률분포 P에서 뽑은 기호들로 이루어진 메세지를 보내는 데 필요한 추가정보량.
     - $D_{KL}$은 음수가 될 수 없음. P, Q가 같은 분포일 때만 0임(필요충분조건)
-    - 교환법칙 성립하지 않는다.
+    - 교환법칙 성립하지 않는다.(따라서 true distance measure 라고 하기 어려움)
 
 ![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2018.png)
 
