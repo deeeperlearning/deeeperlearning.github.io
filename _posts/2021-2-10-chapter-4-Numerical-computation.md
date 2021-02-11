@@ -3,27 +3,46 @@
 
 ## 4.1 Overflow and Underflow
 - 디지털 컴퓨터로 숫자를 처리하는 이상 rounding error가 발생할 수 밖에 없다.
-  - underflow: 0에 가까운 숫자가 0으로 처리되어 발생하는 문제
-    - 예) 의도치않게 분모에 0이 입력되어 계산 오류가 발생 할 수 있다.
-  - overflow: 큰 숫자가 $\pm\infty$로 처리되어 발생하는 문제
-    - 예) 안정화되지 않은 값의 원소를 가지는 벡터 x의 softmax 함수 값 계산 <Eq 4.1>
-      - x의 원소가 모두 c일 경우: 1/n
-      - 하지만 c가 매우 작을 경우: underflow가 발생해 값이 정의되지 않는다.
-      - c가 매우 클 경우: overflow가 발생해 값이 정의되지 않는다.
-      - 해결 예시) softmax(z) where z = x - max,i(xi)로 만들어 큰 element를 없애 문제를 해결한다.
+- underflow: 0에 가까운 숫자가 0으로 처리되어 발생하는 문제. 
+
+  - 예) 의도치않게 분모에 0이 입력되어 계산 오류가 발생 할 수 있다.
+
+- overflow: 큰 숫자가 $\pm\infty$로 처리되어 발생하는 문제
+
+- Example: softmax 함수
+
+  - 소프트맥스 함수의 정의는 아래와 같다. 
+    
+    $$softmax(x)_i = {exp(x_i) \over \sum^{n}_{j=1}exp(x_j)}$$
+    
+  - x의 원소가 모두 $c$로 같은 경우 softmax를 취한 값은 $1 \over n$가 되어야 한다. 
+
+  - 하지만 $c$가 크기가 매우 큰 음수인 경우, $exp(x)$ 값을 구할 때 underflow가 발생해 제대로 계산이 이루어지지 않는다. 
+
+  - $c$가 매우 클 경우, $exp(x)$를 구할 때 overflow가 발생해 값이 정의되지 않는다.
+
+  - 이 문제를 해결하기 위해 $z = x - max_i(x_i)$인 $z$ 를 정의하여 $softmax(x)$ 대신 $softmax(z)$ 을 사용하는 방법이 있다.  
+
+  - $log$ $  softmax(x)$를 구현할 때,먼저 softmax를 구하고 log를 취하면 위에서 소개한 문제가 발생할 수 있으니 수치적으로 안정된 방식으로 계산하는 개별 함수를 구현해야 한다. 
 
 ## 4.2 Poor conditioning
-- Conditioning: 입력 변수의 작은 변화에 대해 함수 값이 얼마나 빨리 변하는지
-- $A \in \mathbb{R}^{n\times n}$이 eigenvalue decomposition을 가질 때, condition number = <Eq 4.2>
-  - 가장 크고 작은 eigenvalue 사이의 비율
-  - 이 숫자가 크면 역행렬을 계산하는 등의 작업이 input의 에러에 대해 큰 차이를 만들 수 있음
-  - 역행렬을 계산할때의 rounding error 때문이 아니라, 행렬 고유의 성질임
+- Conditioning: 입력 변수의 작은 변화에 대해 함수 값이 얼마나 빨리 변하는지를 뜻한다. 일반적으로 작은 입력값의 변동이 큰 출력의 변화를 가져올 때 문제가 발생할 가능성이 높다. 
+
+- Condition Number
+
+  - $A \in \mathbb{R}^{n\times n}$이 eigenvalue decomposition을 가질 때, 행렬 $A$의 condition number는 아래와 걑이 정의된다. 
+
+  $$condition\ number = max_{i,j}|{\lambda_i \over \lambda_j}|$$
+
+  - 즉, 가장 큰 eigenvalue와 가장 작은 eigenvalue 사이의 비가 condition number이다. 
+  - 이 숫자가 큰 행렬은 역행렬을 계산하는 등의 작업을 수행할 때 input의 에러에 대해 민감한 성질을 가진다. 
+  - 역행렬을 계산할때의 rounding error 때문이 아니라, 행렬 고유의 성질임. 
   - Poorly conditioned 행렬은 입력 신호 단계에서 발생한 에러를 증폭 시킴
 
 ## 4.3 Gradient-Based optimization
-- 대부분의 딥러닝 알고리즘은 f(x)의 최대값이나 최소값에 대한 x를 구하는 최적화 과정을 포함한다.
-- f(x): objective function 혹은 criterion, 최소화해야 할때는 cost function, loss function, error function
-- f(x)를 최적화해야 할 때 *로 표시 -> x ∗ = arg min f ( x )
+- 대부분의 딥러닝 알고리즘은 어떤 함수$f(x)$의 최대값이나 최소값에 대한 x를 구하는 최적화 과정을 포함한다.
+- 최적화를 수행할 $f(x)$를 objective function 혹은 criterion, 최소화해야 할때는 cost function, loss function, error function 등으로 부른다. 
+- f(x)를 최적화하는 x값은 다음과 같이 *을 병기해 표기한다.  $x^∗ = arg min\ f(x)$
 - Gradient descent: x 값을 약간 바꾸었을 때 f(x) 값이 감소한다면, 해당 방향으로 x 값을 수정하는 과정을 반복하여 f(x)의 최소값을 만드는 x를 찾는 방법
 ![_config.yml]({{ site.baseurl }}/assets/ch4/fig4_1.PNG)
 - f’(x) = 0: critical point, stationary point (local minimum or maximum of saddle point)
