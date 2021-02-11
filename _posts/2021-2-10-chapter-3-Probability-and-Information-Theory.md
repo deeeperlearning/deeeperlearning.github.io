@@ -1,4 +1,3 @@
-chapter3: 확률과 정보 이론
 확률론은 과학과 공학의 여러 분야에서 근본적인 도구로 쓰인다. 확률론을 이요하면 북확실한 명제를 서술할 수 잇으며, 불확실성이 존재하는 상황에서 뭔가를 추론할 수 있다. 
 
 정보이론을 이용하면 주어진 확률분포에 존재하는 불확실성의 양을 추정할 수 있다. 
@@ -195,3 +194,94 @@ $$P(x) = \sum_i P(c=i)P(x|c=i)$$
     - $\zeta(x) = \int_{-\infty}^x\sigma(y)dy$
         - 이거 좀 확장해서 생각해보면 ReLU는 indicator function을 위와 같이 적분한 값이다.
     - $\zeta(x) - \zeta(-x) = x$
+
+## 3.11 Bayes' Rule
+
+- $P(x|y)$를 아는 상태에서 $P(y|x)$를 구하기
+- Bayes' Rule은 아래와 같다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2014.png)
+
+- $p(y)$는 보통 $\Sigma_xP(y|x)p(x)$로 구한다.
+
+## 3.12 Continuous Variabledml Technical detail
+
+- continuous variable과 probability density function을 제대로 이해하기 위해선 measure theory(측도론)을 이해해야 함.
+- x와 y가 $y=g(x)$의 관계를 만족한다고 가정해보자. 그러면 $p_y(y) = p_x(g^{-1}(y))$이 성립할 줄 알았는데 안 한다. 아래가 성립함.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2015.png)
+
+- higher order에선 jacobian matrix를 사용한 행렬식을 대신 사용.
+
+## 3.13 Information Theory
+
+- 정보의 양을 수치화하기.
+- 정보의 정량화는 아래의 규칙을 따른다
+    - 발생 가능성이 큰 사건은 정보략이 적어야 한다. 반드시 발생하는 사건에는 정보가 없어야 한다 .
+    - 발생 가능성이 낮은 사건은 정보량이 많아야 한다.
+    - 개별 사건들의 정보량을 더할 수 있어야 한다.
+- 이 성질들을 모두 충족하기 위해 $\mathsf{x}=x$의 self-information을 아래와 같이 정의
+
+$$I(x) = -logP(x)$$
+
+- self-information은 하나의 결과(outcome)만을 다룬다. 확률 분포 전체의 불확실성을 shannon entropy로 quantify할 수 있다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2016.png)
+
+- 섀넌 엔트로피는 분포 P에서 뽑은 사건들의 평균 정보량임. x가 continuous variable일 때 differential entropy라고 함.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2017.png)
+
+- KL Divergence
+    - 두 확률분포 P(x), Q(x)가 있을 때, 그 두 분포의 정보량 차이를 KL divergence로 표현할 수 있다.
+    - $D_{KL}(P||Q)$의 뜻: 확률분포 Q에서 뽑은 기호들로 이루어진 메세지의 길이가 최소가 되는 부호화 방식을 사용한다고 할 때, 확률분포 P에서 뽑은 기호들로 이루어진 메세지를 보내는 데 필요한 추가정보량.
+    - $D_{KL}$은 음수가 될 수 없음. P, Q가 같은 분포일 때만 0임(필요충분조건)
+    - 교환법칙 성립하지 않는다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2018.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2019.png)
+
+- Cross entropy:
+    - KL divergence와는 달리 P항이 없으나, 생략된 항에 Q가 관여하지 않으므로 Q에 관해 교차 엔트로피를 최소화하는 것을 KL divergence값을 최소화하는 것과 같음.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2020.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2021.png)
+
+## 3.14 Structured Probabilistic Models
+
+- joint probability 전체를 하나의 함수로 표현하는 것은 계산/통계 측면에서 비효율적.
+- 확률분포를 하나의 함수로 나타내는 대신, 하나의 분포를 여러 인수로 분해해 그것들의 곱으로 표현 가능.
+- 예를 들어 a, b, c 세 random variable이 있을 때, a가 b의 값에 영향을 미치고, b는 c에 대해 영향을 주지만, 주어진 b에 대해 a와 c가 독립이라고 하자. 세 변수 모두에 대한 확률분포를 두 변수에 관한 확률분포의 곱으로 표현 가능.
+
+$$p(a, b, c) = p(a)p(b|a)p(c|b)$$
+
+- 이 식의 인수분해를 진행하면, 분포를 서술하는데 필요한 매개변수 개수가 감소. 이런 인수분해를 그래프로 표현 가능. 확률 분포의 인수분해를 그래프로 표현한 것을 structured probabilistic model 혹은 graph model이라고 한다.
+
+### 3.14.1 Directed Model
+
+- Directed model은 directed edge를 사용한다. a directed model contains one factor for every random variable $x_i$ in the distribution, and that factor consists of the conditional distribution over $x_i$ given the parents of $x_i$
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2022.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2023.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2024.png)
+
+- directed graph의 parents들은 영향을 주는 random variable을 뜻하고, children들은 영향을 받는 variable을 뜻함.
+
+### 3.14.2 Undirected Model
+
+- undirected model은 undirected edge를 사용.
+- The edges represent factorizations into a set of functions; unlike in the directed case, these functions **are usually not probability distributions of any kind**. 즉 적분이 1인 함수여야할 필요는 없음.
+- undirected G에서 연결된 노드들은 clique라고 부르며, 각 clique는 하나의 factor $\phi^{(i)}$와 연관된다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2025.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2026.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch3/Untitled%2027.png)
+
+- 분포를 그래프 모형으로 표현하면 분포의 몇 성질이 그대로 드러남. 예를 들어 a, c는 직접 상호작용하지만, a와 e는 c를 거쳐 간접 상호작용.
+- graphical model은 표현의 한 종류일 뿐임
