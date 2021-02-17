@@ -3,7 +3,7 @@
 - Hyperparameter: 모델이 학습하는게 아니라 사용자가 값을 설정하는 parameter로, 대부분의 머신러닝 알고리즘이 가지고 있음
   - 예) polynomial regression에서 입력 feature의 차수, weight decay에서 $\lambda$
 - 최근 hyperparameter까지 최적화해주는 모델들이 나오기는 하지만, 일반적으로 적절한 값을 선택하는 것은 어려운 문제임
-- 보통 여러 후보 값으로 조절해가며 모델의 성능을 테스트함 -> validation set 이용
+- 보통 여러 후보 값으로 조절해가며 모델의 성능을 테스트함 $\rightarrow$ validation set 이용
   - validation set: test set이 아닌 training set의 일부로, 학습할 때 사용하지 않음
   - 일반적인 데이터 분배 비율: training : validation : test = 6 : 2 : 2
 
@@ -85,5 +85,5 @@
 - Training set의 크기가 증가하면 point estimates가 참값에 수렴하는 성질
 ![_config.yml]({{ site.baseurl }}/assets/ch5/consistency.PNG)
 - Consistency가 성립한다면 데이터 수가 증가할 때 bias가 줄어듬을 보장함
-- 하지만 역은 항상 성립하지는 않음 -> bias가 줄어든다고 consistency가 성립하지는 않음
+- 하지만 역은 항상 성립하지는 않음 $\rightarrow$ bias가 줄어든다고 consistency가 성립하지는 않음
   - 예) Dataset에서 normal distribution의 평균을 추정할 때, 무조건 첫번째 샘플을 estimator로 사용한다면 unbiased이긴 하지만, 데이터 개수가 무한대가 될 때 unbiased 해지는 것은 아니므로 consistency라 할 수 없다.
