@@ -31,13 +31,13 @@
 - $\hat{\theta}$ : 파라미터 $\theta$의 estimator, true $\theta$에 가까울수록 좋은 estimator임
 
 ## Function Estimation
-- 입력 벡터 \x에 대한 \y를 예측하는 경우, 해당 함수에 대한 estimation
+- 입력 벡터 $\x$에 대한 $\y$를 예측하는 경우, 해당 함수에 대한 estimation
 - 함수 공간에서의 point estimation이라 할 수 있음
 
 ## Bias
-- data들로부터 추정한 ^θm의 기댓값과 true θ와의 차이
+- data들로부터 추정한 $\hat\theta_m$의 기댓값과 true $\theta$와의 차이
 ![_config.yml]({{ site.baseurl }}/assets/ch5/eq5_20.PNG)
-- unbiased: E(^θm) = theta
+- unbiased: $E(\hat\theta_m) = \theta$
 - asymptotically unbiased: 데이터 갯수가 무한대로 가면 unbiased 해지는 경우
 
 ## Example: Bernoulli Distribution
