@@ -74,7 +74,7 @@
 - 같은 distribution에서 얻어진 데이터들이라 하더라도, 통계치는 달라질 수 있고, 이 달라지는 정도를 정량화하기 위한 도구임
 - 평균 $\hat\mu_m$의 standard error:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/SE.PNG)
-- 평균 $u$의 95% 신뢰 구간:
+- 평균 $\mu$의 95% 신뢰 구간:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/confidence.PNG)
   - 알고리즘 A의 error에 대한 95퍼센트 신뢰구간의 upper bound가 알고리즘 B의 error에 대한 95퍼센트 신뢰구간의 lower bound보다 작다면 알고리즘 A가 더 낫다고 하곤 함
 
