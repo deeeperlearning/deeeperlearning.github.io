@@ -31,7 +31,7 @@
 - $\hat{\theta}$ : 파라미터 $\theta$의 estimator, true $\theta$에 가까울수록 좋은 estimator임
 
 ## Function Estimation
-- 입력 벡터 $\x$에 대한 $\y$를 예측하는 경우, 해당 함수에 대한 estimation
+- 입력 벡터 $x$에 대한 $y$를 예측하는 경우, 해당 함수에 대한 estimation
 - 함수 공간에서의 point estimation이라 할 수 있음
 
 ## Bias
@@ -51,18 +51,18 @@
 ## Example: Estimators of the Variance of a Gaussian Distribution
 - sample variance는 true variance의 biased estimator임
 ![_config.yml]({{ site.baseurl }}/assets/ch5/sample variance.PNG)
-- unbiased estimator를 만들기 위해서는 분모에 m대신 m-1을 사용해야 함
+- unbiased estimator를 만들기 위해서는 분모에 $m$ 대신 $(m-1)$을 사용해야 함
 ![_config.yml]({{ site.baseurl }}/assets/ch5/sample variance_m-1.PNG)
 
 ## 5.4.3 Variance and Standard Error
-- Variance: 추산한 값이 데이터 샘플마다 얼마나 크게 달라지는지에 대한 지표, Var(^θ)
-- Standard error: variance의 루트 값, SE(^θ)
+- Variance: 추산한 값이 데이터 샘플마다 얼마나 크게 달라지는지에 대한 지표, $Var(\hat\theta)$
+- Standard error: variance의 루트 값, $SE(\hat\theta)$
 - 낮은 bias, 낮은 variance를 가지는 estimator가 대체로 우리가 원하는 형태임
 - 유한한 데이터로 통계적인 수치를 계산할 때는 항상 불확실성을 내포함
 - 같은 distribution에서 얻어진 데이터들이라 하더라도, 통계치는 달라질 수 있고, 이 달라지는 정도를 정량화하기 위한 도구임
 - 평균의 standard error:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/SE.PNG)
-- 평균 u의 95% 신뢰 구간:
+- 평균 $u$의 95% 신뢰 구간:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/confidence.PNG)
   - 알고리즘 A의 error에 대한 95퍼센트 신뢰구간의 upper bound가 알고리즘 B의 error에 대한 95퍼센트 신뢰구간의 lower bound보다 작다면 알고리즘 A가 더 낫다고 하곤 함
 
