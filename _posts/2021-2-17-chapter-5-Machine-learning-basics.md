@@ -28,7 +28,7 @@
 ## Point Estimation
 - 단 하나의 best 예측을 뽑기 위한 방법
 - 대상은 하나의 파라미터일 수도, linear regression 같이 벡터 파라미터일수도 있음
-- \hat{\theta} : 파라미터 \theta의 estimator, true \theta에 가까울수록 좋은 estimator임
+- $\hat{\theta}$ : 파라미터 $\theta$의 estimator, true $\theta$에 가까울수록 좋은 estimator임
 
 ## Function Estimation
 - 입력 벡터 \x에 대한 \y를 예측하는 경우, 해당 함수에 대한 estimation
