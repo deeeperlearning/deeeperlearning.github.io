@@ -14,44 +14,56 @@
 - k-fold cross-validation: 데이터를 서로 겹치지 않게 k개의 그룹으로 나누고, 각각의 그룹을 test set으로 사용하는 총 k번의 평가를 함
 ![_config.yml]({{ site.baseurl }}/assets/ch5/k-fold.PNG)
 ![_config.yml]({{ site.baseurl }}/assets/ch5/monte carlo.PNG)
-![_config.yml]({{ site.baseurl }}/assets/ch5/cross difference.PNG)
 
 ## Monte-Carlo Cross Validation
 
 - 일정 비율로 test set을 임의로 뽑아 테스트 하는 과정을 반복함
 - 같은 데이터가 여러번 test set에 등장할 수 있다는 점이 k-fold cross validation과의 가장 큰 차이임
 
+![_config.yml]({{ site.baseurl }}/assets/ch5/cross difference.PNG)
+
 ## 5.4 Estimators, Bias and Variance
 
 - 머신러닝에서 유용하게 사용되는 통계적인 도구들에 대한 소개
 
 ## Point Estimation
+
 - 단 하나의 best 예측을 뽑기 위한 방법
 - 대상은 하나의 파라미터일 수도, linear regression 같이 벡터 파라미터일수도 있음
 - $\hat{\theta}$ : 파라미터 $\theta$의 estimator, true $\theta$에 가까울수록 좋은 estimator임
 
 ## Function Estimation
+
 - 입력 벡터 $x$에 대한 $y$를 예측하는 경우, 해당 함수에 대한 estimation
 - 함수 공간에서의 point estimation이라 할 수 있음
 
 ## Bias
+
 - data들로부터 추정한 $\hat\theta_m$의 기댓값과 true $\theta$와의 차이
 ![_config.yml]({{ site.baseurl }}/assets/ch5/eq5_20.PNG)
 - unbiased: $E(\hat\theta_m) = \theta$
 - asymptotically unbiased: 데이터 갯수가 무한대로 가면 unbiased 해지는 경우
 
 ## Example: Bernoulli Distribution
+
 - mean이 unbiased estimator가 됨
+
 ![_config.yml]({{ site.baseurl }}/assets/ch5/Bernoulli.PNG)
 
 ## Example: Gaussian Distribution Estimator of the Mean
+
 - sample mean이 unbiased estimator가 됨
+
 ![_config.yml]({{ site.baseurl }}/assets/ch5/Gaussian.PNG)
 
 ## Example: Estimators of the Variance of a Gaussian Distribution
+
 - sample variance는 true variance의 biased estimator임
+
 ![_config.yml]({{ site.baseurl }}/assets/ch5/sample variance.PNG)
+
 - unbiased estimator를 만들기 위해서는 분모에 $m$ 대신 $(m-1)$을 사용해야 함
+
 ![_config.yml]({{ site.baseurl }}/assets/ch5/sample variance_m-1.PNG)
 
 ## 5.4.3 Variance and Standard Error
@@ -60,7 +72,7 @@
 - 낮은 bias, 낮은 variance를 가지는 estimator가 대체로 우리가 원하는 형태임
 - 유한한 데이터로 통계적인 수치를 계산할 때는 항상 불확실성을 내포함
 - 같은 distribution에서 얻어진 데이터들이라 하더라도, 통계치는 달라질 수 있고, 이 달라지는 정도를 정량화하기 위한 도구임
-- 평균의 standard error:
+- 평균 $\hat\mu_m$의 standard error:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/SE.PNG)
 - 평균 $u$의 95% 신뢰 구간:
 ![_config.yml]({{ site.baseurl }}/assets/ch5/confidence.PNG)
