@@ -1,7 +1,7 @@
 ## 5.3 Hyperparameters and Validation Sets
 
 - Hyperparameter: 모델이 학습하는게 아니라 사용자가 값을 설정하는 parameter로, 대부분의 머신러닝 알고리즘이 가지고 있음
-  - 예) polynomial regression에서 입력 feature의 차수, weight decay에서 <lambda>
+  - 예) polynomial regression에서 입력 feature의 차수, weight decay에서 $\lambda$
 - 최근 hyperparameter까지 최적화해주는 모델들이 나오기는 하지만, 일반적으로 적절한 값을 선택하는 것은 어려운 문제임
 - 보통 여러 후보 값으로 조절해가며 모델의 성능을 테스트함 -> validation set 이용
   - validation set: test set이 아닌 training set의 일부로, 학습할 때 사용하지 않음
