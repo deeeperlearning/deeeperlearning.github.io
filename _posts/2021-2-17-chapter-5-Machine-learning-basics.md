@@ -367,7 +367,7 @@ Sparse representation 중의 하나이며 주어진 데이터를 k개의 cluster
 
 좋은 일반화를 위해선 dataset의 크기가 커야하지만 동시에 dataset의 규모가 증가하면 계산비용이 커진다. 기계학습 알고리즘이 사용하는 cost function을 training examples of some per-example loss function으로 분해할 수 있다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/36f5a770-6747-4846-bcd5-43c0586c5e83/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/36f5a770-6747-4846-bcd5-43c0586c5e83/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-7.png)
 
 여기서 $L$은 per-example loss $L(x,y,\theta) = -log\ p(y|x;\theta)$. 
 
@@ -403,7 +403,7 @@ Linear regression 등 5장에서 설명한 알고리즘들은 speech recognition
 
 기계학습에서 자료의 차원이 아주 높을 때 풀기 어려워질 때가 많다. 변수의 개수에 따라 서로 다른 구성/조합의 개수가 지수함수적으로 증가한다. 차원의 저주가 초래하는 어려움 중 하나는 statistical challenge이다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/35c6048d-720c-49a1-98c2-df00fb37d324/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/35c6048d-720c-49a1-98c2-df00fb37d324/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled.png)
 
 그림 설명: 1차원에서는 변수가 하나 뿐이고, 구별해야 할 변수의 다른 값들은 10개뿐이다. 그런데 2, 3차원으로 가면 지수적으로 구별해야할 값들이 증가한다. 1차원에서와 비슷하게 공간의 구멍들에 데이터를 채우려면 데이터의 양도 지수적으로 증가해야 한다. 
 
@@ -423,13 +423,13 @@ $$f^*(x) \approx f^*(x+\epsilon)$$
 
 이런 smoothness prior의 극단적인 예로 k-nearest neighbor가 있다. k = 1일 때, the number of distinguishable regions은 be more than the number of training examples을 넘을 수 없다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/826ebd76-dd5e-4d7a-bf65-461c2f49da6e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/826ebd76-dd5e-4d7a-bf65-461c2f49da6e/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-2.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4693ad38-3664-41d0-8a32-587e705c5b1c/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4693ad38-3664-41d0-8a32-587e705c5b1c/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-3.png)
 
 Decision tree 방법에도 smoothness만 의존하는 학습의 한계들이 적용된다. leaf node가 n개일 때 최소한 n개의 training example이 필요하다. 결론적으로, smoothness prior만 가정한 경우 모든 입력 공간을 k개의 서로 다른 영역들로 구분하기 위해선 k개의 example이 필요하다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61bce5ac-132e-401c-9c2a-3570d2c96455/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61bce5ac-132e-401c-9c2a-3570d2c96455/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-4.png)
 
 복잡한 함수를 효율적으로 표현하는 것과 추정된 함수가 새 입력들에 잘 일반화되는 것을 동시에 추구하는 것은 가능한 일이다. 이것이 달성되기 위해서는 data generating distribution에 대한 추가적인 가정들을 도입하고, 각 영역들에 의존성을 도입해야 한다. In this way, we can actually generalize non-locally.(local generalization이 smoothing인듯)
 
@@ -447,9 +447,9 @@ ML에서는 높은 차원의 공간에 내장된, 낮은 차원/자유도(degree
 
 상술한 개념을 Manifold hypothesis(다양체 가설)이라고 한다. 이미지, 텍스트 문자열, 음향 등에 관한 확률 분포도 각각 고유의 manifold 위에 있을 것이다. 
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/428476c4-6ae6-49ff-84b0-6dfc541a1a03/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/428476c4-6ae6-49ff-84b0-6dfc541a1a03/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-5.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cbfba0ec-e7b3-42c7-b861-dfa8309c074e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cbfba0ec-e7b3-42c7-b861-dfa8309c074e/Untitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-6.png)
 
 random image vs face dataset
 
