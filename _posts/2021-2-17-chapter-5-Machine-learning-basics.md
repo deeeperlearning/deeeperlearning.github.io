@@ -270,12 +270,12 @@ Frequentist와는 다르게 파라미터 $\boldsymbol\theta$를 고정된 값이
 
 베이지안 통계에서는 $\boldsymbol\theta$에 대한 확률분포 $p(\boldsymbol\theta)$를 일종의 선입견(prior)으로 생각하고 어떤 사건이 일어날 확률을 계산한다. (prior는 불확실성이 높은 uniform distribution 또는 Gaussian distribution을 주로 이용한다고 한다.)
 
-- $m$개의 데이터 샘플 $\{x^{(1)}, ...\ ,x^{(m)}\}$이 주어진 후의 $\boldsymbol\theta$에 대한 조건부 확률분포(posterior) $p(\boldsymbol\theta|x^{(1)},...\ ,x^{(m)})$은 Bayes rule로 부터 주어진다.
+- $m$개의 데이터 샘플 $\{x^{(1)}, ...\ ,x^{(m)}\}$이 주어진 후의 $\boldsymbol{\theta}$에 대한 조건부 확률분포(posterior) $p(\boldsymbol{\theta}|x^{(1)}, ...\ ,x^{(m)})$은 Bayes rule로 부터 주어진다.
 
 $$p(\boldsymbol\theta|x^{(1)}, ...\ ,x^{(m)}) = \frac{p(x^{(1)},...\ ,x^{(m)}|\boldsymbol\theta)p(\boldsymbol\theta)}{p(x^{(1)},...\ ,x^{(m)})}$$
 
 - 확률이 가장 높은 하나의 $\theta$ 값을 구하는 ML과는 다르게 베이지안 통계에서는 가능한 모든 $\theta$값을 고려하여 확률을 계산한다. 예를들어, 새로운 데이터 $x^{(m+1)}$가 일어날 확률은 posterior를 weight로하여 아래와 같이 계산된다.
-
+s
     $$p(x^{(m+1)}|x^{(1)}, ...\ ,x^{(m)}) = \int p(x^{(m+1)}|\boldsymbol\theta)p(\boldsymbol\theta|x^{(1)}, ...\ ,x^{(m)})d\boldsymbol\theta$$
 
 ## 5.6.1 Maximum A Posteriori(MAP) Estimation
