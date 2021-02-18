@@ -1,3 +1,6 @@
+기계학습의 가장 중요한 기본 원리들을 소개한다. 
+
+
 # 5.1 Learning Algorithms
 
 학습 알고리즘이란 어떤 task들의 class $T$에 대한 알고리즘의 성능이 $P$라고 할 때, 경험 $E$를 이용하여 $P$를 향상시킬 수 있는 알고리즘을 말한다. 이 장에서는 $T$, $P$, $E$에 대하여 소개한 후 간단한 예시인 linear regression에 적용하는 과정을 소개한다.
@@ -122,7 +125,7 @@ $$\nabla_{\vec{w}} MSE = 0 \\ \Rightarrow \vec{w} = (X^TX)^{-1} X^Ty$$
 ![_config.yml]({{ site.baseurl }}/assets/ch5/regularization.png)
 
 
-## 5.3 Hyperparameters and Validation Sets
+# 5.3 Hyperparameters and Validation Sets
 
 - Hyperparameter: 모델이 학습하는게 아니라 사용자가 값을 설정하는 parameter로, 대부분의 머신러닝 알고리즘이 가지고 있음
   - 예) polynomial regression에서 입력 feature의 차수, weight decay에서 $\lambda$
@@ -146,41 +149,41 @@ $$\nabla_{\vec{w}} MSE = 0 \\ \Rightarrow \vec{w} = (X^TX)^{-1} X^Ty$$
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/cross difference.PNG)
 
-## 5.4 Estimators, Bias and Variance
+# 5.4 Estimators, Bias and Variance
 
 - 머신러닝에서 유용하게 사용되는 통계적인 도구들에 대한 소개
 
-## Point Estimation
+### Point Estimation
 
 - 단 하나의 best 예측을 뽑기 위한 방법
 - 대상은 하나의 파라미터일 수도, linear regression 같이 벡터 파라미터일수도 있음
 - $\hat{\theta}$ : 파라미터 $\theta$의 estimator, true $\theta$에 가까울수록 좋은 estimator임
 
-## Function Estimation
+### Function Estimation
 
 - 입력 벡터 $x$에 대한 $y$를 예측하는 경우, 해당 함수에 대한 estimation
 - 함수 공간에서의 point estimation이라 할 수 있음
 
-## Bias
+### Bias
 
 - data들로부터 추정한 $\hat\theta_m$의 기댓값과 true $\theta$와의 차이
 ![_config.yml]({{ site.baseurl }}/assets/ch5/eq5_20.PNG)
 - unbiased: $E(\hat\theta_m) = \theta$
 - asymptotically unbiased: 데이터 갯수가 무한대로 가면 unbiased 해지는 경우
 
-## Example: Bernoulli Distribution
+### Example: Bernoulli Distribution
 
 - mean이 unbiased estimator가 됨
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/Bernoulli.PNG)
 
-## Example: Gaussian Distribution Estimator of the Mean
+### Example: Gaussian Distribution Estimator of the Mean
 
 - sample mean이 unbiased estimator가 됨
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/Gaussian.PNG)
 
-## Example: Estimators of the Variance of a Gaussian Distribution
+### Example: Estimators of the Variance of a Gaussian Distribution
 
 - sample variance는 true variance의 biased estimator임
 
@@ -202,7 +205,7 @@ $$\nabla_{\vec{w}} MSE = 0 \\ \Rightarrow \vec{w} = (X^TX)^{-1} X^Ty$$
 ![_config.yml]({{ site.baseurl }}/assets/ch5/confidence.PNG)
   - 알고리즘 A의 error에 대한 95퍼센트 신뢰구간의 upper bound가 알고리즘 B의 error에 대한 95퍼센트 신뢰구간의 lower bound보다 작다면 알고리즘 A가 더 낫다고 하곤 함
 
-## Example: Bernoulli Distribution
+### Example: Bernoulli Distribution
 - Bernoulli distribution의 estimator로 평균 값을 가정할 때, 데이터 수 m이 증가할수록 estimator의 variance는 감소함
 ![_config.yml]({{ site.baseurl }}/assets/ch5/variance_bernoulli.PNG)
 
@@ -224,27 +227,27 @@ $$\nabla_{\vec{w}} MSE = 0 \\ \Rightarrow \vec{w} = (X^TX)^{-1} X^Ty$$
 - 하지만 역은 항상 성립하지는 않음 $\rightarrow$ bias가 줄어든다고 consistency가 성립하지는 않음
   - 예) Dataset에서 normal distribution의 평균을 추정할 때, 무조건 첫번째 샘플을 estimator로 사용한다면 unbiased이긴 하지만, 데이터 개수가 무한대가 될 때 unbiased 해지는 것은 아니므로 consistency라 할 수 없다.
 
-## 5.5 Maximum Likelihood(ML) Estimation
+# 5.5 Maximum Likelihood(ML) Estimation
 
 실제 데이터의 분포 $p_{data}(\mathsf{\boldsymbol x})$로 부터 독립적으로 얻어진 $m$개의 샘플 $\mathbb{X} = \{\boldsymbol x^{(1)},...\ , \boldsymbol x^{(m)}\}$가 주어졌을 때, $p_{data}(\mathsf{\boldsymbol x})$를 추정하는 확률분포 $p_{model}(\mathsf{\boldsymbol x};\boldsymbol\theta)$를 생각하자. $p_{model}$을 maximize 시키는 $\boldsymbol\theta$는 다음과 같이 주어진다.
 
-$$\boldsymbol\theta_{ML} = \argmax_{\boldsymbol\theta} p_{model}(\mathbb{X};\boldsymbol\theta) = \argmax_{\boldsymbol\theta} \prod_{i = 1}^m  p_{model}(\boldsymbol x^{(i)};\boldsymbol\theta)$$
+$$\boldsymbol\theta_{ML} = argmax_{\boldsymbol\theta} p_{model}(\mathbb{X};\boldsymbol\theta) = argmax_{\boldsymbol\theta} \prod_{i = 1}^m  p_{model}(\boldsymbol x^{(i)};\boldsymbol\theta)$$
 
 위와 같은 곱셈은 underflow가 나기 쉬우므로 로그를 취하고,  $m$으로 나누어 기대값으로 바꿔준다.
 
-$$\boldsymbol\theta_{ML} = \argmax_{\boldsymbol\theta} \mathbb{E}_{\boldsymbol x \sim \hat p_{data}} \log p_{model}(\boldsymbol x;\boldsymbol\theta)$$
+$$\boldsymbol\theta_{ML} = argmax_{\boldsymbol\theta} \mathbb{E}_{\boldsymbol x \sim \hat p_{data}} \log p_{model}(\boldsymbol x;\boldsymbol\theta)$$
 
 이러한 maximization과정은 $D_{KL} = \mathbb{E}_{\mathsf{\boldsymbol x}\sim\hat p_{data}}[\log \hat p_{data}(\boldsymbol x) - \log p_{model}(\boldsymbol x)]$를 $p_{model}$에 대해 minimize 하는 것과 동일하며, 즉, cross-entropy와도 연결된다.
 
-### 5.5.1 Conditional Log-Likelihood and Mean Squared Error
+## 5.5.1 Conditional Log-Likelihood and Mean Squared Error
 
 $X$가 input, $Y$가 target인 일반적인 supervised learning을 생각하면 conditional maximum likelihood estimator는 다음과 같다.
 
-$$\boldsymbol\theta_{ML} = \argmax_{\boldsymbol \theta}P(\boldsymbol Y|\boldsymbol X ;\boldsymbol\theta)$$
+$$\boldsymbol\theta_{ML} = argmax_{\boldsymbol \theta}P(\boldsymbol Y|\boldsymbol X ;\boldsymbol\theta)$$
 
 모든 샘플이 i.i.d라면, 
 
-$$\boldsymbol\theta_{ML} = \argmax_{\boldsymbol\theta}\sum_{i=1}^m\log P(\boldsymbol y^{(i)}|\boldsymbol x^{(i)} ;\boldsymbol\theta)$$
+$$\boldsymbol\theta_{ML} = argmax_{\boldsymbol\theta}\sum_{i=1}^m\log P(\boldsymbol y^{(i)}|\boldsymbol x^{(i)} ;\boldsymbol\theta)$$
 
 - Linear Regression as Maximum Likelihood
 
@@ -254,14 +257,14 @@ $$\boldsymbol\theta_{ML} = \argmax_{\boldsymbol\theta}\sum_{i=1}^m\log P(\boldsy
 
     위의 식을 보면 알수있듯 log-likelihood를 파라미터 $w$에 대해 maximize하는 과정은 결국 MSE loss를 minimize하는 과정과 일치한다.
 
-### 5.5.2 Properties of Maximum Likelihood
+## 5.5.2 Properties of Maximum Likelihood
 
 ML estimator가 consistency를 가지려면 두가지 조건을 만족해야 한다.
 
 - $p_{data}$ 가 model family $p_{model}(\cdot;\boldsymbol\theta)$에 속해야 한다.
 - $p_{data}$에 대응되는 파라미터 $\boldsymbol\theta$가 여러개라면 어떤 $\boldsymbol\theta$가 데이터 생성 과정을 결정하는지 알 수 없으므로, $p_{data}$는 하나의 파라미터 $\boldsymbol\theta$에만 대응되야 한다.
 
-## 5.6 Bayesian Statistics
+# 5.6 Bayesian Statistics
 
 Frequentist와는 다르게 파라미터 $\boldsymbol\theta$를 고정된 값이 아닌 확률변수로 보는 관점.
 
@@ -275,19 +278,19 @@ $$p(\boldsymbol\theta|x^{(1)}, ...\ ,x^{(m)}) = \frac{p(x^{(1)},...\ ,x^{(m)}|\b
 
     $$p(x^{(m+1)}|x^{(1)}, ...\ ,x^{(m)}) = \int p(x^{(m+1)}|\boldsymbol\theta)p(\boldsymbol\theta|x^{(1)}, ...\ ,x^{(m)})d\boldsymbol\theta$$
 
-### 5.6.1 Maximum A Posteriori(MAP) Estimation
+## 5.6.1 Maximum A Posteriori(MAP) Estimation
 
 연산이 간단한 ML estimation과 베이지안 통계의 prior를 짬뽕시킨 방법. 즉, prior가 point extimation에 영향을 미치도록함으로써 베이지안 통계의 이점을 얻음.
 
 - 기존의 ML와는 다르게 posterior를 maximize 시킨다.
 
-$$\boldsymbol\theta_{MAP} = \argmax_{\boldsymbol\theta} p(\boldsymbol\theta|x) = \argmax_{\boldsymbol\theta} \log p(x|\boldsymbol\theta)+\log p(\boldsymbol\theta)$$
+$$\boldsymbol\theta_{MAP} = argmax_{\boldsymbol\theta} p(\boldsymbol\theta|x) = argmax_{\boldsymbol\theta} \log p(x|\boldsymbol\theta)+\log p(\boldsymbol\theta)$$
 
 - 우변의 첫번째 항은 ML과 동일하므로, MAP는 ML learning에 regularization 항($\log p(\boldsymbol\theta)$)을 추가한 것으로 해석 가능하다.
 
-## 5.7 Supervised Learning Algorithm
+# 5.7 Supervised Learning Algorithm
 
-### 5.7.1 Probabilistic Supervised Learning
+## 5.7.1 Probabilistic Supervised Learning
 
 데이터 $\boldsymbol x$ 와 그에 대한 정답 $y$가 주어졌을 때, 대부분의 지도학습은 확률분포 $p(y\mid \boldsymbol x)$를 추정하는 과정. 
 
@@ -299,7 +302,7 @@ $$p(y\mid \boldsymbol x;\boldsymbol \theta) = \mathcal{N}(y;\boldsymbol \theta^{
 
 $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\boldsymbol x)$$
 
-### 5.7.2 Support Vector Machine
+## 5.7.2 Support Vector Machine
 
 아래와 같이 주어진 데이터를 클래스로 나누어 분류하는 경우 선형 식 $\boldsymbol w^{\top}\boldsymbol x+b$ (빨간선) 을 기준으로 분류하는 방법.
 
@@ -318,7 +321,7 @@ $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/svm_kernel.png)
 
-### 5.7.3 Other Simple Supervised Learning Algorithms
+## 5.7.3 Other Simple Supervised Learning Algorithms
 
 - k-nearest neighbors
 
@@ -332,7 +335,7 @@ $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/decision_tree.png)
 
-## 5.8 Unsupervised Learning Algorithms
+# 5.8 Unsupervised Learning Algorithms
 
 비지도 학습의 기본적인 목적은 데이터의 최상의 또는 심플한 표현법을 찾는 것. 일반적으로 아래의 세가지 방법을 사용한다.
 
@@ -340,7 +343,7 @@ $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\
 - sparse representations
 - independent representations
 
-### 5.8.1 Principal Components Analysis
+## 5.8.1 Principal Components Analysis
 
 데이터를 표현하기 위한 디멘션을 줄이는 좋은 방법이며 elements들 사이의 선형 의존관계 또한 제거할 수 있다.
 
@@ -354,7 +357,7 @@ $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\
 
 ![_config.yml]({{ site.baseurl }}/assets/ch5/pca.png)
 
-### 5.8.2 k-means Clustering
+## 5.8.2 k-means Clustering
 
 Sparse representation 중의 하나이며 주어진 데이터를 k개의 cluster로 나누는 방법.
 
@@ -363,7 +366,7 @@ Sparse representation 중의 하나이며 주어진 데이터를 k개의 cluster
     - 각각의 centroid는 자신의 cluster에 속하는 데이터의 평균값으로 업데이트.
 - 문제는 clustering이 잘 되었는지를 평가할 수 없다는 것.
 
-## 5.9 Stochasitic Gradient Descent
+# 5.9 Stochasitic Gradient Descent
 
 좋은 일반화를 위해선 dataset의 크기가 커야하지만 동시에 dataset의 규모가 증가하면 계산비용이 커진다. 기계학습 알고리즘이 사용하는 cost function을 training examples of some per-example loss function으로 분해할 수 있다. 
 
@@ -381,7 +384,7 @@ $$g = {1 \over m'} \nabla_{\theta}\sum_{i=1}^{m'}L(x^{(i)} y^{(i)}, \theta)$$
 
 m의 크기만 고정된다면 training data의 크기가 아무리 커져도 학습 비용이 $O(1)$이 될 것...?
 
-### 5.10 Building a Machine Learning Algorithm
+# 5.10 Building a Machine Learning Algorithm
 
 Deep learning Algorithm들은 보통 다음의 recipe을 지닌다.:
 
@@ -395,11 +398,11 @@ Deep learning Algorithm들은 보통 다음의 recipe을 지닌다.:
 - a model
     - $p_{model}(y|x) = N(y;x^Tw+b, 1)$ → 선형회귀
 
-## 5.11 Challenges Motivating Deep Learning
+# 5.11 Challenges Motivating Deep Learning
 
 Linear regression 등 5장에서 설명한 알고리즘들은 speech recognition, object recognition 등의 문제들은 잘 풀지 못한다. 이번 자에서는 복잡한 함수들을 배우는데 swallow model들이 적합하지 않다는 점 등을 다룬다. 
 
-### 5.11.1 The curse of dimensionality(차원의 저주)
+## 5.11.1 The curse of dimensionality(차원의 저주)
 
 기계학습에서 자료의 차원이 아주 높을 때 풀기 어려워질 때가 많다. 변수의 개수에 따라 서로 다른 구성/조합의 개수가 지수함수적으로 증가한다. 차원의 저주가 초래하는 어려움 중 하나는 statistical challenge이다. 
 
@@ -411,7 +414,7 @@ Linear regression 등 5장에서 설명한 알고리즘들은 speech recognition
 
 이렇게 차원의 저주에 걸린 경우 input data에 대해 어떻게 추론해야 할까? 전통적인 기계학습 알고리즘들은 new input data와 가장 가까이에 있는 training data의 출력와 이 new intput의 출력이 같을 것이라 가정한다. 
 
-### 5.11.2 Local Constancy and Smoothness Regularization
+## 5.11.2 Local Constancy and Smoothness Regularization
 
 ML 알고리즘의 잘 일반회되기 위해 알고리즘이 배워야 할 함수의 종류에 대한 prior belief를 알고리즘에 제공해야 한다. 많이 쓰이는 암묵적 prior로는 smoothness prior(local constancy prior)이 있다. 이 prior은 "함수가 작은 영역 안에서 아주 크게 변해서는 안 된다"는 제약을 뜻한다. 간단한 구조의 알고리즘들은 좋은 일반화를 보장하기 위한 수단이 이 prior밖에 없다. 
 
@@ -437,7 +440,7 @@ Deep learning 알고리즘 중에는 광범위한 ML 과제들에 적합한 암�
 
 DL의 core idea는 데이터가 다층 구조의 composition of factors/features로 이루어져있다고 가정하는 것이다. 
 
-### 5.11.3 Manifold(다양체) Learning
+## 5.11.3 Manifold(다양체) Learning
 
 다양체란 연결된 영역, 각 점 주변의 이웃과 연관된 점들의 집합을 뜻한다. 예를 들어 지구는 3차원 공간 안의 구면 다양체다. 
 
@@ -453,6 +456,6 @@ ML에서는 높은 차원의 공간에 내장된, 낮은 차원/자유도(degree
 
 random image vs face dataset
 
-자료가   $\mathbb{R}^n$ 공간에 놓여 있다면, 기계학습 알고리즘이 그러한 자료를 그 자료의 특성에 잘 담는 다양체를 기준으로 하는 좌표로 표현하는 것이 더 좋다. 예를 들어, 3차원 공간의 도로를 1차원 도로번호로 지칭하는 것이 훨씬 좋다. 
+자료가 $\mathbb{R}^n$ 공간에 놓여 있다면, 기계학습 알고리즘이 그러한 자료를 그 자료의 특성에 잘 담는 다양체를 기준으로 하는 좌표로 표현하는 것이 더 좋다. 예를 들어, 3차원 공간의 도로를 1차원 도로번호로 지칭하는 것이 훨씬 좋다. 
 
 책의 뒷부분에선 다양한 다양체 구조를 성공적으로 학습하는 기계학습 알고리즘이 소개될 것이다.
