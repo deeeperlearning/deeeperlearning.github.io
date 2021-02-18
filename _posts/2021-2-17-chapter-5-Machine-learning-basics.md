@@ -333,7 +333,7 @@ $$p(y=1\mid \boldsymbol x;\boldsymbol \theta) = \sigma(\boldsymbol\theta^{\top}\
 
     주어진 데이터에 대해 연속적인 이진분류를 하여 class를 나누는 방법.
 
-![_config.yml]({{ site.baseurl }}/assets/ch5/decision_tree.png)
+![_config.yml]({{ site.baseurl }}/assets/ch5/Untitled-4.png)
 
 # 5.8 Unsupervised Learning Algorithms
 
