@@ -112,11 +112,11 @@ $$\hat{y} = \sigma(w^Th+b)$$
 
 즉, log likelihood의 정규화과정에서 sigmoid가 도출된다. 
 
-정규화에 기초한 확률분포들은 통계적 모형화를 다룰 때 자주 등장하며 그런 확률분포를 정의하는 z 변수를 logit이라고 한다. 
+정규화에 기초한 확률분포들은 통계적 모형화를 다룰 때 자주 등장하며 그런 확률분포를 정의하는 $z$ 변수를 logit이라고 한다. 
 
 #### 6.2.2.3 Softmax Units for Multinoulli Output Distributions
 
-가능한 값이 n가지 이상인 discrete variable을 표현해야할 때엔 softmax 함수를 사용하면 된다. (onehot encoded multilabel을 생각해보자) 이는 sigmoid같은 s자 함수의 한 일반화이다. 6.2.2.2에서  log likelyhood에 대한 gradient descent에 잘 부합해야 하므로 P(y=1|x) 대신 $z = log \ P(y=1|x)$을 사용했다. Multinoulli에서 이를 사용하기 위해선 아래와 같은 확률분포와 그 예측 벡터 $\hat{y}$를 다루어야 한다. 
+가능한 값이 n가지 이상인 discrete variable을 표현해야할 때엔 softmax 함수를 사용하면 된다. (onehot encoded multilabel을 생각해보자) 이는 sigmoid같은 s자 함수의 한 일반화이다. 6.2.2.2에서  log likelyhood에 대한 gradient descent에 잘 부합해야 하므로 $P(y=1|x)$ 대신 $$z = log \ P(y=1|x)$$을 사용했다. Multinoulli에서 이를 사용하기 위해선 아래와 같은 확률분포와 그 예측 벡터 $\hat{y}$를 다루어야 한다. 
 
 $$\hat{y}_i = P(y=i|x)$$
 
