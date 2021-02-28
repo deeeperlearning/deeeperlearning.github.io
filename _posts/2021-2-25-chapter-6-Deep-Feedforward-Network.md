@@ -91,7 +91,7 @@ model이 전체 확률분포 $p(y|x;\theta)$를 배우는 것이 아니라 $x$�
 
 output unit은 output layer을 뜻한다. cost function의 선택은 output unit의 선택과 밀접하게 연관되어 있다. MLE의 관점에서 output distribution의 negative log likelihood를 cost function으로 사용한다.
 
-**6.2.2.1 Linear unit for gaussian output distributions**
+#### 6.2.2.1 Linear unit for gaussian output distributions
 
 Linear unit은 Affine transformation에 기초한 output이며 nonlinear 함수를 거치지 않는다. linear unit은 conditional gaussian distribution의 평균을 구할 때 흔히 사용한다. 
 
@@ -99,7 +99,7 @@ $$p(y|x) = \mathcal{N}(y;\hat{y}, I)$$
 
 이 경우 5장에서 다루었듯 MSE가 cost function으로 쓰인다. linear unit을 사용하면 gaussian distribution의 covariance도 쉽게 학습할 수 있다.
 
-**6.2.2.2 Sigmoid Units for Bernoulli Output Distributions**
+#### 6.2.2.2 Sigmoid Units for Bernoulli Output Distributions
 
 binary variable $y$를 예측하는 과제들이 많다. 이런 문제들을 MLE로 접근하고자 할 때에는 $P(y=1|x)$만 구하면 된다. 이런 과제에서는 output unit으로 S자형인 sigmoid 함수를 주로 사용한다. 
 
@@ -114,7 +114,7 @@ $$\hat{y} = \sigma(w^Th+b)$$
 
 정규화에 기초한 확률분포들은 통계적 모형화를 다룰 때 자주 등장하며 그런 확률분포를 정의하는 z 변수를 logit이라고 한다. 
 
-**6.2.2.3 Softmax Units for Multinoulli Output Distributions**
+#### 6.2.2.3 Softmax Units for Multinoulli Output Distributions
 
 가능한 값이 n가지 이상인 discrete variable을 표현해야할 때엔 softmax 함수를 사용하면 된다. (onehot encoded multilabel을 생각해보자) 이는 sigmoid같은 s자 함수의 한 일반화이다. 6.2.2.2에서  log likelyhood에 대한 gradient descent에 잘 부합해야 하므로 P(y=1|x) 대신 $z = log \ P(y=1|x)$을 사용했다. Multinoulli에서 이를 사용하기 위해선 아래와 같은 확률분포와 그 예측 벡터 $\hat{y}$를 다루어야 한다. 
 
@@ -140,7 +140,7 @@ softmax 함수의 input z에 특정 값을 더하거나 빼도 같은 값이 나
 
 soft는 미분 가능 함수라는 사실에서 비롯된 이름이다. 
 
-**6.2.2.4 Other Output Types**
+#### 6.2.2.4 Other Output Types
 
 위에서 한 논의들을 정리하자면, 신경망을 위해 조건부 확률분포 $p(y|x;\theta)$를 정의했을 때, maximum likelihood 원리가 제시하는 cost function은 $-log\ p(y|x;\theta)$이다. 
 
