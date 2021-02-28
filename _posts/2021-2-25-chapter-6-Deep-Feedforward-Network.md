@@ -1,9 +1,11 @@
-이 장에서는 심층 신경망의 형태와 학습 방법에 대하여 다룬다. 먼저 심층 신경망이 무엇인지 잠깐 소개한 후 6.1부터 구체적인 내용을 다룰 예정이다. 우선 심층 순방향 신경망의 형태적인 특징은 다음과 같다.
+이 장에서는 심층 신경망의 형태와 학습 방법에 대하여 다룬다. 먼저 심층 신경망이 무엇인지 잠깐 소개한 후 구체적인 내용을 다룰 예정이다. 
+
+우선 심층 순방향 신경망의 형태적인 특징은 다음과 같다.
 
 - 이 책에서 다루는 신경망은 여러 층으로 구성되어 있다. 일반적으로 각 층은 input 벡터를 output 벡터로 mapping하는 함수 정도로 생각하면 된다.
 - 각 층을 $f^{(i)}(x)$라고 표현한다면 전체 신경망은 $f(x) = f^{(1)} \circ f^{(2)} \circ ... \circ f^{(i)}(x)$이다.
 - 값이 순방향으로만 전파되기 때문에 이러한 이름이 붙었다. 값이 되먹임되는 매커니즘이 추가된 recurrent neural network도 있는데 이는 추후에 등장한다.
-- 신경망의 목표는 주어진 데이터를 잘 표현하는 함수를 근사하는 것이다. 예를들어 지도학습의 경우 input $x$, 이에 대응되는 label $y$에 대하여 $y \approx f^*(x)$인 $f^*$를 찾는것이 목표이다.
+- 신경망의 목표는 주어진 데이터를 잘 표현하는 함수를 근사하는 것이다. 예를들어 지도학습의 경우 input $x$, 이에 대응되는 label $y$에 대하여 $ y \approx f{(x)}$ 인 $f$를 찾는것이 목표이다.
 
 심층 순방향 신경망에서는 비선형성이라는 요소도 굉장히 중요하다. 기존의 머신러닝 기법들에서도 선형 모델의 한계가 명확하기 때문에 비선형 함수를 최적화하려는 노력이 계속되어 왔다. 이러한 논리는 심층 순방향 신경망에서도 유의하며 이를 위해 각 층의 output에 대하여 비선형함수인 activiation function을 적용한다. 기존의 머신러닝 알고리즘들도 모델에 비선형성을 추가하기 위해 여러 방법들을 사용했는데 신경망에서 activation function을 이용하는 이유와 기존 방법들의 단점은 다음과 같다.
 
@@ -43,7 +45,7 @@ $$W =\left[ \begin{matrix} 1 & 2 \\ 3 & 4 \\ \end{matrix} \right] \\ \vec{c} = [
 
 ## 6.2  gradient based learning
 
-neural network를 designing, training하는 것은 다른 ML model을 GD로 training하는 것과 크게 다르지 않다. 가장 큰 차이는, Neural network는 nonlinear이기 때문에 loss function이 non-convex여야한다는 점이다. SVM 등에서 사용하는 전역 수렴을 보장하는 convex optimization이 아닌, cost function을 낮을 값으로 이끄는 역할만 하는 iterative gradient descent만 사용한다. 
+neural network를 designing, training하는 것은 다른 ML model을 gadient descent(GD)로 training하는 것과 크게 다르지 않다. 가장 큰 차이는, Neural network는 nonlinear이기 때문에 loss function이 non-convex여야한다는 점이다. SVM 등에서 사용하는 전역 수렴을 보장하는 convex optimization이 아닌, cost function을 낮은 값으로 이끄는 역할만 하는 iterative gradient descent만 사용한다. 
 
 ### 6.2.1 cost function
 
@@ -71,7 +73,7 @@ model이 전체 확률분포 $p(y|x;\theta)$를 배우는 것이 아니라 $x$�
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/fred0.png)
 
-이런 최적화문제를 풀 때, 아래와 같은 결과가 나온다. 즉 x의 각 값에 대해 y의 평균을 예측한다는 의미가 된다. 
+이런 최적화문제를 풀 때, 아래와 같은 결과가 나온다. 즉 x의 각 값에 대해 $y$의 평균을 예측한다는 의미가 된다. 
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/fred1.png)
 
@@ -87,7 +89,7 @@ model이 전체 확률분포 $p(y|x;\theta)$를 배우는 것이 아니라 $x$�
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/fred3.png)
 
-output unit은 output layer임. cost function의 선택은 output unit의 선택과 밀접하게 연관되어 있다. MLE의 관점에서 output distribution의 negative log likelihood를 cost function으로 사용한다.
+output unit은 output layer을 뜻한다. cost function의 선택은 output unit의 선택과 밀접하게 연관되어 있다. MLE의 관점에서 output distribution의 negative log likelihood를 cost function으로 사용한다.
 
 **6.2.2.1 Linear unit for gaussian output distributions**
 
@@ -95,7 +97,7 @@ Linear unit은 Affine transformation에 기초한 output이며 nonlinear 함수�
 
 $$p(y|x) = \mathcal{N}(y;\hat{y}, I)$$
 
-이 경우 5장에서 다루었듯 MSE가 cost function으로 쓰인다. linear unit을 사용하면 gaussian dist의 covariance도 쉽게 학습할 수 있다.
+이 경우 5장에서 다루었듯 MSE가 cost function으로 쓰인다. linear unit을 사용하면 gaussian distribution의 covariance도 쉽게 학습할 수 있다.
 
 **6.2.2.2 Sigmoid Units for Bernoulli Output Distributions**
 
@@ -114,7 +116,7 @@ $$\hat{y} = \sigma(w^Th+b)$$
 
 **6.2.2.3 Softmax Units for Multinoulli Output Distributions**
 
-가능한 값이 n가지 이상인 discrete variable을 표현해야할 때엔 softmax 함수를 사용하면 된다. (onehot encoded multilabel을 생각해보자) 이는 sigmoid같은 s자 함수의 한 일반화이다. 6.2.2.2에서  log likelyhood에 대한 gradient descent에 잘 부합해야 하므로 P(y=1|x) 대신 z = log P(y=1|x)을 사용했다. Multinoulli에서 이를 사용하기 위해선 아래와 같은 확률분포와 그 예측 벡터 $\hat{y}$를 다루어야 한다. 
+가능한 값이 n가지 이상인 discrete variable을 표현해야할 때엔 softmax 함수를 사용하면 된다. (onehot encoded multilabel을 생각해보자) 이는 sigmoid같은 s자 함수의 한 일반화이다. 6.2.2.2에서  log likelyhood에 대한 gradient descent에 잘 부합해야 하므로 P(y=1|x) 대신 $z = log \ P(y=1|x)$을 사용했다. Multinoulli에서 이를 사용하기 위해선 아래와 같은 확률분포와 그 예측 벡터 $\hat{y}$를 다루어야 한다. 
 
 $$\hat{y}_i = P(y=i|x)$$
 
@@ -157,7 +159,8 @@ gaussian mixture distribution을 출력으로 사용하는 신경망을 mixture 
 Gaussian mixture output은 speech geneative model에 효과적이며, movements of physical objects 모델에도 사용된다. 
 
 
-# 6.3 Hidden Units
+
+## 6.3 Hidden Units
 
 - Hidden units에 대해서는 절대적인 이론적 가이드라인이 있는게 아니라, 다양한 설계가 연구중임
 - Rectified linear unit (ReLU)가 기본적인 hidden unit으로 널리 쓰임
@@ -165,7 +168,7 @@ Gaussian mixture output은 speech geneative model에 효과적이며, movements 
   - Ex) $g(z)=max(0,z)$ 는 $z=0$에서 미분 불가능함
   - 그러나 이러한 경우가 많지는 않으며, 소프트웨어에서 인위적으로 특정 값을 배정하여 수치연산 오류를 방지하곤 함
 
-# Rectiﬁed Linear Units and Their Generalizations
+### 6.3.1 Rectiﬁed Linear Units and Their Generalizations
 
 - Actiation function: $g(z)=max(0,z)$
   - Linear unit과 유사하기 때문에 최적화 하기 용이함 (차이점: 절반의 결과값이 0이 됨)
@@ -186,7 +189,7 @@ https://medium.com/@himanshuxd/activation-functions-sigmoid-relu-leaky-relu-and-
 ![_config.yml]({{ site.baseurl }}/assets/ch6/maxout.PNG)
 http://www.simon-hohberg.de/blog/2015-07-19-maxout
 
-# Logistic Sigmoid and Hyperbolic Tangent
+### 6.3.2 Logistic Sigmoid and Hyperbolic Tangent
 
 - ReLU 이전에는 대부분 sigmoid activation function, hyperbolic tangent activation function을 사용함
   - Sigmoid: $g(z)=\sigma(z)$
@@ -204,7 +207,7 @@ https://www.researchgate.net/figure/The-sigmoid-and-hyperbolic-tangent-activatio
     - 예) Firing rate의 상한이 있는 뉴런의 활동을 모사
 
 
-# Other Hidden Units
+### 6.3.3 Other Hidden Units
 
 - 다른 hidden unit들도 다양하지만, 잘 쓰이지는 않음
   - Cosine function을 이용했을 때 MNIST 벤치마크 데이터셋에서 테스트 성능이 1퍼센트 향상됨
@@ -212,13 +215,13 @@ https://www.researchgate.net/figure/The-sigmoid-and-hyperbolic-tangent-activatio
   - radial basis function (RBF), Softplus, Hard tanh 등 최근까지도 다양한 함수들이 제시되며 활발히 연구되고 있는 분야임
 
 
-# 6.4 Architecture Design
+## 6.4 Architecture Design
 
 - Neural network은 여러 개의 레이어로 구성되어 있는데, 이를 어떤 너비, 얼마만큼의 깊이로 쌓을지 결정해야 함
 - 각 레이어는 이전 레이어의 출력이 다음 레이어의 입력이 되는 chain-based 구조를 가짐
 
 
-# Universal Approximation Properties and Depth
+### 6.4.1 Universal Approximation Properties and Depth
 
 - Feature과 output을 행렬곱으로 맵핑하는 linear model은 convex optimization 을 사용하여 해결할 수 있지만, 우리가 학습하려는 대상은 nonlinear한 함수일 수 있음
 
@@ -245,7 +248,7 @@ https://www.researchgate.net/figure/The-sigmoid-and-hyperbolic-tangent-activatio
 ![_config.yml]({{ site.baseurl }}/assets/ch6/Fig6.7.PNG)
 
 
-# Other Architectural Considerations
+### 6.4.2 Other Architectural Considerations
 
 - 여기까지는 neural network를 단순히 연결로만 보고 레이어의 깊이와 너비(유닛 수)에 대해서 주로 논했지만, 사실은 목적에 따라 더 다양함
   - Convolution network (9장)
@@ -256,11 +259,10 @@ https://www.researchgate.net/figure/The-sigmoid-and-hyperbolic-tangent-activatio
   - Convolutional network: 도메인 내에서 filter를 공유함으로써 적은 파라미터로도 복잡한 패턴을 효율적으로 잡아낼 수 있게 설계된 방법
 
 
-# 6.5
 
 ## 6.5 Back-Propagation and Other Differentiation Algorithms
 
-- Forward propagation : Input $\boldsymbol x$ 의 정보를 각 layer의 hidden unit에 전달하여 output $\hat \boldsymbol y$ 를 계산하는 과정.
+- Forward propagation : Input $\boldsymbol x$ 의 정보를 각 layer의 hidden unit에 전달하여 output $\hat{\boldsymbol{y}}$ 를 계산하는 과정.
 - Back-propagation : Forward propagation의 반대방향으로 gradient를 계산하는 과정
 
  
@@ -271,7 +273,7 @@ https://www.researchgate.net/figure/The-sigmoid-and-hyperbolic-tangent-activatio
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/computational graph.png)
 
-위의 그림은 weight decay penalty가 포함된 선형회귀 모형을 computational graph 방식으로 나타낸 그림이다. 즉, $\hat\boldsymbol y = \boldsymbol x^{\top} \boldsymbol w$와  $\lambda \sum_i{w_i^2}$   를 계산하는 과정.
+위의 그림은 weight decay penalty가 포함된 선형회귀 모형을 computational graph 방식으로 나타낸 그림이다. 즉, $\hat{\boldsymbol y} = \boldsymbol x^{\top} \boldsymbol w$와  $\lambda \sum_i{w_i^2}$   를 계산하는 과정.
 
 ### 6.5.2 Chain Rule of Calculus
 
@@ -306,6 +308,7 @@ $$\frac{\partial z}{\partial x_i} = \sum_{j}{\frac{\partial z}{\partial y_j}}\fr
 
 - Symbolic representation : 대수 표현과 computational graph와 같이 symbol을 이용하여 계산과정 또는 식을 표현
 - 역전파를 진행할 때 computational graph와 입력 데이터의 실제 값(numerical value)을 이용하여 gradient의 실제 값을 도출하는 접근법을 "symbol-to-number"라고 한다.
+    
     - Torch
 - Computational graph에 추가적인 노드를 만들고 필요한 미분을 symbolic하게 저장하는 방식을 "symbol-to-symbol"이라고 한다.
     - TensorFlow
@@ -350,6 +353,7 @@ $$J = J_{MLE}+\lambda\left(\sum_{i,j}\left(W_{i,j}^{(1)}\right)^2+\sum_{i,j}\lef
 $\nabla_{\boldsymbol W^{(1)}}J$ 와 $\nabla_{\boldsymbol W^{(2)}}J$ 은 두가지 길(weight decay cost와 cross entropy cost)을 통해 계산할 수 있다.
 
 - Weight decay cost
+    
     - 단순히 $2\lambda \boldsymbol W^{(i)}$로 주어짐.
 - Cross entropy cost
     - $\boldsymbol U^{(2)}$에 대한 gradient를 $\frac{\partial J_{MLE}}{\partial \boldsymbol U^{(2)}} = \boldsymbol G$라 하면 $\boldsymbol W^{(2)}$에 대한 gradient는 아래와 같다.
@@ -380,6 +384,7 @@ $\nabla_{\boldsymbol W^{(1)}}J$ 와 $\nabla_{\boldsymbol W^{(2)}}J$ 은 두가�
         $$\frac{\partial y}{\partial x} = \frac{\partial y}{\partial w_{n-1}}\frac{\partial w_{n-1}}{\partial x} = \frac{\partial y}{\partial w_{n-1}}\left(\frac{\partial w_{n-1}}{\partial w_{n-2}}\frac{\partial w_{n-2}}{\partial x}\right)= \frac{\partial y}{\partial w_{n-1}}\left(\frac{\partial w_{n-1}}{\partial w_{n-2}}\left(\frac{\partial w_{n-2}}{\partial w_{n-3}}\frac{\partial w_{n-3}}{\partial x}\right)\right)$$
 
 - Chain rule을 적용할 때 미분의 순서를 최적화시키는 문제는 NP-complete 문제로 알려져있다.
+    
     - TensorFlow나 Theano는 휴리스틱 알고리즘을 사용해서 computational graph를 간소화 하는 방식으로 cost를 줄인다고 합니다.
 - 머신러닝 분야는 특이하게 특정 라이브러리를 사용해서 코드를 짜기 때문에 많은 제약이 따르는데, 역전파 알고리즘을 커스텀할 수 있다는 장점도 있다.
 
