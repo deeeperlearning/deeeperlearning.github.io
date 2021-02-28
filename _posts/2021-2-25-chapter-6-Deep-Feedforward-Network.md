@@ -78,15 +78,15 @@ $$p_{model}(y|x) = \mathcal{N}(y;f(x;\theta), I)$$
 
 cost function은 MSE가 된다.
 
-신경망 설계에서 cost function의 형태는 학습에 큰 영향을 미친다. cost func의 기울기는 학습 알고리즘이 잘 지도되도록 크고 예측 가능해야하며, 평평한 함수들은 사용되기 어렵다.
+신경망 설계에서 cost function의 형태는 학습에 큰 영향을 미친다. cost funcion의 기울기는 학습 알고리즘이 잘 지도되도록 크고 예측 가능해야하며, 평평한 함수들은 사용되기 어렵다.
 
 #### 6.2.1.2 Learning Conditional Statistics
 
-model이 전체 확률분포 $p(y|x;\theta)$를 배우는 것이 아니라 $x$가 주어졌을 때의 $y$의 한 conditional statistics만 되는 경우가 있다. 변분법으로 아래 최적화 문제를 풀면
+Model이 전체 확률분포 $p(y\given x;\theta)$를 배우는 것이 아니라 $x$가 주어졌을 때의 $y$의 한 conditional statistics만 배우면 되 되는 경우가 있다. 변분법으로 아래 최적화 문제를 풀면,
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/fred0.png)
 
-이런 최적화문제를 풀 때, 아래와 같은 결과가 나온다. 즉 x의 각 값에 대해 $y$의 평균을 예측한다는 의미가 된다.
+이런 최적화문제를 풀 때, 아래와 같은 결과가 나온다. 즉 $x$의 각 값에 대해 $y$의 평균을 예측한다는 의미가 된다.
 
 ![_config.yml]({{ site.baseurl }}/assets/ch6/fred1.png)
 
