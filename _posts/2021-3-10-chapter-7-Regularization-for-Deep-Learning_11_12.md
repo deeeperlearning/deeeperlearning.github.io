@@ -38,17 +38,20 @@
 - Inference: 모든 subnetwork member로부터 vote를 수집하는 과정
 	- 일반적으로 10~20개의 sub-network (mask)만 이용해도 좋은 성능을 얻음
 
+
 - Dropout의 일반적인 장점
 	- Computationally cheap: per sample per update 마다 n개의 random binary number를 만들고 곱하는 O(n)의 연산만을 요구함
 	- 제한 없음: 모델의 종류, 학습 과정에 구애받지 않음
 	- 우수성: computationally inexpensive하다고 알려진 다른 regularizer보다 우수한 것으로 알려짐
 		- weight decay, filter norm constraints, sparse activity regularization 등
 
+
 - Dropout의 약점
 	- Regularization이므로 모델의 capacity가 감소하기는 해서, 충분히 큰 모델을 사용해야 함
 		- 이 때, dataset이나 network가 너무 크면 dropout에 의해 generalization error가 주는 것 보다, 연산량이 늘어나는 효과가 더 클수도 있음
 	- Labeled training example의 수가 적을 때는 효과적이지 못한 것으로 알려짐
 		- 이러한 조건에선 Bayesian neural network, unsupervised feature learning 등이 더 우수한 것으로 알려짐
+
 
 - Dropout에 대한 이외의 이야깃거리
 	- Linear regression에 적용할 땐, 각 input feature마다 다른 coefficient가 적용되는 $L^2$ weight decay와 동치임이 증명됨
