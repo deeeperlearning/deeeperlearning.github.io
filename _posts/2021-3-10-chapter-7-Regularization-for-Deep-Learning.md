@@ -169,6 +169,18 @@ activation value에 강한 constraint를 가해 sparsity를 만드는 방법도 
 
 ![_config.yml]({{ site.baseurl }}/assets/ch7/Fig7_5.PNG)
 
+### 7.11.1 Gradient Boosting
+
+Boosting이라는 기법은 개별 모형보다 수용력이 더 큰 앙상블을 구축한다. bagging은 각 모형들이 독립적으로 결과를 예측하는데 반해, Boostting은 Residual fitting이라는 방식을 사용하여 영향을 주고받는다.
+
+간략한 설명은 다음과 같다. 모델이 N개 있을 때, 첫번째 모델에 input X를 넣고, 예측이 잘못된 값들의 오차 방향(negative gradient)을 가중치에 더해 다음 모델에 넣는다. 이 과정을 총 모델의 개수만큼 반복한다. 그림으로 설명하면 아래와 같다.
+
+![_config.yml](https://miro.medium.com/max/1400/1*DwvwMlOcT1T9hZwIJvMfng.png)
+
+Bagging과 Boosting의 차이를 그림으로 나타내면 아래와 같다. 
+
+![_config.yml](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbwr6JW%2FbtqygiHRbRk%2Fcy5hbDAPpTjCG7xa6UWxi0%2Fimg.png)
+
 
 ## 7.12 Dropout
 
