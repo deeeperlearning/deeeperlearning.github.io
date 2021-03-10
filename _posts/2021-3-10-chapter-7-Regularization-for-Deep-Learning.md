@@ -1,3 +1,17 @@
+ML의 주요 문제는, 알고리즘이 training set 뿐만 아니라 새로운 input에 대해서도 잘 작동하게 만드는 것이다. ML의 training session에서 많이 쓰이는 전략 중에는, training set의 정확도를 희생해서라도 test test에 대한 정확도를 높이는 것들이 있다. 이런 전략들을 regulariation이라 통칭한다.
+
+Regularization 전략은 다양하다. 모형에 추가 제약을 거는 방법이 있고, objective function에 항을 추가해 softness에 대한 constraint를 더한다. 어떤 regularization 방법은 prior knowledge에 기대기도 한다.
+
+대부분의 regularization strategy는 regularizing estimator에 기초한다. 어떤 estimator의 regularization은 bias 증가와 variance 감소를 trade off하는 방식으로 이주어진다. 따라서 좋은 regularization은 bias를 최대한 적게 높이면서 variance를 최대한 많이 높이는 것이다.
+
+5장에서는 generalization, over fitting에 대한 세가지 상황을 이야기했다.
+
+- true data generating process가 제외된 상황(underfitting+bias)
+- model에  the true data generating process가 포함되어있는 상황
+- model에 true data generating process뿐만아니라 다른 생성 process도 섞여있는 상황(bias가 아니라  variance가 error에 크게 기여하는 상황→overfitting)
+
+Regularization의 목표는 세 번째 상황을 두 번째 상황으로 바꾸는 것이다. However, most applications of deep learning algorithms are to domains where the true data generating process is almost certainly outside the model family.
+
 ## 7.5 Noise Robustness
 
 일부 model에서는 infinitesimal variance를 가진 noise를 training input에 추가하는 것과 weights의 norm으로 regularize하는 것이 동등하다. (Bishop 1995a, b)
