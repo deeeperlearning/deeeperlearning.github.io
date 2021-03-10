@@ -197,4 +197,51 @@ activation value에 강한 constraint를 가해 sparsity를 만드는 방법도 
 	- Dropout의 장점은 input의 raw value의 noise라기보다, input의 information의 noise에 대한 저항성에 가까움
 		- 예) 얼굴 인식에서 특정 hideen unit이 '코'를 학습했다면, 이 unit을 없앴을 때 코가 없는 얼굴 이미지도 인식할 수 있음 
 
+## 7.13 Adversarial Training
 
+- 정답률이 거의 100프로에 도달한 모델은 주어진 인간 수준의 이해도를 가진다고 얘기하지만, 사실은 아닐수도 있다.
+- 이를 테스트 해보기 위해 기존의 데이터에 아주 작은 노이즈를 추가하여 output을 뽑아보면 인간의 대답과는 다소 다른 결과를 내는 경우가 많다.
+    - 판다 이미지에 노이즈를 추가한 경우.
+
+        ![_config.yml]({{ site.baseurl }}/assets/ch7/Fig7_8.png)
+
+        사람이라면 당연히 판다라고 대답할 이미지. 하지만 뉴럴넷은 긴팔 원숭이라고 대답.
+
+    - Ian Goodfellow에 따르면, 과도한 linearity가 이러한 'adversarial example'을 맞추지 못하는 이유 중 하나라고 한다.
+    - 선형 함수는 input이 조금만 변해도 결과가 크게 달라지기 때문에, 'adversarial examples'을 학습시킴으로써  neighbor input에 대해서는 locally constant 한 성격을 가지도록 할 수 있다.
+- Adversarial training의 motivation
+    - 서로 다른 class의 데이터는 다른 manifold에 존재할 것
+    - 어떤 데이터에 small perturbation이 가해진 데이터는 다른 manifold로 넘어갈 수 없다.
+- Adversarial example은 또한 준지도 학습에 사용할 수 있다.
+    - 라벨이 없는 데이터를 학습된 분류기에 넣어서 output $\hat y$을 만든다.
+    - 라벨 $y^{\prime} \ne \hat y$ 을 가지는 adversarial example을 찾는다.
+    - 두 데이터가 같은 output을 가지도록 학습시킨다.
+
+## 7.14 Tangent Distance, Tangent Prop, and Manifold Tangent Classifier
+
+"데이터들은 low-dimensional manifold에 존재할 것이다." 라는 가정을 통해 차원의 저주를 극복하고자 하는 세가지 알고리즘을 소개.
+
+- Tangent distance algorithm
+    - 두 데이터 $\boldsymbol x_1 , \boldsymbol x_2$ 가 동일한 class에 속하는지를 판별할 때는 두 데이터의 manifold $M_1, M_2$사이의 거리를 이용하는 것이 좋음.(동일한 클래스라면 동일한 manifold에 속할테니)
+    - 두 manifolds 에 속하는 모든 데이터 pair $(\boldsymbol x_1 \in M_1, \boldsymbol x_2\in M_2)$에 대해 거리를 구한 후 가장 짧은 거리를 찾는 일은 너무 힘들기 때문에 임의로 정한 하나의 데이터에 대해 tangent plane을 구하여 거리를 구함.
+
+        ![_config.yml]({{ site.baseurl }}/assets/ch7/tangent distance.png)
+
+        ([http://yann.lecun.com/exdb/publis/pdf/simard-00.pdf](http://yann.lecun.com/exdb/publis/pdf/simard-00.pdf))
+
+- Tangent propagation algorithm
+    - 기존의 데이터를 아주 조금 변환 시켜도 신경망이 invariant하도록 regularization penalty를 주는 방법.
+
+        $f(\boldsymbol x)$ : output of $\boldsymbol x$,   $\boldsymbol v^{(i)}$: tangent vectors at $\boldsymbol x$
+
+        $$\Omega(f) = \sum_{i}\left(\left(\nabla_{\boldsymbol x}f(\boldsymbol x)\right)^{\top}\boldsymbol v^{(i)}\right)^2$$
+
+        ![_config.yml]({{ site.baseurl }}/assets/ch7/Fig7_9.png)
+
+    - Tangent propagation은 변환된 데이터를 통해 학습시킨다는 점에서 data augmentation과 동일하지만, 변환의 정도에서 차이가 난다.
+        - tangent propagation은 infinitesimal transformation만 하기 때문에 larger perturbation에 대해서는 regularization이 어렵다.
+        - 또한 linear unit을 사용하는 모델은 학습이 어렵다.
+
+- Manifold tangent classifier
+    - Auto-encoder를 사용하면 manifold tangent vector를 추정할 수 있다.(14 단원에서 다룰 예정)
+    - 즉, Tangent propagation과 동일한 알고리즘이지만 탄젠트 벡터를 사용자가 지정하는 것이 아닌 auto-encoder를 통해 구해진 벡터를 사용.
