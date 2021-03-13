@@ -92,9 +92,9 @@ $$w^* = (X^TX+\alpha I)^{-1}X^Ty$$
 
 ## 7.1.2 $L^1$ Regularization
 
-$L^1$ regularization은 $\Omega = \alpha \sum_i|w_i|$인 경우이다. 전체 목적함수는 다음과 같다.
+$L^1$ regularization은 $\Omega = \alpha \sum_i \vert w_i \vert $인 경우이다. 전체 목적함수는 다음과 같다.
 
-$$\tilde{J}(w; X, y) = J(w; X, y) + \alpha |w_i|$$
+$$\tilde{J}(w; X, y) = J(w; X, y) + \alpha  \vert w_i \vert $$
 
 목적함수의 기울기를 살펴보면
 
@@ -106,11 +106,11 @@ $$\nabla_w \tilde{J}(w; X, y) = \nabla_w J(w; X, y) + \alpha \text{sign}(w)$$
 
 7.1.1과 동일하게 $J$의 해($w^*$) 근처에서 목적함수를 2차근사 한 후 식을 살펴볼 예정이다. 단, 논의를 단순화하기 위해 $w^*$ 근처에서 $J$의 Hessian은 대각행렬이라고 가정한다(이러한 가정이 어느정도 타당한 이유는 PCA를 이용해 전처리하면 서로 다른 차원들 사이의 의존성을 없앨 수 있기 때문). $w^*$ 근처에서 $J$를 2차근사하고 penalty항을 더하면
 
-$$\hat{J}(w) = J(w^*) + \frac{1}{2} (w-w^*)^TH(w-w^*) + \sum_i\alpha|w_i| \\ = J(w^*) + \sum_i[\frac{1}{2}H_{i, i}(w_i-w_i^*)^2] + \sum_i\alpha|w_i|$$
+$$\hat{J}(w) = J(w^*) + \frac{1}{2} (w-w^*)^TH(w-w^*) + \sum_i\alpha \vert w_i \vert  \\ = J(w^*) + \sum_i [\frac{1}{2}H_{i, i}(w_i-w_i^*)^2] + \sum_i\alpha \vert w_i \vert$$
 
 이 경우에 해석적 해가 존재하는데, 다음과 같다.
 
-$$\tilde{w} = \text{sign}(w_i^*)\max\{{|w_i^*|-\frac{\alpha}{H_{i, i}}, 0}\}$$
+$$\tilde{w} = \text{sign}(w_i^*) \max \{ {\vert w_i^{*} \vert - {\alpha \over H_{i, i}}, 0} \}$$
 
 $w^*_i>0$인 경우만 생각해보면
 
@@ -211,7 +211,7 @@ label y가 잘못 부여된 data가 있을 수도 있다. 이런 input이 들어
 
 semi-supervised learning은 P(x)에서 추출한 unlabeled example과 p(x, y)에서 추출한 labeled example을 동시에 사용한다. 심층학습의 맥락에서 semi-supervised learning은 $h = f(x)$를 배우는 것을 말할 때가 많다. 같은 부류에 속하는 example들이 비슷하게 표현되는 하나의 representation을 배우는 것이다. 
 
-두 부류의 데이터에 대해 unsupervised learning의 구성요소와 supervised learning의 구성요소를 따로 두는 대신 P(x), p(x, y)의 generative model이 p(y|x)의 판별 모형(discriminative model)과 parameter을 공유하는 모형도 만들 수 있다. 이 경우 supervised learning의 판정 기준 -logP(y|x)와 unsupervised learning 의 학습, 생성 판정 기준을 절충할 수 있다. 
+두 부류의 데이터에 대해 unsupervised learning의 구성요소와 supervised learning의 구성요소를 따로 두는 대신 P(x), p(x, y)의 generative model이 $p(y\vert x)$의 판별 모형(discriminative model)과 parameter을 공유하는 모형도 만들 수 있다. 이 경우 supervised learning의 판정 기준 $-logP(y\vert x)$와 unsupervised learning 의 학습, 생성 판정 기준을 절충할 수 있다. 
 
 ## 7.7 multitask learning
 
