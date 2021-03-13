@@ -12,6 +12,179 @@ Regularization 전략은 다양하다. 모형에 추가 제약을 거는 방법�
 
 Regularization의 목표는 세 번째 상황을 두 번째 상황으로 바꾸는 것이다. However, most applications of deep learning algorithms are to domains where the true data generating process is almost certainly outside the model family.
 
+# 7.1 Parameter Norm Penalties
+
+많은 regularization 방법들은 최적화 알고리즘의 목적함수에 어떠한 값을 추가해 모델의 수용력을 원하는 범위로 제한한다. 즉, 아래처럼 원래 목적함수 $J(\theta; X, y)$에 penalty $\Omega(\theta)$를 더하는 식이다.
+
+$$\tilde{J}(\theta; X, y) = J(\theta; X, y) + \alpha \Omega(\theta)$$
+
+$\alpha$는 penalty의 강도를 조절하는 실수이다 ($\alpha \in [0, \infty]$). 
+
+이제 최적화 알고리즘은 $\tilde{J}$를 최적화하여 모델을 결정한다. 따라서, $\Omega$를 어떤 형태로 선택하는지에 따라 학습된 모델의 형태가 달라진다.
+
+이 절에서는 신경망의 가중치들에만 penalty를 가한 경우를 고려할 예정이다. 신경망의 파라미터 중 bias를 제외한 가중치들에만 penalty를 가하는 것이 일반적인데, 이유는 다음과 같다.
+
+- Bias들은 더 적은 양의 training set으로도 optimal한 값을 찾을 수 있다.
+- Bias들은 penalty 없이 학습해도 분산이 (가중치에 비해 상대적으로) 커지지 않는다.
+- Bias들에 penalty를 적용할 경우 모델이 과소적합 될 가능성이 크다.
+
+따라서 이후의 논의들에 등장하는 $w$는 penalty를 적용하는 가중치들을 뜻하고 $\theta$는 $w$를 포함한 모든 파라미터를 뜻한다.
+
+## 7.1.1 $L^2$ Parameter Regularization
+
+가장 많이 사용되는 $L^2$ norm penalty이다. 이 경우 $\Omega = \frac{\alpha}{2}w^Tw$이다. 주로 weight decay, ridge regression, Tikhonov regulariation이라 불린다. 단순화하기위해 bias 항은 없다고 가정하면 전체 목적함수는 아래와 같다.
+
+$$\tilde{J}(w; X, y) = J(w; X, y) + \frac{\alpha}{2} w^Tw$$
+
+### 가중치 감쇄 효과
+
+$L^2$ Parameter Regularization은 주로 weight decay라고 표기된다. 기울기 기반 최적화 알고리즘을 이용해 $\tilde{J}$를 최적화하는 과정에서 $\frac{\alpha}{2} w^Tw$ 항이 어떻게 작용하는지 살펴보면 이러한 이름이 붙은 이유를 알 수 있다. 한번의 iteration 동안 최적화 알고리즘이 계산하는 값을 살펴보면
+
+$$\nabla_w \tilde{J}(w; X, y) = \nabla_w J(w; X, y) + \alpha w$$
+
+즉,
+
+$$w \leftarrow w - \epsilon(aw + \nabla_wJ(w;X,y)) = (1-\epsilon\alpha)w - \epsilon\nabla_wJ(w;X,y)$$
+
+위 식의 우변을 보면 $\nabla_wJ(w;X,y)$에 상관없이 매 iteration마다 가중치들이 일정 비율로 작아지는 것을 알 수 있다.
+
+### Optimal point 근처에서 2차 근사를 이용한 해석
+
+$L^2$ Regularization이 어떻게 작동하는지 알아보기 위해 optimal point 근처에서 목적함수를 2차함수로 근사해보자. $J$만 최적화 시킨 경우의 optimal point를 $w^* = \arg\min_wJ(w)$ 라고 표시하고 이 근처에서 $J$를 2차근사하면
+
+$$\hat{J}(w) = J(w^*) + \frac{1}{2} (w-w^*)^TH(w-w^*)$$
+
+여기에서 $H$는 $w=w^*$인 점에서 $J$의 Hessian matrix이다. 이제 가중치 감쇄 항을 추가한 목적함수를 최적화하기 위해 $\hat{J}$에 $\frac{\alpha}{2}w^Tw$를 더한 후 미분하여 최종 해 $\tilde{w}$를 찾아보면
+
+$$\nabla_w(\hat{J}(w)+\frac{\alpha}{2}w^Tw) = H(w-w^*) + \alpha w$$
+
+$\tilde{w}$에서 기울기가 0이 되어야 하므로
+
+$$H(\tilde{w}-w^*) + \alpha \tilde{w} = 0$$
+
+$$\tilde{w} = (H+\alpha I) ^{-1} H w^*$$
+
+해석하기 편하게 $H$를 eigen decomposition 하면 ($H = Q\lambda Q^T$)
+
+$$\tilde{w} = Q(\Lambda+\alpha I) ^{-1} \Lambda Q w^*$$
+
+즉, $w^*$의 성분 중 $i$번째 고유벡터 ($Q_{:, i}$) 방향의 성분들은 $\frac{\lambda_i}{\lambda_i + \alpha}$만큼 rescaling 된다. 따라서 $J$의 Hessian matrix의 principal 방향 중 기울기가 큰 방향으로는 ($\lambda_i \gg \alpha$) $J$를 최적화 하기 위한 최적의 파라미터 $w$가 선택되고, 기울기가 작은 방향으로는 ($\lambda_i \ll \alpha$) 0에 가까운 $w$가 선택된다. 아래 그림을 보면 가로축으로는 0에 가깝고 세로축으로는 $J$를 최적화하는 $w$가 선택된 것을 볼 수 있다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch7/norm_fig_1.png)
+
+### 선형 회귀 관점에서 가중치 감쇄의 효과
+
+선형 회귀에 가중치 감쇄를 적용하면 목적함수가
+
+$$(Xw-y)^T(Xw-y)$$
+
+에서
+
+$$(Xw-y)^T(Xw-y) + \frac{\alpha}{2}w^Tw$$
+
+로 변한다. 두 경우 모두 closed form solution이 존재하는데, 원래 목적함수와 가중치 감쇄가 추가된 목적함수의 해는 순서대로 아래와 같다.
+
+$$w^* = (X^TX)^{-1}X^Ty$$
+
+$$w^* = (X^TX+\alpha I)^{-1}X^Ty$$
+
+즉, 학습 알고리즘이 데이터 $X$의 각 feature의 분산을 더 크게 느끼게 만드는 효과가 있다.
+
+## 7.1.2 $L^1$ Regularization
+
+$L^1$ regularization은 $\Omega = \alpha \sum_i|w_i|$인 경우이다. 전체 목적함수는 다음과 같다.
+
+$$\tilde{J}(w; X, y) = J(w; X, y) + \alpha |w_i|$$
+
+목적함수의 기울기를 살펴보면
+
+$$\nabla_w \tilde{J}(w; X, y) = \nabla_w J(w; X, y) + \alpha \text{sign}(w)$$
+
+인데, $L^2$와는 다르게 기울기가 가중치의 값에 상관없이 부호의 영향만 받는다.
+
+### $L^1$ 정칙화 해석 - 식의 관점에서
+
+7.1.1과 동일하게 $J$의 해($w^*$) 근처에서 목적함수를 2차근사 한 후 식을 살펴볼 예정이다. 단, 논의를 단순화하기 위해 $w^*$ 근처에서 $J$의 Hessian은 대각행렬이라고 가정한다(이러한 가정이 어느정도 타당한 이유는 PCA를 이용해 전처리하면 서로 다른 차원들 사이의 의존성을 없앨 수 있기 때문). $w^*$ 근처에서 $J$를 2차근사하고 penalty항을 더하면
+
+$$\hat{J}(w) = J(w^*) + \frac{1}{2} (w-w^*)^TH(w-w^*) + \sum_i\alpha|w_i| \\ = J(w^*) + \sum_i[\frac{1}{2}H_{i, i}(w_i-w_i^*)^2] + \sum_i\alpha|w_i|$$
+
+이 경우에 해석적 해가 존재하는데, 다음과 같다.
+
+$$\tilde{w} = \text{sign}(w_i^*)\max\{{|w_i^*|-\frac{\alpha}{H_{i, i}}, 0}\}$$
+
+$w^*_i>0$인 경우만 생각해보면
+
+1. $w_i^*<\frac{\alpha}{H_{i, i}}$인 경우 $\tilde{w} = 0$
+2. $w_i^*\geq\frac{\alpha}{H_{i, i}}$인 경우 $\tilde{w} >0$인 optimal value
+
+즉, $L^2$ regularization과 비슷하게 Hessian의 경사가 가파른 방향의 가중치는 $J$를 최적화 하는 방향으로 움직이고 상대적으로 경사가 완만한 방향에서는 가중치를 0으로 선택한다. 이해를 돕기 위해 아래 그림을 보자.
+
+### $L^1$ 정칙화 해석 - visual inspection
+
+![_config.yml]({{ site.baseurl }}/assets/ch7/norm_fig_2.png)
+
+위에서 본 케이스는 Hessian이 대각행렬인 경우이다. 이 경우 해가 단순해지는 이유는 Hessian의 등고선이 $L^1$ penalty 등고선의 꼭지점에 접할 확률이 높기 때문 (case1, 2).
+
+Hessian이 대각행렬이 아닌 경우 sparse한 해를 가질 확률이 적어진다 (case3). 물론 이 경우에도 sparse한 해를 얻을 가능성이 있다 (case4).
+
+# 7.2 Norm Penalties as Constrained Optimization
+
+## Constraint optimization 관점에서 정칙화 해석
+
+4.4에서는 라그랑주 함수와 KKT 컨디션을 이용하여 constrained optimization 하는 방법을 다루었다. 이 관점에서 정칙화가 어떤 의미를 가지는지 살펴보자. 우선 정칙화 항이 포함된 비용함수는 다음과 같다.
+
+$$\tilde{J}(\theta; X, y) = J(\theta; X, y) + \alpha \Omega(\theta)$$
+
+만약 여기에 $\Omega$가 $k$보다 작아야 한다는 제약을 추가하면 최적화해야하는 라그랑주 함수와 해는 다음과 같이 적힌다.
+
+$$L(\theta, \alpha; X, y) = J(\theta; X, y) + \alpha(\Omega(\theta) - k)$$
+
+$$\theta^* = \arg\min_{\theta} \max_{\alpha, \alpha \geq 0} L(\theta, \alpha)$$
+
+논의를 단순화하기 위해 (그리고 실제로 딥러닝에서 하듯이) $\alpha = \alpha^*$로 고정하고 $\theta$에 대한 최적화만 생각하면
+
+$$\theta^* = \arg\min_{\theta} (J(\theta; X, y) + \alpha^* \Omega(\theta))$$
+
+즉, 우리가 regularization term을 추가한 비용함수를 최적화하는 것은 $\Omega$가 $k$보다 작아야한다는 제약을 추가한 경우의 문제를 푸는 것과 같다. 단, 우리는 $\alpha$를 임의로 정한 후 고정하였으므로 다른 점들도 있다.
+
+- 라그랑주 함수를 최적화하는 경우 $\alpha$도 최적화되지만 우리는 그냥 정한다. Grid search등을 이용하여 $\alpha$를 간접적으로 최적화하기도 한다.
+- 실제 라그랑주 함수 최적화에서는 $k$가 정해지면 이에 따라 최적화의 결과로 $\alpha^*$가 정해진다. 하지만 $\alpha$를 특정 값으로 정했을 때 $k$가 몇에 해당하는지는 알 수 없다. 하지만 $\alpha$를 키울수록 $k$는 작은 경우에 해당한다. 즉 더 강하게 정칙화할수록 가중치들이 0에 가까워진다.
+
+## 명시적인 제약을 가하는 방법
+
+가끔은 우리가 학습시킨 모델의 가중치들이 정말로 특정 값보다 작게 만들고 싶을 수 있다. 이 경우 4.4에서 소개한 방법을 사용할 수 있다.
+
+매 학습 iteration마다
+
+1. $J$의 미분값을 이용하여 $w$ 업데이트
+2. 1의 결과로 찾아진 $w$에 대하여 명시적인 제약을 만족하는 가장 가까운 점으로 $w$를 업데이트
+
+이렇게 하면 특정 제약값보다 항상 작은 $w$를 얻을 수 있다.
+
+이러한 방법을 사용하면 몇 가지 이점이 있는데,
+
+- 이미 제약 값보다 작아진 가중치를 더 작게 만들지 않는다. 따라서 너무 많은 가중치들이 죽어버리는 (0으로 고정되어버리는) 일이 발생하지 않는다.
+- 가중치가 발산해버리는 것을 막을 수 있다. 정칙화에 대하여도 기울기 기반으로 최적화 할 경우 **기울기 너무 큼 → 가중치 너무 커짐 → 기울기 더 커짐** 의 발산이 발생할 수 있지만 명시적인 제약을 사용하면 이런 일을 막을 수 있다.
+
+# 7.3 Regularization and Under-Constrained Problems
+
+기계학습으로 under-constrained 문제를 풀어야 할 경우 정칙화가 꼭 필요할 수 있다. 몇 가지 예시를 들자면
+
+- PCA의 covariance matrix $X^TX$가 singular하여 해를 구할 수 없는 경우 → covariance matrix를 $X^T X + \alpha I$로 정칙화하여 해결 가능
+- 선형 회귀 문제의 데이터가 적어 under-constrained인 경우 $w$로 데이터 분류가 가능하다면 $2w$로도 분류 가능. 즉, $w$가 발산할 가능성이 있음 → 정칙화를 통해 방지 가능
+
+# 7.4 Dataset Augmentation
+
+기계학습 모델의 일반화를 돕기 위해서는 큰 데이터셋이 필요하다. 하지만 우리가 가진 데이터는 한정되어 있다. 이 경우 비용함수에 정칙화 항을 추가하는 것 말고도 데이터셋 자체를 수정하여 정칙화를 하는 것이 가능하다. Data augmentation의 기본 발상은 **"실제로 있을법한 변환을 가지고있는 데이터셋에 적용하여 데이터셋 사이즈를 키우는 것"** 이다.
+
+- Image classification을 하는 경우 이미지를 회전하거나 translation 하는 변환은 현실에서 있을법 하다. 이러한 변환을 통해 데이터셋의 사이즈를 키울 수 있다.
+- 음성 인직 모델에서 데이터셋에 noise를 추가하여 데이터셋의 사이즈를 키울 수 있다.
+
+이러한 augmentation을 하면 augmentation에 사용된 연산의 종류에 대하여 모델이 robust하게 학습된다. 단, 변환하는 규칙은 잘 선택해야 한다. 예를들어 MNIST 분류 문제에서 180도 회전하는 연산을 이용해 augmentation 하게 되면 모델이 9와 6을 구분하지 못하게 될 수 있다.
+
+
+
+
 ## 7.5 Noise Robustness
 
 일부 model에서는 infinitesimal variance를 가진 noise를 training input에 추가하는 것과 weights의 norm으로 regularize하는 것이 동등하다. (Bishop 1995a, b)
