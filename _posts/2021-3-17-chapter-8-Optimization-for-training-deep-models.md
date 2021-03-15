@@ -4,7 +4,7 @@
 
 - 머신 러닝에서 가장 널리 사용되는 optimization algorithm임
 
-<Alg8.1.PNG>
+[Alg8.1.PNG]
 
 - 가장 중요한 parameter: Learning rate, $\epsilon$
 
