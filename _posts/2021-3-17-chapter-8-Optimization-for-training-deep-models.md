@@ -54,7 +54,7 @@
 
   - gradients가 항상 $g$였다면, $-g$ 방향으로 가속함
 
-  - 구간 크기는 $\frac{\epsilon\norm{g}}{1-\alpha}$ 로 설정함
+  - 구간 크기는 $\frac{\epsilon \norm{g} }{1-\alpha}$ 로 설정함
 
   - 따라서 momentum의 hyperparameter는 $\frac{1}{1-\alpha}$ 이라고 할 수 있음
 
