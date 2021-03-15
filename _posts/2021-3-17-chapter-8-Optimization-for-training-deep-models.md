@@ -56,6 +56,8 @@
 
   - 구간 크기는 $\frac{\epsilon \norm{g} }{1-\alpha}$ 로 설정함
 
+  - 구간 크기는 $\frac{\epsilon \| g\|}{1-\alpha}$ 로 설정함
+
   - 따라서 momentum의 hyperparameter는 $\frac{1}{1-\alpha}$ 이라고 할 수 있음
 
     - $\alpha=0.9$ 이면 10배로 가속되는 셈으로, $0.5$, $0.9$, $0.99$ 등을 사용
