@@ -4,9 +4,7 @@
 
 - 머신 러닝에서 가장 널리 사용되는 optimization algorithm임
 
-
-![_config.yml]({{ site.baseurl }}/assets/ch8/Alg8.1.PNG)
-
+![_config.yml]({{ site.baseurl }}/assets/ch8/Alg8_1.PNG)
 
 - 가장 중요한 parameter: Learning rate, $\epsilon$
 
@@ -74,3 +72,29 @@
 - Convex batch gradient case에서는 $k$단계 후 에러의 수렴 속도를 $O(1/k)$에서 $O(1/k^2)$로 줄임
 
 - Stochastic gradient case에서는 수렴 속도에 대한 향상 효과가 없음
+
+
+
+## 8.4 Parameter Initialization Strategies
+
+- 사실 initialization 상태에서 학습이 시작되면 어떤 속성이 바뀌는건지 엄밀하게 이해되고 있지 않음
+
+- 따라서 최고라고 할 만한 방법은 없음
+
+  - 아무리 정교하게 정한 방법으로 initialization 하더라도, 학습이 시작되면 weight 분포가 바뀜
+
+- 그나마 한 가지 확실하게 말할 수 있는 initialization의 기능은, 서로 다른 unit들 사이의 대칭성을 깨트린다는 것
+
+  - 예) 만약 두 hidden unit이 같은 input, 같은 activation function을 가진다면 같은 기능 밖에 수행 못함
+
+- 보통 bias는 0(혹은 상수)으로 두고, weight만 randomly initialized함
+
+  - 난수 생성을 위해 보통 임의의 Gaussian 혹은 uniform distribution을 이용하는데, 각 방법의 속성에 대해서는 자세히 연구되지 않음
+
+    - Gaussian 혹은 uniform distribution의 scale을 정하는 여러 가지 방법 소개: https://reniew.github.io/13/
+    
+  - 큰 weight 값은 강한 대칭성 파괴 효과나 약한 input의 소실을 막지만, recurrent network에서의 chaos 혹은 activation function을 포화시킬 수 있음
+
+  - Regularization에서는 weight를 줄이려 하지만, optimization 측면에서는 초기 weight가 충분히 커야 함
+  
+  - 
