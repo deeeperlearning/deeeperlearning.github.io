@@ -69,6 +69,9 @@
 
 ![_config.yml]({{ site.baseurl }}/assets/ch8/Eq8_21.PNG)
 
+
+![_config.yml]({{ site.baseurl }}/assets/ch8/nesterov.jpeg)
+
 - Convex batch gradient case에서는 $k$단계 후 에러의 수렴 속도를 $O(1/k)$에서 $O(1/k^2)$로 줄임
 
 - Stochastic gradient case에서는 수렴 속도에 대한 향상 효과가 없음
@@ -96,5 +99,3 @@
   - 큰 weight 값은 강한 대칭성 파괴 효과나 약한 input의 소실을 막지만, recurrent network에서의 chaos 혹은 activation function을 포화시킬 수 있음
 
   - Regularization에서는 weight를 줄이려 하지만, optimization 측면에서는 초기 weight가 충분히 커야 함
-  
-  - 
