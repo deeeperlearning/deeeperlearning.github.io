@@ -4,7 +4,9 @@
 
 - 머신 러닝에서 가장 널리 사용되는 optimization algorithm임
 
-[Alg8.1.PNG]
+
+![_config.yml]({{ site.baseurl }}/assets/ch8/Alg8.1.PNG)
+
 
 - 가장 중요한 parameter: Learning rate, $\epsilon$
 
@@ -36,15 +38,15 @@
 
   - 지난 gradients들을 평균 내어 새로운 방향을 결정함
 
-[Fig8_5.PNG]
+![_config.yml]({{ site.baseurl }}/assets/ch8/Fig8_5.PNG)
 
 - Parameter 변화의 방향과 속도를 조절하는 $v$ 항을 도입함
 
-[Eq8_15.PNG]
+![_config.yml]({{ site.baseurl }}/assets/ch8/Eq8_15.PNG)
 
 - Momentum이 도입된 SGD 알고리즘
 
-[Alg8_2.PNG]
+![_config.yml]({{ site.baseurl }}/assets/ch8/Alg8_2.PNG)
 
 - 예전에는 구간 크기(step size)를 단순히 norm(gradient $\times \epsilon$)으로 사용함
 
@@ -67,11 +69,8 @@
 
 - Momentum 알고리즘을 개량하여, estimator 항에 속도항을 반영하는 correction factor를 추가함
 
-[Eq8_21]
+![_config.yml]({{ site.baseurl }}/assets/ch8/Eq8_21.PNG)
 
 - Convex batch gradient case에서는 $k$단계 후 에러의 수렴 속도를 $O(1/k)$에서 $O(1/k^2)$로 줄임
 
 - Stochastic gradient case에서는 수렴 속도에 대한 향상 효과가 없음
-
-
-![_config.yml]({{ site.baseurl }}/assets/ch7/norm_fig_1.png)
