@@ -257,7 +257,7 @@ Computational graph가 너무 깊어져도 문제가 발생한다. 특히 RNN의
 
 ![_config.yml]({{ site.baseurl }}/assets/ch8/algo-rmsprop.png)
 
-![_config.yml]({{ site.baseurl }}/assets/ch8/algo-rmsprop-newterov.png)
+![_config.yml]({{ site.baseurl }}/assets/ch8/algo-rmsprop-nesterov.png)
 
 - RMSProp은 비볼록함수인 비용함수에 대하여 잘 작동하도록 AdaGrad를 수정한 알고리즘.
 - AdaGrad에서 기울기 누적하는 부분을 exponentially weighted moving average로 교체한 것.
@@ -311,7 +311,7 @@ $$\theta^* = \theta_0 - [H\vert_{\theta=\theta_0}+\alpha I]^{-1} \nabla_\theta J
 
 - Hessian matrix의 이점을 취하면서 계산 비용은 낮춘 최적화 기법이다.
 
-![_config.yml]({{ site.baseurl }}/assets/ch8/converge-newton.jpg)
+![_config.yml]({{ site.baseurl }}/assets/ch8/converge-newton.png)
 
 - 이 알고리즘은 최대 경사법 (책 4.3절) 의 문제를 보완한 알고리즘인데, 최대 경사법의 문제는 다음과 같다.
     - $t_0$에서 line search 방향이 $d_{t_0}$라고 하면, $t_0$가 끝난 후 $d_{t_0}$ 방향으로의 기울기는 0이다.
@@ -325,7 +325,7 @@ $$d_t = \nabla_\theta J(\theta) + \beta_t d_{t-1}$$
     - Flather-Reeves: $\beta_t = \frac{\nabla_\theta J(\theta_t)^T\nabla_\theta J(\theta_t)}{\nabla_\theta J(\theta_{t-1})^T\nabla_\theta J(\theta_{t-1})}$
     - Polak-Ribiere: $\beta_t = \frac{(\nabla_\theta J(\theta_t)-\nabla_\theta J(\theta_{t-1}))^T\nabla_\theta J(\theta_t)}{\nabla_\theta J(\theta_{t-1})^T\nabla_\theta J(\theta_{t-1})}$
 
-![_config.yml]({{ site.baseurl }}/assets/ch8/algo-conjugategrad.jpg)
+![_config.yml]({{ site.baseurl }}/assets/ch8/algo-conjugategrad.png)
 
 - 이 방법은 목적함수가 2차함수임을 가정한다. 딥러닝 모델의 비용함수는 2차함수가 아니므로 위의 방법을 그대로 적용하긴 어렵다. 단, 조금 변형하여 비선형 켤레 기울기법을 사용할 수 있다.
     - 딥러닝 목적함수인 경우 켤레 기울기법을 사용해도 이전 방향 목적함수의 최솟값을 보장하지 못한다. 이를 보완하기 위해 비선형 켤레 기울기법은 가끔씩 변경되지 않은 기울기를 따라 line search를 다시 시작하는 방법으로 작동한다.
