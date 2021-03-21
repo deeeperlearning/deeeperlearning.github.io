@@ -1,7 +1,3 @@
-# 8.Optimization for Training Deep Models
-
-
-
 학습 알고리즘에서 사용하는 최적화 방법과 다른 최적화 알고리즘의 차이, 신경망을 최적화하는데 어려움을 주는 현실적인 문제들, 최적화를 위한 몇가지 알고리즘, 적응형 학습률 또는 비용함수의 2차 미분을 사용하는 최적화 알고리즘 등을 다룬다.
 
 ## 8.1 How Learning Differs from Pure Optimization
@@ -39,7 +35,7 @@ $$\mathbb E_{(\boldsymbol x,y)\sim \hat p_{data}}L(f(\boldsymbol x;\boldsymbol \
 
 - 아래와 같은 MLE 문제를 생각해보면 최적화 해야하는 목적함수와 그에 대한 gradient는 아래와 같다.
 
-  $$\boldsymbol \theta_{ML} = \argmax_{\boldsymbol \theta}\sum^m_{i=1}\log p_{model}(\boldsymbol x^{(i)},y^{(i)},\boldsymbol \theta)$$
+  $$\boldsymbol \theta_{ML} = argmax_{\boldsymbol \theta}\sum^m_{i=1}\log p_{model}(\boldsymbol x^{(i)},y^{(i)},\boldsymbol \theta)$$
 
   $$J(\boldsymbol \theta) = \mathbb E_{\boldsymbol x,y \sim \hat p_{data}}\log p_{model}(\boldsymbol x,y;\boldsymbol\theta)\ ,\ \ \nabla_{\boldsymbol \theta}J(\boldsymbol \theta) = \mathbb E_{\boldsymbol x,y \sim \hat p_{data}}\nabla_{\boldsymbol \theta}\log p_{model}(\boldsymbol x,y;\boldsymbol\theta)$$
 
@@ -125,7 +121,7 @@ Computational graph가 너무 깊어져도 문제가 발생한다. 특히 RNN의
 
 - 위의 그림에선 local minima나 saddle point가 없음에도 불구하고 최적화가 안되는 것을 볼 수 있는데, 이러한 문제가 발생하는 이유는 대부분의 최적화 알고리즘이 small, local move를 사용하기 때문이다.
 - 현실에서는 inexact gradient를 사용하기 때문에 올바른 방향으로 학습이 되고있는지도 장담할 수 없다.
-- 또한 굉장히 비효율적인 길을 따라 최적화가 진행될 수도 있다.
+- ㄴㄴ또한 굉장히 비효율적인 길을 따라 최적화가 진행될 수도 있다.
 
 아직 비용함수의 global structure를 사용하거나 non-local move를 이용하는 알고리즘에 대한 연구가 덜 되어서 대부분 initial condition을 조정해가며 해결한다고 한다.
 
