@@ -101,7 +101,7 @@ local minima에서의 비용함수 값이 global minima에서의 값과 차이�
 
 ### 8.2.4 Cliffs and Exploding Gradients
 
-![_config.yml](C:/Users/astro/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch8/Fig8_3.png)
+!![_config.yml]({{ site.baseurl }}/assets/ch8/Fig8_3.png)
 
 뉴럴넷에서는 종종 위와같은 기울기 절벽(?) 이 발생하는데, 경사하강법을 그대로 쓰게되면 이상한 위치로 튈 수 있기 때문에 weight clipping을 해줘야 한다. 이러한 절벽은 RNN에서 자주 발생한다고 한다.
 
@@ -115,7 +115,7 @@ Computational graph가 너무 깊어져도 문제가 발생한다. 특히 RNN의
 
 ### 8.2.7 Poor Correspondence between Local and Global Structure
 
-![_config.yml](C:/Users/astro/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch8/Fig8_4.png)
+![_config.yml]({{ site.baseurl }}/assets/ch8/Fig8_4.png)
 
 지금까지는 한 점에서 발생하는 문제들을 봤는데(local minima, saddle point ...), 이 모든 문제점들을 해결해도  발생하는 문제가 있다.
 
