@@ -14,6 +14,7 @@
 
 ![_config.yml]({{ site.baseurl }}/assets/ch9/Fig9_7.PNG)
 
+
 - Pooling은 input에 작은 변화가 있을 때 invariant한 output을 만들 수 있도록 함
   
   - 특히 특정 feature가 '어디에 있는지' 보다 '존재 하는지'를 학습할 때 용이함
@@ -24,11 +25,13 @@
 
 ![_config.yml]({{ site.baseurl }}/assets/ch9/Fig9_8.PNG)
 
+
 - 서로 다른 목적으로 학습된 output을 pooling하면 특정한 변화에 대한 invariance를 만들 수 있음
 
   - 예) '5' 이미지의 rotation에 대한 invariance 형성
 
 ![_config.yml]({{ site.baseurl }}/assets/ch9/Fig9_9.PNG)
+
 
 - Pooling unit이 detector unit보다 적을수도 있음
 
@@ -42,11 +45,13 @@
 
 - Prior probability distribution (5.2 복습): 데이터를 갖추기 전, 어느 모델이 reasonable한지에 대한 믿음
 
+
 - Prior는 probability density가 얼마나 집중되었는지에 따라 약할수도, 강할수도 있음
 
   - Variance가 큰 Gaussian distribution $\rightarrow$ weak prior
 
     - Data에 의해 모델이 보다 자유롭게 수정되도록 하며, strong prior에서는 반대임
+
 
 - Infinitely strong prior는 몇몇 parameter의 확률을 0으로 두어, 절대 사용되지 못하게 함
 
@@ -56,9 +61,11 @@
 
     - 각 계층이 오직 local interaction만을 학습할 수 있다는 가정
 
+
 - 물론 fully connected network를 만든 뒤 strong prior를 입혀 convolutional network를 만드는건 매우 비효율적임
 
   - 하지만, 이와 같은 식의 접근으로 convolutional network가 어떻게 작동하는지 좀 더 이해할 수 있음
+
 
 - 비슷한 맥락에서, convolution과 pooling이 underfitting을 유발할 수도 있음
 
