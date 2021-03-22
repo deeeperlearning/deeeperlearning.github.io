@@ -40,48 +40,32 @@
 
 ## 9.4 Convolution and Pooling as an Infinitely Strong Prior
 
+- Prior probability distribution (5.2 복습): 데이터를 갖추기 전, 어느 모델이 reasonable한지에 대한 믿음
 
+- Prior는 probability density가 얼마나 집중되었는지에 따라 약할수도, 강할수도 있음
 
-  Recall the concept of a prior probability distribution from Sec. 5.2. This is a
-probability distribution over the parameters of a model that encodes our beliefs
-about what models are reasonable, before we have seen any data.
-  Priors can be considered weak or strong depending on how concentrated the
-probability density in the prior is. A weak prior is a prior distribution with high
-entropy, such as a Gaussian distribution with high variance. Such a prior allows
-the data to move the parameters more or less freely. A strong prior has very low
-entropy, such as a Gaussian distribution with low variance. Such a prior plays a
-more active role in determining where the parameters end up.
-  An infinitely strong prior places zero probability on some parameters and says
-that these parameter values are completely forbidden, regardless of how much
-support the data gives to those values.
-  We can imagine a convolutional net as being similar to a fully connected net,
-but with an infinitely strong prior over its weights. This infinitely strong prior
-says that the weights for one hidden unit must be identical to the weights of its
-neighbor, but shifted in space. The prior also says that the weights must be zero,
-except for in the small, spatially contiguous receptive field assigned to that hidden
-unit. Overall, we can think of the use of convolution as introducing an infinitely
-strong prior probability distribution over the parameters of a layer. This prior
-says that the function the layer should learn contains only local interactions and is
-equivariant to translation. Likewise, the use of pooling is an infinitely strong prior
-that each unit should be invariant to small translations.
-  Of course, implementing a convolutional net as a fully connected net with an
-infinitely strong prior would be extremely computationally wasteful. But thinking
-of a convolutional net as a fully connected net with an infinitely strong prior can
-give us some insights into how convolutional nets work.
-  One key insight is that convolution and pooling can cause underfitting. Like
-any prior, convolution and pooling are only useful when the assumptions made
-by the prior are reasonably accurate. If a task relies on preserving precise spatial
-information, then using pooling on all features can increase the training error.
-  Some convolutional network architectures (Szegedy et al., 2014a) are designed to
-use pooling on some channels but not on other channels, in order to get both
-highly invariant features and features that will not underfit when the translation
-invariance prior is incorrect. When a task involves incorporating information from
-very distant locations in the input, then the prior imposed by convolution may be
-inappropriate.
-  Another key insight from this view is that we should only compare convolutional
-models to other convolutional models in benchmarks of statistical learning
-performance. Models that do not use convolution would be able to learn even if
-we permuted all of the pixels in the image. For many image datasets, there are
-separate benchmarks for models that are permutation invariant and must discover
-the concept of topology via learning, and models that have the knowledge of spatial
-relationships hard-coded into them by their designer.
+  - Variance가 큰 Gaussian distribution $\rightarrow$ weak prior
+
+    - Data에 의해 모델이 보다 자유롭게 수정되도록 하며, strong prior에서는 반대임
+
+- Infinitely strong prior는 몇몇 parameter의 확률을 0으로 두어, 절대 사용되지 못하게 함
+
+  - Convolutional network를 infinitely strong prior가 반영된 fully connected network로 볼수도 있음
+
+    - 각 unit에 배정된 작은 receptive field를 제외한 모든 weight는 0이라는 prior
+
+    - 각 계층이 오직 local interaction만을 학습할 수 있다는 가정
+
+- 물론 fully connected network를 만든 뒤 strong prior를 입혀 convolutional network를 만드는건 매우 비효율적임
+
+  - 하지만, 이와 같은 식의 접근으로 convolutional network가 어떻게 작동하는지 좀 더 이해할 수 있음
+
+- 비슷한 맥락에서, convolution과 pooling이 underfitting을 유발할 수도 있음
+
+  - Convolution과 pooling은 prior가 상당히 정확한 경우에만 작동할 수 있음
+
+  - 만약 공간상의 정보를 유지해야 하는 task라면, pooling을 사용함으로써 training error가 늘 수 있음
+
+    - 일부 채널에는 pooling을 사용, 일부에는 사용하지 않음으로서 두 가지 정보를 모두 코딩하는 네트워크 구조가 제안됨 (Szegedy et al., 2014a)
+
+    - 만약 멀리 떨어진 영역 사이의 정보 전달이 필요한 task라면, convolution은 적당한 방법이 아님
