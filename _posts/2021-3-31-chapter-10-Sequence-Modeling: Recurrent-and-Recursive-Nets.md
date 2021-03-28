@@ -40,5 +40,8 @@
 
 ## 10.5 Deep Recurrent Networks
 
+- RNN
+
+
 
 ## 10.6 Recursive Neural Networks
