@@ -29,12 +29,12 @@ CNN은 ML의 성능과 학습 시스템을 개선하는데 도움을 준 세가�
 - Sparse interaction
   kernel의 크기가 input의 크기보다 작기 때문에 sparse weight 혹은 sparse interaction의 성질이 생긴다. CNN에서는 적절한 학습을 통해 큰 img에서 적은 pixel을 가진 kernel으로 특징을 검출할 수 있다. 따라서 적은 수의 parameter만 사용해도 되고, 메모리 사용량도 줄어든다.
 
-![_config.yml]({{ site.baseurl }}/assets/ch9/FUntitled.png)
+![_config.yml]({{ site.baseurl }}/assets/ch9/Untitled.png)
 
 - paramater sharing
   전통적인 NeuralNet에서는 weight matrix의 각 성분을 한 번씩만 사용하지만, CNN에서는 kernel의 각 성분이 각 입력의 모든 곳에서 사용된다. 아래 그림처럼 $x_i \rightarrow s_i$에 대응하는 weight는 일반적인 NN에서는 한 번만 사용되는 반면, Convolutional layer에서는 모든 i가 같은 weight를 공유한다. 이런 sharing은 필요한 parameter의 수를 줄인다.
 
-!![_config.yml]({{ site.baseurl }}/assets/ch9/FUntitled 1.png)
+!![_config.yml]({{ site.baseurl }}/assets/ch9/Untitled 1.png)
 
 - equivariant representation
   paramter sharing은 Convolutional layer에 translation equivariance라는 특성을 부여한다. 함수가 equivariance(등변성)하다는 것은 input이 변하면 output이 같은 방식으로 변경된다는 것이다. 함수 f(x), g가 있을 때, $f(g(x)) = g(f(x))$를 만족하면 f(x)는 g 에 대해 equivariance하다. 
@@ -201,7 +201,7 @@ CNN은 ML의 성능과 학습 시스템을 개선하는데 도움을 준 세가�
 
     $$g(\mathsf G, \mathsf V,s)_{i,j,k,l} = \frac{\partial}{\partial \mathsf K_{i,j,k,l}}J(\mathsf V,\mathsf K) = \sum_{m,n}\mathsf G_{i,m,n}\mathsf V_{j,(m-1)\times s +k, (n-1)\times s +l}$$
 
-    $$g(\mathsf K, \mathsf G,s)_{i,j,k} = \frac{\partial}{\partial \mathsf V_{i,j,k}}J(\mathsf V,\mathsf K) = \sum_{\substack{l,m \\ s.t \\ (l-1)\times s+m=j} }\sum_{\substack{n,p \\ s.t \\ (n-1)\times s+p=k}}\sum_{m,n}\mathsf K_{q,i,m,p}\mathsf G_{q,l,}$$
+    $$g(\mathsf K, \mathsf G,s)_{i,j,k} = \frac{\partial}{\partial \mathsf V_{i,j,k}}J(\mathsf V,\mathsf K) = \sum_{\atop{l,m \\ s.t \\ (l-1)\times s+m=j} }\sum_{\atop{n,p \\ s.t \\ (n-1)\times s+p=k}}\sum_{m,n}\mathsf K_{q,i,m,p}\mathsf G_{q,l,}$$
 
 - Bias
 
@@ -217,7 +217,7 @@ CNN은 ML의 성능과 학습 시스템을 개선하는데 도움을 준 세가�
 
 ![_config.yml]({{ site.baseurl }}/assets/ch9/Fig9_17.png)
 
-이미지($\mathsf X$)가 히든레이어를 거쳐 출력 $\hat \mathsf Y^{(1)}$을 만들어 내고, 다음 단계에서는 이미지($\mathsf X$)와 이전 단계의 출력 $\hat \mathsf Y^{(1)}$가 입력으로 들어가는 형태이다. 
+이미지($\mathsf X$)가 히든레이어를 거쳐 출력 $\hat Y^{(1)}$을 만들어 내고, 다음 단계에서는 이미지($\mathsf X$)와 이전 단계의 출력 $\hat  Y^{(1)}$가 입력으로 들어가는 형태이다. 
 
 위의 과정을 반복하여 라벨 추측이 끝나게 되면, 인접해있고 동일한 라벨을 가지는 픽셀들을 하나의 물체로 하여 물체의 구역을 나눌 수 있다.
 
