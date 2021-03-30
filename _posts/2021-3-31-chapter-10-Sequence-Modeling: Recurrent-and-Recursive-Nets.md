@@ -40,8 +40,34 @@
 
 ## 10.5 Deep Recurrent Networks
 
-- RNN
+- RNN에서의 대부분의 계산은 아래 3단계로 구분됨
+
+  - Hidden state로 제공되는 input
+
+  - 이전 hidden state에서 다음 hidden state로의 연결
+
+  - Hidden state에서 output으로의 연결
+
+- 각각의 단계는 weight matrix로 구성되며, 그렇기 때문에 한 층으로 구성되는 shallow transformation임
+
+- 이 각각의 단계 자체를, 아래의 그림과 같이 더 deep해지도록 만들수도 있음
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Fig10_13.PNG)
+
+  (a) Hidden recurrent state
+
+  (b) Deeper hidden-to-hidden part - 다른 time step 사이의 가장-짧은-경로를 길게 할 수 있음
+
+  (c) 가장-짧은-경로 연장 효과가 skip connection에 의해 완화됨
 
 
 
 ## 10.6 Recursive Neural Networks
+
+- RNN의 chain-like 구조가 아닌, deep tree와 같은 구조의 네트워크
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Fig10_14.PNG)
+
+- 같은 길이 $\tau$를 가진 sequence에 대해, 깊이(nonlinear operations의 수)가 $\tau$에서 $O(log\tau)$로 감소함
+
+- Computer vision과 자연어 처리 등에서 널리 사용됨
