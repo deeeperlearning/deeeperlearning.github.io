@@ -70,4 +70,10 @@
 
 - 같은 길이 $\tau$를 가진 sequence에 대해, 깊이(nonlinear operations의 수)가 $\tau$에서 $O(log\tau)$로 감소함
 
-- Computer vision과 자연어 처리 등에서 널리 사용됨
+![_config.yml]({{ site.baseurl }}/assets/ch10/recursive.PNG)
+
+- 데이터 구조 자체가 input이 되는 computer vision과 자연어 처리 등에서 널리 사용됨
+
+  - 단, tree 구조가 직접 입력되어야 함
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/NLP.PNG)
