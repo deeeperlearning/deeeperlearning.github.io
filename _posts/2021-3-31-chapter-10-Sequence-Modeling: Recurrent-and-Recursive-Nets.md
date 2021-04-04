@@ -1,3 +1,98 @@
+
+
+# chapter 10: Sequence Modeling: Recurrent and Recursive Nets
+
+순환신경망의 주요 포인트중 하나는 모형의 서로 다른 여러 부분에서 매개변수들을 공유한다는 것이다. 매개변수 공유를 통해 다층 신경망을 형태가 서로 다른(길이가 서로 다른) example의 모형화에 적용할 수 있다. 
+
+
+## 10.2 Recurrent Neural Networks
+
+다음은 RN의 설계에서 자주 보이는 주요 패턴들이다. 
+
+**1.** 각 time step에서 하나의 output을 출력하며 hidden unit 사이에 recurrent connection이 존재
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.2.png)
+
+- x 값들로 이루어진 input sequence를 $o$ 값들로 이루어진 output sequence로 mapping하는 recurrent network.
+
+**2.** 각 time step에서 하나의 output을 출력하며 한 time step 단계의 출력과 그 다음 time step의 hidden unit 사이에만 recurrent connection이 존재하는 RNN 구조
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.3.png)
+
+- Output layer에서 다음 sequence의 hidden layer로만 recurrent connection이 존재하는 신경망이다. 이 부류의 RNN은 1번에서 소개한 네트워크 구조보다 표현할 수 있는 함수 집합이 적다.(parameter 조합이 N*m*N*M... vs N*1*N*1...) 이 구조에서는 미래로 전달할 수 있는 정보가 output $o$로 한정된다. 이 구조는 덜 강력하지만 훈련이 더 쉬울 수 있다. 각 time step을 다른 time step 구조와 격리해서 다로 훈련할 수 있기 때문이다. 그러면 훈련 과정을 더 높은 수준으로 병렬화할 수 있다.
+
+**3.** Hidden unit 사이에 recurrent unit들이 존재하고, 모든 sequence를 읽어서 하나의 output을 산출하는 신경망
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.4.png)
+
+- 이 recurrence network 구조에서 신경망의 출력은 마지막 node의 값이다. 이런 recurrent network는 추가 처리 과정의 입력으로 사용할 하나의 고정 크기 표현으로 요약할 때 유용하다.
+
+위에서 소개한 패턴중 1번 패턴이 Recurrent network의 대표 구조라고 할 수 있으며 이번 장의 대부분에서 이 패턴이 쓰인다. 이 구조의 x(t) input에 대한 forward propagation 식은 아래와 같다. activation function은 hyperbolic tangent라고 가정하고 output length와 input length의 길이가 같은 경우를 다루겠다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.5.png)
+
+$U$: input to hidden  parameters
+
+$W$: hidden(t-1) to hidden(t) parameters
+
+sequence x에 대한 total loss는 모든 time step에 대한 loss를 더한 것과 같다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.6.png)
+
+여기서 $p_{model}(y^{(t)} \vert \{x^{(1)}, ...x^{(t)}\})$ 은 model의 output vector $\hat{y}^{(t)}$에서 $y^{(t)}$에 대한 성분으로 주어진다. 이 과정의 학습을 위해선 펼쳐진 그래프에 대한 실행 비용이 linear인 역잔파 알고리즘이 필요한데, 이를 시간 역전파(BPTT)라고 부른다. 
+
+### 10.2.1 Teacher Forcing and network with output recurrence
+
+한 time step의 output과 그 다음 time step에서의 hidden unit 사이에만 recurrent connection이 존재하는 NN의 경우 표현력이 약하다. 이 NN이 제대로 동작하려면 신경망이 미래를 예측하는 데 사용할 과거의 모든 정보를 출력 단위들이 가지고 있어야 한다. 하지만 일반적으로 각 output들은 training set의 target과 비슷하게 가도록 훈련되기 때문에 이 정보를 가질 가능성이 적다. 
+
+이런 단점에도 불구하고 output to hidden 형태의 recurrent network이 사용되는 이유는 다음과 같다. loss function이 시간 t에서의 예측과 t에서의 training target을 비교하는데에 기초하는 경우 hidden to hidden 연결이 없을 때, 모든 time step 단계를 분리해서 각 단계 t에서의 기울기를 개별적으로 계산할 수 있다. 이런 개별 계산은 병렬화가 가능해 빠른 시간에 학습이 가능하다. 
+
+output에서 model의 내부로 들어가는 recurrent connection이 있는 model의 경우 teacher forcing이라는 훈련 기법을 적용할 수 있다. MLE에서 파생된 방법으로 output target인 $y^{(t)}$를 시간 t+1에서의 입력으로 사용한다. time step이 두 단계인 sequence로 예를 들어 MLE를 구하면 아래와 같다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.7.png)
+
+이 모형에서  $t=2$일 때 모형은 sequence x와 training set의 target y가 주어졌을 때 $y^{(2)}$의 conditional probaility를 최대화하도록 훈련된다. 도식은 아래와 닽다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.8.png)
+
+Teacher forcing 방법은 BPTT를 피하는 한 방법이다. hidden to hidden이 존재하는 모형이라도 output to hidden connection이 존재한다면 이 방법을 사용할 수 있다. 
+
+Teacher forcing 방법의 단점은 NN을 open loop mode로 사용할 때(output을 다시 input으로 집어넣는 구조, adversarial method?!) training set과 test set의 차이가 심해질 수 있다는 것이다. 이를 해결하기 위해 teacher forcing & free-running 방법을 병용하는 방법이 있으며, 생성된 값을 입력으로 사용할지 실제 data를 입력으로 사용할지를 무작위로 선택하는 방법도 있다.(bengio et al, 2015b)
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.9.png)
+
+"**adversarial domain adaptation** to encourage the dynamics of the recurrent network to be the same when training the network and when sampling from the network over multiple time steps."
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.10.png)
+
+### **10.2.2 Computing the gradient in a recurrent neural network**
+
+**recurrent** network는 BPTT로 weight를 업데이트한다. parameter $U, V, W, b, c$와 sequence $x^{(t)}, h^{(t)}, o^{(t)}, L^{(t)}$에 대해 t를 index로 하는 node들로 구성된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.5.png)
+
+loss function의 기울기는 아래와 같다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.11.png)
+
+이 계산은 sequence의 끝에서 거꾸로 진행된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.2.png)
+
+sequence의 마지막 t=$\gamma$에서의 $h^{(\gamma)}$의 후행노드는 $o^{(\gamma)}$ 뿐이기 때문에 다음과 같이 진행한다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.12.png)
+
+이제 $t=\gamma -1$에서 $t=1$까지 거슬러올라가면서 gradient를 backprop한다. 이때 $o^{(t)}$ 뿐만 아니라 
+
+$h^{(t+1)}$도 $h^{(t)}$의 후행 노드가 된다. 따라서 기울기는 아래와 같이 주어진다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.13.png)
+
+Computational graph의 내부 노드에 대한 gradient를 구한 뒤에는 parameter node에 대한 gradient를 계산하면 되는데, parameter는 여러 단계(time step)들이 공유하므로 미분 연산을 표기할 때 주의가 필요하다. $\nabla_W f$ 연산자는 계산 그래프의 parameter을 공유하는 모든 층의 gadient에 의해 W가 f의 값에 기여하는 정도를 고려해야 한다. 이를 계산하기 위해 dummy variable $W^{(t)}$를 도입한다. $W^{(t)}$는 시간 단계 t에서 W의 값들을 나타낸다. 따라서 $\nabla_{W^{(t)}}$는 단계 t에서 가중치들이 기울기에 기여하는 정도를 나타낸다. 이를 이용해 나머지 parameter들의 gradient를 표기하면 아래와 같다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.14.png)
+
 ## 10.3 Bidirectional RNNs
 
 - 일반적으로 특정 시점 $t$ 때의 $y$ 값을 계산하기 위해서는 이전의 input만을 사용하지만, 경우에 따라 모든 input을 모두 사용해야 할 수도 있음
@@ -8,6 +103,7 @@
 
   - $O^{(t)}$: 과거와 미래의 상태를 모두 고려함
   
+
 ![_config.yml]({{ site.baseurl }}/assets/ch10/Fig10_11.PNG)
 
 - 위 그림은 1차원 변화(시간)에 대한 도식인데, 2차원 변화(x, y축 방향)로 확장하여 이미지에도 접목할 수 있음
@@ -46,7 +142,7 @@
 
   - 이전 hidden state에서 다음 hidden state로의 연결
 
-  - Hidden state에서 output으로의 연결
+  - Hiden state에서 output으로의 연결
 
 - 각각의 단계는 weight matrix로 구성되며, 그렇기 때문에 한 층으로 구성되는 shallow transformation임
 
