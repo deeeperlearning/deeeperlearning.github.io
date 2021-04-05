@@ -2,8 +2,39 @@
 
 # chapter 10: Sequence Modeling: Recurrent and Recursive Nets
 
-순환신경망의 주요 포인트중 하나는 모형의 서로 다른 여러 부분에서 매개변수들을 공유한다는 것이다. 매개변수 공유를 통해 다층 신경망을 형태가 서로 다른(길이가 서로 다른) example의 모형화에 적용할 수 있다. 
+CNN은 어떤 격자형태의 이미지를 처리하는데 특화된 모델이라면, RNN은 순차적인 데이터(sequential data)를 처리하는데 특화되어있다.
 
+- Parameter sharing
+
+    서로 다른 길이를 가진 데이터들에 대해서도 동일한 모델을 사용할 수 있다. 특히 어떤 특정한 정보가 sequence의 여러 위치에서 나타날 수 있을때 효과적이다.
+
+    예를 들어, "나는 네팔에 2009년에 갔다." 와 "2009년도에 나는 네팔에 갔다." 라는 두 문장에서 네팔에 간 연도를 추출하는 문제를 생각해보자. 기존의 feedforward network는 parameter들이 분리되어 있기 때문에 각 단어가 서로 다른 위치에서 어떤 역할을 하는지에 대해 모든 경우의 수를 학습해야 하지만, parameter를 공유하는 경우에는 그럴 필요가 없다.
+
+    Parameter sharing을 하는 간단한 예로 1-D temporal sequence를 매 타임스텝마다 동일한 커널을 쓰는컨볼루션 네트워크다. 이 경우 출력 데이터의 각각의 노드는 입력데이터의 인접한 몇개의 노드에 대한 함수가 된다. 
+
+    Recurrent network는 조금 다른 방식으로 parameter sharing을 하는데, 출력 데이터의 각각의 노드는 이전 레이어의 출력노드들의 함수가 되고, 각각의 출력 노드는 이전 레이어에서와 동일한 update rule을 통해 구해진다.
+
+## 10.1 Unfolding Computational Graphs
+
+과거 데이터로부터 미래의 데이터를 예측하는 것을 생각해보면, 시간 $t$까지의 모든 데이터($\boldsymbol x^{(t)},\boldsymbol x^{(t-1)},\boldsymbol x^{(t-2)},...,\boldsymbol x^{(1)}$)의 정보를 저장하여 시간 $t+1$ 의 데이터를 예측하는 과정을 생각할 수 있다. 그러나 만약 시간 $t$까지의 데이터를 잘 요약해서 만들어진 일정한 길이를 가지는 벡터 $\boldsymbol h^{(t)}$를 만들 수 있다면 이것을 이용하는 것이 더 효과적일 것이다.
+
+$$\boldsymbol h^{(t)} = f(\boldsymbol h^{(t-1)},\boldsymbol x^{(t)};\boldsymbol \theta)$$
+
+아래 그림은 위의 식을 computational graph로 나타낸 것이다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch9/Fig10_2.png)
+
+왼쪽의 그래프(circuit diagram)은 cycle이 있는 형태이고, 오른편(unfolded computational graph)은 acyclic 그래프이다. 검은 상자는 delay of 1 time step을 의미한다.
+
+왼쪽 그래프를 오른쪽 그래프처럼 각 time step에서의 값을 하나의 노드로 나타내는 방법을 unfolding이라고 한다.
+
+$$\boldsymbol h^{(t)}=g^{(t)}(\boldsymbol x^{(t)},\boldsymbol x^{(t-1)},\boldsymbol x^{(t-2)},...,\boldsymbol x^{(1)})  = f(\boldsymbol h^{(t-1)},\boldsymbol x^{(t)};\boldsymbol \theta)$$
+
+$t$ step 이후의 recurrence는 과거의 모든 시퀀스를 받아오는 함수 $g^{(t)}$로 쓸 수 있지만, unfolding을 하게되면 $g^{(t)}$를 함수 $f$에 대해서 factorize할 수 있게된다. Unfolding을 하면서 얻게되는 이점은 크게 두가지 정도가 있다.
+
+- 더이상 시퀀스 길이에 의존하지 않게 되면서, 학습된 모델은 항상 동일한 입력 사이즈를 갖게된다.
+    - Training 데이터에 등장하지 않은 시퀀스 길이를 가진 데이터에 대해서도 일반화가 가능하다.
+- 매 타임스텝마다 동일한 파라미터를 가진 함수 $f$를 사용할 수 있다.
 
 ## 10.2 Recurrent Neural Networks
 
@@ -93,6 +124,52 @@ Computational graph의 내부 노드에 대한 gradient를 구한 뒤에는 para
 
 ![_config.yml]({{ site.baseurl }}/assets/ch10/10.2.14.png)
 
+### 10.2.3 Recurrent Networks as Directed Graphical Models
+
+확률 분포 관점에서 RNN은 다음과 같이 해석될 수 있다.
+
+- RNN의 output은 확률 분포에서 sampling한 값이며, 타겟하는 확률분포를 cross entropy loss에 결합해 loss 함수를 만든다. 대표적으로 MSE는 RNN의 output이 Gaussian distribution이라고 가정한 것이다.
+- 즉, 이전에 등장한 신경망과 동일하게 확률 분포의 log-likelihood를 최적화하는 문제이다.
+
+만약 우리가 만드려는 모델이 과거의 모든 정보를 고려해야 한다면 일반적인 확률 모델의 파라미터는 아래처럼 $O(k^\tau)$개가 될 것이다 ($\tau$: sequence length).
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10_2_3_fig1.png)
+
+반면 RNN은 latent variable $h$를 도입하여 계산 비용을 크게 줄일 수 있다. 아래 그림처럼 hidden state와 output을 번갈아 계산하면 $O(1)$의 파라미터 개수를 이용해 해결할 수 있다. 즉, sequence length가 늘어남에 따라 모델의 파라미터 개수가 기하급수적으로 증가하지 않는다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10_2_3_fig2.png)
+
+물론 $p(y^{(t)} | y^{(t-1)}, h^{(t-1)})$이 시간에 상관없이 stationary한 경우에만 이러한 parameter sharing이 가능하다. 다른말로하면, 시간$(t-1)$과 시간 $t$의 관계가 시간에 의존하지 않아야 한다.
+
+마지막으로 RNN에서 어떤 값을 sampling하려면 (미래의 값을 예측한다던가 등) 모델에서 샘플을 뽑는 방법을 정해야 한다. 더 구체적으로는 언제까지 모델에서 sampling할지 정해야 한다. 크게 세 가지 방법이 있다.
+
+- Sampling의 끝을 알리는 특수한 문자열을 도입. 예를들어 문장을 출력하다가 <EOS>라는 토큰이 출력되면 샘플링을 중지하는 방법.
+- RNN이 베르누이 분포에서 샘플링 한 값을 하나 더 출력해서 (그냥 output node 옆에 classifier 하나 달으라는 의미) 샘플링을 끝낼지 말지 매 스탭 결정하게 하는 방법.
+- 모델에 sequence length 자체를 추론하는 구조를 추가하는 방법.
+
+### 10.2.4 Modeling Sequences Conditioned on Context with RNNs
+
+위에서는 sequence $\{y^{(i)}\}$만을 다루는 RNN에 대하여 중점적으로 설명하였다. 하지만 이전 시간의 sampling 값 이외에 추가적인 값이 RNN에 주어지는 경우들도 있다. 수학적으로 표현하자면 RNN이 $p(y|w)$를 모델링한다고 할 때 $w$가 추가적인 input $x$의 함수라고 생각하면 된다.
+
+RNN에 추가적인 input을 넣는 방법은 다음과 같이 크게 세 가지이다.
+
+1. 각 timestamp에 추가 input을 넣는 방법
+2. 추가 input을 RNN의 hidden state로 사용하는 방법
+3. 1, 2를 함께 사용하는 방법
+
+1번을 그래프로 표현해보면 아래와 같다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10_2_4_fig1.png)
+
+매 timestamp에 추가 input $x$가 주어진다. 이러한 형태의 대표적인 모델은 사진을 input으로 받아 사진을 설명하는 글을 출력하는 RNN이 있다.
+
+물론 아래처럼 매 timestamp에 추가 input의 sequence $x^{(t)}$가 주어지는 경우도 있다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/10_2_4_fig2.png)
+
+물론 이러한 형태에는 $x$와 $y$의 sequence 길이가 같아야한다는 제약이 있다. 이러한 제약을 제거하는 방법은 10.4에서 다룬다.
+
+
 ## 10.3 Bidirectional RNNs
 
 - 일반적으로 특정 시점 $t$ 때의 $y$ 값을 계산하기 위해서는 이전의 input만을 사용하지만, 경우에 따라 모든 input을 모두 사용해야 할 수도 있음
@@ -173,3 +250,5 @@ Computational graph의 내부 노드에 대한 gradient를 구한 뒤에는 para
   - 단, tree 구조가 직접 입력되어야 함
 
 ![_config.yml]({{ site.baseurl }}/assets/ch10/NLP.PNG)
+
+
