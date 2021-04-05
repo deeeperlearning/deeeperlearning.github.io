@@ -1,7 +1,4 @@
 
-
-# chapter 10: Sequence Modeling: Recurrent and Recursive Nets
-
 CNN은 어떤 격자형태의 이미지를 처리하는데 특화된 모델이라면, RNN은 순차적인 데이터(sequential data)를 처리하는데 특화되어있다.
 
 - Parameter sharing
