@@ -19,7 +19,7 @@ $$\boldsymbol h^{(t)} = f(\boldsymbol h^{(t-1)},\boldsymbol x^{(t)};\boldsymbol 
 
 아래 그림은 위의 식을 computational graph로 나타낸 것이다.
 
-![_config.yml]({{ site.baseurl }}/assets/ch9/Fig10_2.png)
+![_config.yml]({{ site.baseurl }}/assets/ch10/Fig10_2.png)
 
 왼쪽의 그래프(circuit diagram)은 cycle이 있는 형태이고, 오른편(unfolded computational graph)은 acyclic 그래프이다. 검은 상자는 delay of 1 time step을 의미한다.
 
