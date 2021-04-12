@@ -248,4 +248,68 @@ RNN에 추가적인 input을 넣는 방법은 다음과 같이 크게 세 가지
 
 ![_config.yml]({{ site.baseurl }}/assets/ch10/NLP.PNG)
 
+## 10.9 Leaky Units and Other Strategies for Multiple Time Scales
 
+long-term dependencies를 해결하는 한 방법은 model이 여러 time scale들에서 작동하도록 설계하는 것이다. 모형의 일부는 조밀한(fine grained) time scale에서 작동해서 세부 사항들을 처리하고, 다른 일부는 성긴(coarse) time scale에서 작동해 먼 미래의 정보가 현재로 효율적으로 전달되도록 만드는 것이다. 
+
+### 10.9.1 Adding Skip Connections through Time
+
+time scale을 coarse하게 만드는 방법 중에 Skip connection method가 있다. Skip connection은 먼 과거의 parameter들의 정보가 현재 parameter에 잘 전달되도록 변수들의 지름길을 만드는 것이다. 다시말해 t와 t+1 등 time series의 인접한 성분뿐만 아니라 t+n도 연결하는 것이다. 이 방법을 활용하면 10.7에서 서술한 vanishing & exploding gradient를 해결할 수 있다. 아래는 Skip connection의 예시이다. ('dilated'라는 표현도 사용한다.)
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 15.png)
+
+[https://arxiv.org/abs/1710.02224](https://arxiv.org/abs/1710.02224)
+
+### 10.9.2 Leaky Units and a Spectrum of Different Time Scales
+
+vanishing&exploding gradient problem이 발생하는 것은 각 gradient값들의 곱이 0으로 수렴하거나 1보다 훨씬 커지는 것이라고 이해할 수 있다. 미분들의 곱이 1에 가까워지는 경로를 얻는 방법으로 linear self-connection을 가지고 그 연결들에서 weight이 1에 가까운 단위를 사용하는 것이다. 
+
+어떤 값 $v^{(t)}$의 running(moving) average $\mu^{(t)}$가  다음과 같은 update을 한다고 가정하자.
+
+$$\mu^{(t)} \leftarrow \alpha \mu^{(t-1)} + (1-\alpha) v^{(t-1)}$$
+
+parameter $\alpha$가 t → t+1로의 linear self-connection의 예이다. $\alpha$가 1에 가까우면 running average는 더 먼 정보를 기억한다. $\alpha$가 0에 가까우면 과거의 정보가 빠르게 소멸된다.  linear self-connection이 존재하는 hidden unit들이 이런 running average와 비슷하게 동작한다. 이런 hidden unit을 leaky unit이라고 부른다. d 단계의 time step을 건너뛰는 방법보다 1 근처의 parameter $\alpha$를 사용하는 방법이 과거 참조를 좀 더 매끄럽고 유연하게 조율할 수 있다. 
+
+### 10.9.3 Removing Connections
+
+long-term dependency를 다루는 방법은 RNN의 상태를 서로 다른 여러 time scale에서 처리하는 것이다. skip connection과 다른 점은 인접 time step간의 연결을 능동적으로 제거하고 더 긴 연결을 삽입한다는 것이다.   skip connection은 t, t+1간 연결에 t+n 연결을 추가하는 식이다. 
+
+## 10.10 The Long Short-Term Memory and Other Gated RNNs
+
+leaky unit을 사용하는 RNN에서는 connection weight을 학습하거나 hyper parameter로 부여하는 모델이라면, **gated RNN**은 이 weight을 time step마다 변화할 수 있도록 만든 모형이다. 시계열상의 어떤 정보의 경우엔 계속 기억하는 대신 잊어버리는 것이 더 유용할 수도 있다. gated RNN은 ****time step별로 이를 잊을지, 오래 보존할지를 학습을 통해 결정하는 모델이라고 할 수 있다.
+
+### 10.10.1 Long-Short-Term Memory(LSTM)
+
+10.9.2장에서 다룬 Leaky Units과 비슷하게 self-loop을 사용하지만 self-loop에 대한 weight을 문맥에 따라 조건화한다는 점이 다르다. self-loop에 대한 weight을 문맥에 따라 조건화하면, 어떤 hidden unit이 gate 역할을 하여 weight을 조절하게 만들면 the time scale  integration이 dynamic하게 변한다. 10.9.2의 수식에서 $\alpha$가 동적으로 변한다고 생각하면 된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 16.png)
+
+LSTM recurrent network의 cell 구조
+
+[https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile5.uf.tistory.com%2Fimage%2F9905CF385BD5F5EC027F20](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile5.uf.tistory.com%2Fimage%2F9905CF385BD5F5EC027F20)
+
+LSTM은 굉장히 여러 task에서 큰 성과를 거두었다. 위는 LSTM recurrent network의 cell 구조의 블록 다이어그램이다. Leaky Units와 달리 loop 가중치를 담당하는 forget gate가 존재한다. forget gate $f_i^{(t)}$는 아래와 같은 S자 단위를 통해 weight의 값을 0 또는 1로 설정한다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 17.png)
+
+$x^{(t)}$는 input vector이고, $h^{(t)}$는 LSTM cell의 output을 담은 hidden layer의 vector이다.   $b^f, U^f, W^f$는 각각 forget gate의 bias, input weight, recurrent weight이다. externel input gate cell인 $g_i^{(t)}$도 forget gate와 비슷한 방식으로 구성된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 18.png)
+
+LSTM cell의 내부 상태는 위에서 소개한 self loop weight $f_i^{(t)}$와 externel input weight  $g_i^{(t)}$에 의해 결정된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 19.png)
+
+마지막으로 output gate $q_i^{(t)}$도 다른 gate처럼 S자형 unit을 사용한다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 20.png)
+
+### 10.10.2 Other Gated RNNs
+
+하나의 gate 단위가 forgetting factor(LSTM의 $f$)와 state unit의 업데이트 여부를 동시에 제어하는 구조도 소개되었다.(조경현 et al., 2014b; Chung et al., 2014, 2015a; Jozefowicz et al., 2015; Chrupala et al., 2015). 일종의 간소화된 LSTM이라고 생각하면 된다. 이 구조에서 $u$는 update gate을 뜻하고, $r$은 reset gate를 뜻한다. update gate와 reset gate는 state vector(h)의 성분들을 독립적으로 무시하거나 통과하도록 설계된다. 
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 21.png)
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 22.png)
+
+[https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F99F0EC3E5BD5F6460255CF](
