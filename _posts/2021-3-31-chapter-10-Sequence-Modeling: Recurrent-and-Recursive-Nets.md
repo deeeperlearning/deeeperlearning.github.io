@@ -313,3 +313,101 @@ LSTM cell의 내부 상태는 위에서 소개한 self loop weight $f_i^{(t)}$�
 ![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 22.png)
 
 [https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F99F0EC3E5BD5F6460255CF](
+## 10.11 Optimization for Long-term Dependencies
+
+### 10.11.1 Clipping Gradients
+
+Recurrent net같이 비선형 함수를 연속적으로 사용하게 되면 미분값이 너무 크거나 너무 작아지는 경우가 자주 발생한다. 아래의 그림은 기울기가 너무 커져서 "기울기 절벽"이 생긴경우인데, 이럴경우 왼쪽그림처럼 이상한 곳으로 튀어버리는 경우가 발생한다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch9/Fig10_17.png)
+
+이를 해결하기 위해 고안된 방법이 gradient clipping이고 단순히 gradient에 threshold를 주는 방법이다.
+
+$$if \ \ \|\boldsymbol g\|>v,\ \boldsymbol g \leftarrow \frac{\boldsymbol gv}{\|\boldsymbol g\|}$$
+
+만약 기울기가 너무 커서 Inf 또는 Nan이 출력된다면, 크기 $v$를 가지는 랜덤 벡터를 사용해서 불안정적인 landscape을 벗어나는 방법도 있다.
+
+또한 gradient를 각각의 방향마다 clipping해주는 방법도 있다. Element-wise clipping은 실제 기울기와 방향은 다를 수 있지만 감소하는 방향은 맞기 때문에 기존의 방법과 비슷하게 작동한다.
+
+### 10.11.2 Regularizing to Encourage Information Flow
+
+기울기가 발산하는 것 만큼 기울기가 없어지는 것 또한 문제이기 때문에 이를 막아주기 위한 regularizer가 고안됐다. 
+
+$$\Omega=\sum_t\left(\frac{\|(\nabla_{\boldsymbol h^{(t)}}L)\frac{\partial \boldsymbol h^{(t)}}{\partial \boldsymbol h^{(t-1)}}\|}{\| \nabla_{\boldsymbol h^{(t)}}L\|}-1\right)^2$$
+
+즉, 스텝 $t$
+에서의 기울기 $\nabla_{\boldsymbol h^{(t)}}L$와 스텝 $t-1$에서의 기울기 $(\nabla_{\boldsymbol h^{(t)}}L)\frac{\partial \boldsymbol h^{(t)}}{\partial \boldsymbol h^{(t-1)}}$의 크기를 최대한 유지시키는 방법이다.
+
+이 방법으로 RNN이 학습할 수 있는 범위를 많이 확장시킬 수 있지만, language modeling 같은 데이터가 풍부한 task에서는 LSTM만큼 효과적이지 않다고 한다.
+## 10.12 Explicit Memory
+
+- 지능(intelligence)은 지식(knowledge)을 필요로 하며, 지식은 학습을 통해 얻어지곤 함
+
+
+
+- 하지만 지식에는 다양한 종류가 있으며, 어떤 경우에는 내포적(implicit), 무의식적, 말로 표현하기 힘듬
+
+	- 예) 걷는 방법, 개와 고양이를 구분하는 방법 등
+
+
+
+- 신경망은 내포적인 지식을 기억하는데에는 뛰어나지만, '사실'을 기억하기는 힘들어함
+
+	- 신경망에 저장하기 위해선 매우 많은 양의 input이 필요한데, 심지어 정확하지 않게 저장될 수도 있음
+
+	- 그 이유는 신경망이 인간만큼의 작업 기억 (working memory) 시스템을 가지고 있지 않기 때문이라 설명됨 (Graves et al., 2014b)
+
+	- 인간의 경우 별개의 기억 시스템이 빠르고 의도적으로 특정 사실을 저장할 뿐만 아니라, 순차적인 사고를 할 수 있도록 함
+	
+	- 따라서 신경망도 이러한 사고 능력을 갖도록 하는 것도 중요한 연구 분야로 다루어져 옴
+
+
+
+- 이를 해결하기 위해 기억 신경망(memory network)이 제안됨 (Wetson et al., 2014)
+
+	- 신경망 외부에 addressing mechanism을 이용하는 기억 단위(memory cell)를 추가함
+함
+	- Neural Turing Machine (NTM) - 12.4.5.1에서 자세히 다룰 예정
+
+		- 외부의 메모리에 연결할 수 있는 neural network임
+	
+		- Content 기반 메커니즘에 의해 어떤 작업을 할지 외부의 감독 없이, 특정 content를 기억 단위에 쓰거나 읽을 수 있도록 학습 가능함
+
+	- LSTM이나 GRU(gated recurrent unit)에 있는 기억 단위와 유사함
+
+	- 신경망의 output은 어느 기억 단위를 읽거나 쓸지를 정하는 internal state를 내뱉음
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/NTM.PNG)
+
+
+
+- 정확한 정수 주소를 내뱉도록 함수를 최적화 시키기는 어려움
+
+	- 이를 해결하기 위해, NTM은 여러 기억 단위를 동시에 읽거나 씀
+
+	- 읽을 때는 여러 단위들을 평균하고, 쓸 때는 여러 단위를 다른 양만큼 수정
+
+
+
+- 스칼라를 저장하는 LSTM과 GRU의 기억 단위와 달리, 이러한 기억 단위에서는 일반적으로 벡터를 저장함
+
+	- 이유 1) 특정 기억 단위에 접근하는데 연산 자원이 필요한데, 스칼라를 하나씩 저장하는 것보다 접근하는데 필요한 연산 자원이 절약됨
+
+	- 이유 2) Content-based addressing이 가능해짐: 완전히 같지 않더라도 유사한 패턴을 인식 할 수 있음
+
+		- 예) 노래 몇 소절만 듣고도 어느 노래인지 맞추기 - "'We all live in a yellow submarine'이라는 코러스가 있는 노래의 가사를 불러와라"
+
+		- 만약 노래의 글자 각각이 다른 기억 단위에 저장되었다면, 위와 같이 간단하게 호출하기 어려움
+
+
+
+- 아래 그림과 같이 "task neural network"가 메모리와 결합됨
+
+	- 신경망이 feedforward이거나 recurrent일 수는 있지만, 전체 시스템은 recurrent임
+
+![_config.yml]({{ site.baseurl }}/assets/ch10/Fig10_18.PNG)
+
+
+- Recurrent 신경망은 딥러닝이 sequential data에 접목되기 용이하게 함
+
+	- 마지막으로 소개하는 딥러닝 툴박스의 주요 도구로, 다음 단원부터는 어떻게 이러한 도구를 선택하고 사용하고, 실제 문제에 적용할지에 대해 다룰 예정임
