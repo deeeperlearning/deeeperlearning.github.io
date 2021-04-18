@@ -336,7 +336,7 @@ leaky unit을 사용하는 RNN에서는 connection weight을 학습하거나 hyp
 
 LSTM recurrent network의 cell 구조
 
-[https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile5.uf.tistory.com%2Fimage%2F9905CF385BD5F5EC027F20](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile5.uf.tistory.com%2Fimage%2F9905CF385BD5F5EC027F20)
+![_config.yml](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile5.uf.tistory.com%2Fimage%2F9905CF385BD5F5EC027F20)
 
 LSTM은 굉장히 여러 task에서 큰 성과를 거두었다. 위는 LSTM recurrent network의 cell 구조의 블록 다이어그램이다. Leaky Units와 달리 loop 가중치를 담당하는 forget gate가 존재한다. forget gate $f_i^{(t)}$는 아래와 같은 S자 단위를 통해 weight의 값을 0 또는 1로 설정한다. 
 
@@ -362,14 +362,15 @@ LSTM cell의 내부 상태는 위에서 소개한 self loop weight $f_i^{(t)}$�
 
 ![_config.yml]({{ site.baseurl }}/assets/ch10/Untitled 22.png)
 
-[https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F99F0EC3E5BD5F6460255CF](
+![_config.yml](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F99F0EC3E5BD5F6460255CF)
+
 ## 10.11 Optimization for Long-term Dependencies
 
 ### 10.11.1 Clipping Gradients
 
-Recurrent net같이 비선형 함수를 연속적으로 사용하게 되면 미분값이 너무 크거나 너무 작아지는 경우가 자주 발생한다. 아래의 그림은 기울기가 너무 커져서 "기울기 절벽"이 생긴경우인데, 이럴경우 왼쪽그림처럼 이상한 곳으로 튀어버리는 경우가 발생한다.
+Recurrent net같이 비선형 함수를 연속적으로 사용하게 되면 미분값이 너무 크거나 너무 작아지는 경우가 자주 발생한다. 아래의 그림은 기울기가 너무 커져서 "기울기 절벽"이 생긴경우인데, 이렇게 될 경우 아래 그림처럼 이상한 곳으로 튀어버리는 경우가 발생한다.
 
-![_config.yml]({{ site.baseurl }}/assets/ch9/Fig10_17.png)
+![_config.yml]({{ site.baseurl }}/assets/ch8/Fig8_3.png)
 
 이를 해결하기 위해 고안된 방법이 gradient clipping이고 단순히 gradient에 threshold를 주는 방법이다.
 
