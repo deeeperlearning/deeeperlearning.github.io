@@ -67,7 +67,7 @@
 ![_config.yml]({{ site.baseurl }}/assets/ch11/Fig11_diff.PNG)
 
 
-  - Monitor histograms of activations and gradient
-    - Activation 혹은 gradient 값 분포를 살펴보면 모델 상태에 대한 다양한 정보를 파악할 수 있음
+    - Monitor histograms of activations and gradient
+      - Activation 혹은 gradient 값 분포를 살펴보면 모델 상태에 대한 다양한 정보를 파악할 수 있음
 
-    - 예) Rectifier가 얼마나 자주 작동하는지, 얼마나 빨리 최적화 상태에 가까워지는지, 얼마나 많은 cell들이 포화되는지 등
+      - 예) Rectifier가 얼마나 자주 작동하는지, 얼마나 빨리 최적화 상태에 가까워지는지, 얼마나 많은 cell들이 포화되는지 등
