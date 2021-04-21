@@ -16,7 +16,7 @@
 - 따라서 모델의 특정 부분은 그대로 두고, 다른 부분을 변경시키며 테스트하는 방향으로 디버깅 전략이 발전해 옴
 
 
-  - 1) Visualize the model in action
+  - Visualize the model in action
   
     - 만약 이미지에서 특정 물체를 찾도록 훈련시킨다면, 이 모델이 물체를 찾은 것으로 보고한 이미지를 살펴봄
 
@@ -24,7 +24,7 @@
 
 
   
-  - 2) Visualize the worst mistakes
+  - Visualize the worst mistakes
 
     - Softmax output layer 등으로 인해 output에 대한 확률이 과대 평가 되었을 수 있음
 
@@ -34,7 +34,7 @@
 
 
 
-  - 3)Reasoning about software using train and test error
+  - Reasoning about software using train and test error
 
     - 사용하는 알고리즘이 알맞게 구현되었는지 정확히 확인하기는 어려움
 
@@ -50,7 +50,7 @@
     
 
 
-  - 4) Fit a tiny dataset
+  - Fit a tiny dataset
 
     - 만약 training error가 높다면, underfitting 상태이거나 소프트웨어에 문제가 있을 것임
 
@@ -60,14 +60,15 @@
 
 
 
-  - 5) Compare back-propagated derivatives to numerical derivatives
+  - Compare back-propagated derivatives to numerical derivatives
 
     - 소프트웨어에서 gradient 계산 과정을 직접 코딩해야 하는 경우 서로 다른 형태의 gradient를 사용해보고, 이 때 방법에 따라 문제가 발생하지 않는다면 적어도 이 부분의 소프트웨어에서 발생하는 문제는 아닐 것임
 
 ![_config.yml]({{ site.baseurl }}/assets/ch11/Fig11_diff.PNG)
 
 
-  - 6) Monitor histograms of activations and gradient
+
+  - Monitor histograms of activations and gradient
     - Activation 혹은 gradient 값 분포를 살펴보면 모델 상태에 대한 다양한 정보를 파악할 수 있음
     
     - 예) Rectifier가 얼마나 자주 작동하는지, 얼마나 빨리 최적화 상태에 가까워지는지, 얼마나 많은 cell들이 포화되는지 등
