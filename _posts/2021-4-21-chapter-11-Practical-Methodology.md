@@ -15,12 +15,14 @@
 
 - 따라서 모델의 특정 부분은 그대로 두고, 다른 부분을 변경시키며 테스트하는 방향으로 디버깅 전략이 발전해 옴
 
+
   - Visualize the model in action
   
     - 만약 이미지에서 특정 물체를 찾도록 훈련시킨다면, 이 모델이 물체를 찾은 것으로 보고한 이미지를 살펴봄
 
     - 당연한 소리로 들리겠지만, 단순히 정확도, 성능 등의 수치로만 비교하는 것 보다 더욱 확실히 현실적인 활용성을 검사할 수 있음 
-  
+
+
   
   - Visualize the worst mistakes
 
@@ -29,6 +31,7 @@
     - 학습 단계에서 가장 큰 오차를 만든 데이터 샘플을 살펴보며 특징을 파악함
 
     - 예) Street View에서 주소를 파악할 때, 이미지를 너무 많이 crop해서 주소 일부가 잘렸다면 당연히 큰 오차가 발생할 것임
+
 
 
   - Reasoning about software using train and test error
@@ -46,6 +49,7 @@
     - 만약 training error와 test error 모두 높다면, 단순 소프트웨어 문제인지 알고리즘 자체의 문제인지 확인하기 어렵고, 후술되는 추가적인 확인 과정이 필요함
     
 
+
   - Fit a tiny dataset
 
     - 만약 training error가 높다면, underfitting 상태이거나 소프트웨어에 문제가 있을 것임
@@ -53,6 +57,7 @@
     - 한 개의 학습 데이터에 대한 분류를 학습시킨다면, bias를 적절하게 설정하는 것 만으로도 학습이 가능함
 
     - 만약 한 개(혹은 소수)의 학습 데이터에 대해 학습이 이루어지지 않는다면, 학습 과정에 대한 소프트 웨어 문제일 확률이 높음
+
 
 
   - Compare back-propagated derivatives to numerical derivatives
