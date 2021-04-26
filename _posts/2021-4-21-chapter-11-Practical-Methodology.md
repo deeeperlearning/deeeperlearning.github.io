@@ -128,7 +128,7 @@ Error metric과 목표설정이 끝나면 어떤 알고리즘을 사용하여 �
     - 당연한 소리로 들리겠지만, 단순히 정확도, 성능 등의 수치로만 비교하는 것 보다 더욱 확실히 현실적인 활용성을 검사할 수 있음 
 
 
-  
+
   - Visualize the worst mistakes
 
     - Softmax output layer 등으로 인해 output에 대한 확률이 과대 평가 되었을 수 있음
@@ -177,3 +177,17 @@ Error metric과 목표설정이 끝나면 어떤 알고리즘을 사용하여 �
     - Activation 혹은 gradient 값 분포를 살펴보면 모델 상태에 대한 다양한 정보를 파악할 수 있음
     
     - 예) Rectifier가 얼마나 자주 작동하는지, 얼마나 빨리 최적화 상태에 가까워지는지, 얼마나 많은 cell들이 포화되는지 등
+
+
+
+## 11.6 Example: Multi-Digit Number Recognition
+
+the Street View transcription system의 개발 과정을 소개한다.
+
+- 처리 과정은 자료의 수집에서 시작하며, 수집된 데이터를 휴먼 파워로 labeling한다.
+- 초기에 할 일은 performance metrics을 정하는 방법과 어떤 performance metrics을 사용할지 정하는 것이다. 이 프로젝트의 목표는 human level acc인 98%을 달성하는 것이다. 이 acc를 달성하기 위해 coverage를 희생했다. 이 문제에서 coverage는 transcript를 생성할지 말지 결정하는 것에 대응한다.
+- sensible baseline system을 정한다. Computer Vision 분야서는 보통 convolutional network with rectified linear units을 사용한다.
+- baseline 모델을 튜닝하면서 각 변경사항이 어떻게 성과를 개선하는지 시험했다. 이 프로젝트에서는 coverage와 자료구조에 관한 이해에서 비롯된 것이다. p(y | x) < t이면 input x에 대한 transcription을 거부했다. 이 정의는 모든 softmax output을 곱하는, 임의적으로 선택된 것이다. 이를 개선하기 위해 원칙적인 log-likelyhood를 실제로 계산하도록 output layer과 cost function을 구체화했다. 이런 과정 이후에도 coverage는 90% 미만이었다.
+- 성과개선의 병목을 파악하는 수단을 시스템에 넣었다. 문제의 근원이 overfitting인지 underfitting인지 파악하기 위해 training set과 test set의 성과를 측정하는 수단을 넣었다. 확인 결과 두 오차가 비슷했다. 이는 문제의 근원이 underfitting이거나 training set에 결함이 있다는 것이다.
+- 모형의 최악의 실패들을 시각화하는 것을 하나의 디버깅 전략으로 추진했다. 그 결과 이미지를 너무 작게 잘라 번지수의 일부 숫자가 누락된 경우 모형이 실수를 하게 됨을 확인했고, 이를 해결하기 위해선 절단 영역을 결정하는 번지수 검출 시스템 정확도를 개선해야했다. 시간을 절약하기 위해 그냥 더 넓은 영역을 잡는 쪽으로 알고리즘을 개선했고 결과적으로 시스템의 coverage가 10% 증가했다.
+- 마지막으로 hyperparameter tuning으로 약간의 성능 향상을 이루어냈다.
