@@ -127,7 +127,7 @@
 - 대표적인 단점은 다음에 소개될 sampling-based 방법보다 성능이 낮다는 것임 (아마도 단어 클래스가 제대로 선택되지 않아서)
 
 
-### 12.4.3.3 Importance Sampling
+#### 12.4.3.3 Importance Sampling
 
 NLP training을 가속하는 방법중 하나로 현재 문맥의 다음 위치에 나타날 가능성이 매우 적은 단어들에 대해 gradient contribution 계산을 생략하는 것이다. 단어를 일일이 나열해 확률을 계산하는 대신 그 단어들의 부분집합만 추출하는 것이다. 
 
@@ -152,7 +152,7 @@ $p_i$= P(i|C)다. 이를 이용해 softmax층의 gradient를 다시 기술하면
 bigram distribution
 
 
-### 12.4.3.4 Noise-Contrastive Estimation and Ranking Loss
+#### 12.4.3.4 Noise-Contrastive Estimation and Ranking Loss
 
 큰 사이즈의 vocabulary에 대한 NLP model을 훈련하는 데 필요한 계산 비용을 줄이는 다른 예로 Ranking loss를 들 수 있다. Ranking loss는 각 단어에 대한 NN 모형의 출력을 하나의 score로 간주해 정확한 단어가 다른 단어들보다  더 높은 순위가 되도록 그 단어의 점수 $a_y$를 다른 단어들의 점수 $a_i$보다 높게 책정한다. 그리고 아래 식으로 ranking loss값을 계산한다.  
 
@@ -178,7 +178,7 @@ Devlin 2014에서는 원본 언어문구 $s_1, s_2...$에 대한 대상 언어 �
 ![_config.yml]({{ site.baseurl }}/assets/ch12/12.4nlp07.png)
 
   
-### 12.4.5.1 Using an Attention Mechanism and Aligning Pieces of Data
+#### 12.4.5.1 Using an Attention Mechanism and Aligning Pieces of Data
 
 Attention mechanism은 machine translation을 위해 만들어진 구조이다. 일반적인 sequence to sequence model은 target language의 길이가 길수록 낮은 성능을 보인다. 이를 극복하기 위해 모델이 중요한 부분만 잘 기억하도록 만드는 것이 Attention mechanism의 핵심 아이디어이다. 
 
@@ -239,7 +239,7 @@ $$\hat R_{u,i} = b_{u}+ c_{i}+\sum_{j}A_{u,j}B_{j,i}$$
 하지만 이런 collaborative filtering 시스템은 새로운 상품(사용자)이 들어왔을 때 이에 대한 rating이 없기에 다른 상품(사용자)와의 유사성을 계산할 수 없다는 단점이 있다. 이러한 'cold-start recommendation'을 해결하기 위해 사용자 약력 정보나 상품의 특징 정보를 추가적으로 이용한다(content-based recommender systems).
 
 
-### 12.5.1.1 Exploration Versus Exploitation
+#### 12.5.1.1 Exploration Versus Exploitation
 
 추천 시스템을 만들 때, 지도학습에서 강화학습으로 넘어가는 문제가 발생한다.
 
