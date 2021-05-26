@@ -84,6 +84,48 @@ CPU 및 GPU에 대한 소프트웨어 구현은 일반적으로 부동 소수점
 
 따라서 일반인이 휴대폰과 같은 저전력 장치에서 딥러닝을 사용할 수 있도록 특수 하드웨어를 구축하는 것은 중요한 일이다.
 
+## 12.2 Computer Vision(CV)
+
+예전부터 가장 활발하게 Deep learning이 연구되는 분야다.
+
+### 12.2.1 preprocessing
+
+원본 데이터가 deep learning을 통한 학습의 input에 적합하지 않을 때가 있다. 이를 preprocessing을 통해 처리하여 학습에 사용한다. CV 분야에서는 이런 preprocessing 과정이 그리 필요하진 않은데, 이미 input data의 모든 픽셀이 0~1 등으로 정규화되어있기 때문이다. 다만 0~1 범위의 데이터와 0~255 범위의 데이터가 섞여있으면 문제가 되기 때문에 범주를 통일하는 preprocessing이 필요할 것이다.
+
+Dataset augmentation도 일종의 전처리라고 할 수 있다. A related idea applicable at test time is **to show the model many different versions of the same input** (for example, the same image cropped at slightly different locations) **and have the different instantiations of the model vote to determine the output.** This latter idea can be interpreted as an **ensemble approach**, and helps to reduce generalization error.→ 데이터 augumentation이 앙상블 방법이라구?!?! 맞음.
+
+training set, test set에 모두 적용 가능한 전처리로 데이터를 더 canonical form으로 만드는 작업이 있다. model이 다루어야 할 데이터의 variation의 양을 줄여주는 역할을 한다. 이 작업은 generalization error 감소에도 도움을 준다. 예를 들어 AlexNet은 각 픽셀에서 training data의 평균을 빼는 전처리를 사용한다.
+
+**12.2.1.1 Contrast Normalization**
+
+가장 안전하게 variation을 줄이는 방법중 하나는 이미지의 contrast를 줄이는 것이다. contrast는 이미지의 밝은 픽셀들과 어두운 픽셀들의 차이가 어느정도인지 말해주는 값이다. contrast를 정량적으로 나타내는 방법은 여러개가 있는데, deep learning에서 많이 쓰이는 방법중 하나는 특정 영역의 standard deviation을 contrast로 사용하는 것이다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch12/Untitled.png)
+
+global contrast normalization(GCN, not graph CNN!)은 다수 이미지의 contrast variation을 줄이기 위해 각 이미지에서 평균 밝기를 뺀 후(zero-mean) 이미지의 standard deviation(contrast)를 특정 값으로 고정하는 방법이다. 이 과정을 통해 전체 픽셀들의 분포가 평균이 0이고 분산이 1인 정규분포로 바뀌게 된다.
+
+zero-contrast에 가까운 이미지: 한 색으로 정렬된 이미지는 이미지에 담긴 정보가 별로 없지만 GCN을 거치면 노이즈가 오히려 강조된다.이런 문제 상황을 고려해 작은 크기의 positive regularization parameter $\lambda$를 도입해 standard deviation에 더하는 방법을 사용하기도 한다. 또한 분모(std)가 특정 값 $\epsilon$ 이상이어야한다는 제약도 둘 때가 있다. $\lambda$는 overflow를 방지하는 장치이기도 하다.
+
+GCN 과정:
+
+![_config.yml]({{ site.baseurl }}/assets/ch12/Untitled2.png)
+
+GCN은, 다른 표현으로, L2 norm을 이용한 비례라고 할 수 있다. GCN을 기술할 때 L2 norm이 아니라 표준편차에 방점을 찍는 이유는, 이미지 크기에 상관 없이 동일한 s를 사용할 수 있기 때문이다.  결론적으로 GCN은 data를 아래와 같이 구면에 mapping한다고 할 수 있다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch12/Untitled3.png)
+
+위에서 언급한 "구면에 mapping하는 방법=GCN"은 구면화(sphering)과 별개의 방법이다. sphering은 데이터들이 같은 분산을 가지도록 주성분을 rescaling하는 것이다. sphering은 whitening이라고도 불린다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch12/Untitled4.png)
+
+Global하게 적용된 contrast normalization은 국소적인 특징: 윤곽선이나 모퉁이 등을 강조하지 못할 때가 많다. 이를 극복하기 위해 local contrast normalization 방법이 제안되었다. 이 방법에서는 이미지의 작은 영역들에 대해 contrast normalization을 수행한다. local contrast normalization은 미분 가능한 연산이므로, input preprocessing도 학습의 일부로 사용될 수 있다.
+
+**12.2.1.2 Dataset Augmentation**
+
+data augmentation은 Object recognition에 굉장히 잘 사용된다. Object recognition task에서는 class가 많은 transformations에 대해 invariant하기 때문이다. Augmentation에는 간단한 회전 변환 이외에도 random color perturbation이나 geometric distortion 같은 방법도 사용된다.
+
+
+
 
 ## 12.3 Speech Recognition
 
