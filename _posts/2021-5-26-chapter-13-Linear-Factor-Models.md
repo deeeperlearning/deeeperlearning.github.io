@@ -1,5 +1,3 @@
-# 13. Linear Factor Models
-
 이번 단원에서는 잠재 변수를 가지는 간단한 확률론적 모델(probabilistic model)인 선형 인자 모델(linear factor model)에 대해 다룬다. 
 
 선형 인자 모델을 통해 데이터를 생산하는 과정은 선형 디코더의 형태를 가진다.
@@ -48,3 +46,33 @@ $$x_1 = w_{11}h_1 +w_{12}h_2 \\ x_2 = w_{21}h_1 +w_{22}h_2$$
 - 많은 ICA 방법들은 $\boldsymbol h$의 각 성분이 첨도가 높은 분포를 따르도록 하기 때문에 generative 모델보다는 신호들을 분리하는 도구로 많이 쓰인다.
 - PCA를 비선형 오토인코더로 일반화 시키는 것과 같이, ICA를 비선형 generative 모델로 확장하는 것도 가능하다고 한다.
 - ICA는 또한 통계적 의존성이 그룹 내에서는 허용되지만 그룹 간에는 권장되지 않도록 feature 그룹을 학습하는 모델로도 확장 가능하다.
+
+
+## 13.5 Manifold Interpretation of PCA
+
+- PCA나 factor analysis를 포함하는 linear factor model은 manifold 학습이라고 볼 수도 있음
+
+  - Probabilistic PCA의 경우, 높은 확률을 가지는 얇은 팬케이크 모양의 영역을 정의하는 과정이라 할 수 있음
+
+  - 이 때, Gaussian distribution은 팬케이크와 같이 한 축으로는 평평하고, 다른 축으로는 늘어난 모양을 같게 됨
+
+  - 따라서 PCA는, 고차원 공간에서 linear manifold 형태의 이러한 팬케이크를 정렬하는 과정이라 할 수 있음
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/Fig_13.3.PNG)
+
+- 이러한 해석은 전통적인 PCA 뿐만 아니라, $x$에 가깝도록 $x$를 재구성하겠다는 목표를 가지고 행렬 $W$, $V$를 학습시키는 어떠한 선형 오토인코더에도 적용될 수 있음
+
+  - 저차원 representation $h$를 계산하는 다음의 인코더에 대해: $h = f(x) = W^T(x-\mu)$
+
+  - 오토인코더의 측면에서는, 다음의 재구성을 하는 디코더를 갖게 됨: $\hat{x} = g(h) = b + Vh$
+
+  - 이러한 선형 인코더, 디코더에 대해 재구성 오차 $\mathbb{E}[\mid\mid x-\hat{x}\mid\mid ^2]$ 를 최소화하는 조건은 $V=W$, $\mu=b=\mathbb{E}[x]$ 임
+
+  - 이 때 $W$의 열들은, 공분산 행렬 $C = \mathbb{E}[(x-\mu)(x-\mu)^T]$ 의 주 고유벡터로 형성되는 부분 공간에 대한 orthonomal basis로 구성됨
+
+  - PCA에서는 $W$의 열들이, 해당 고유값이 곱해진 고유벡터들로 구성됨
+
+
+- Linear factor model은 가장 간단한 형태의 generative model 혹은 데이터의 representation을 학습하는 모델의 하나임
+
+  - Linear classifier와 regression model이 deep feedforward network로 확장되듯이, linear factor model 또한 오토인코더나 deep probabilistic 모델로 확장되어 같은 과제를 더욱 강력하고, 유동적으로 처리하게 될 수 있음
