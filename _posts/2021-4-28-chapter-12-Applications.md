@@ -317,7 +317,7 @@ a는 softmax layer 통과 이전의 벡터(혹은 score)값이며, 이 벡터는
 
 모형 대신 proposal distribution이라는 다른 분포 q에서 분포를 추출할 수도 있다. 이런 분포(보통 unigram, bigram 분포)를 사용함으로서 발생하는 편향은 적절한 weight를 적용해 바로잡으면 된다. 부정적 단어 $n_i$가 추출되었을 때 그에 해당하는 gradient에 적용되는 weight는 아래와 같다. 
 
-![_config.yml]({{ site.baseurl }}/assets/ch12/2.4nlp03.png)
+![_config.yml]({{ site.baseurl }}/assets/ch12/12.4nlp03.png)
 
 $p_i$= P(i|C)다. 이를 이용해 softmax층의 gradient를 다시 기술하면 아래와 같다. 
 
