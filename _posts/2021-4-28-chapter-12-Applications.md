@@ -307,7 +307,7 @@ data augmentation은 Object recognition에 굉장히 잘 사용된다. Object re
 
 NLP training을 가속하는 방법중 하나로 현재 문맥의 다음 위치에 나타날 가능성이 매우 적은 단어들에 대해 gradient contribution 계산을 생략하는 것이다. 단어를 일일이 나열해 확률을 계산하는 대신 그 단어들의 부분집합만 추출하는 것이다. 
 
-![chapter%2012%204%20NLP%209c4bec19ceb342de9c7f6d63ac82fbeb/Untitled.png](chapter%2012%204%20NLP%209c4bec19ceb342de9c7f6d63ac82fbeb/12.4nlp01.png)
+![_config.yml]({{ site.baseurl }}/assets/ch12/12.4nlp01.png)
 
 마지막 softmax output 이전의 hidden layer이 위와 같이 affine transformation이라고 한다면, gradient를 아래와 같이 표기할 수 있다. 
 
@@ -321,7 +321,7 @@ a는 softmax layer 통과 이전의 벡터(혹은 score)값이며, 이 벡터는
 
 $p_i$= P(i|C)다. 이를 이용해 softmax층의 gradient를 다시 기술하면 아래와 같다. 
 
-![chapter%2012%204%20NLP%209c4bec19ceb342de9c7f6d63ac82fbeb/Untitled%203.png](chapter%2012%204%20NLP%209c4bec19ceb342de9c7f6d63ac82fbeb/12.4nlp04.png)
+![_config.yml]({{ site.baseurl }}/assets/ch12/12.4nlp04.png)
 
 ![_config.yml]({{ site.baseurl }}/assets/ch12/12.4nlp05.png)
 

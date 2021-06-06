@@ -29,6 +29,7 @@ Undercomplete autoencoder에 대하여 기억해야 할 몇 가지 내용은 다
 
 ### 14.2.1 Sparse Autoencoders
 Sparse autoencoder는 loss에 code의 sparsity penalty $\Omega(h)$를 넣은 것이다.
+
 $$
 L(x, g(f(x))) + \Omega(h)
 $$
@@ -44,32 +45,40 @@ $$
 하지만 sparsity penalty $\Omega(h) = \Omega(f(x))$는 parameter와 데이터에 모두 의존하기 때문에 prior로 해석할 수 없다.
 
 대신에 autoencoder는 latent variable을 가진 generative model의 MLE로 해석할 수 있다.
-즉, 굉장히 큰 $h$값 하나를 선택하여 아래 식을 근사한다고 볼 수 있다 (왜지...?).
+즉, 굉장히 큰 $h$값 하나를 선택하여 아래 식을 근사한다고 볼 수 있다.
+
 $$
 \log p_{model}(x) = \log \sum_h p_{model} (x, h)
 $$
+
 그렇다면 아래의 식을 최대화 하는 꼴이 된다.
+
 $$
 \log p_{model}(h, x) = \log p_{model}(h) + \log p_{model}(x|h)
 $$
+
 따라서 $p(h)$ 부분이 sparsity penalty에 해당한다.
 
 
 ### 14.2.2 Denoising Autoencoders
 Sparse autoencoder처럼 penalty 항을 더하는 대신 loss 함수를 바꾸어 학습을 제어하는 방법도 있다.
 Denoising autoencoder는 잡을을 더한 입력을 원본으로 복구하도록 학습된다.
+
 $$
 L(x, g(f(\tilde{x})))
 $$
+
 이 과정에서 denoising autoencoder는 잡을을 제외한 자료의 구조를 학습하게 된다.
 따라서 데이터셋의 유용한 성질들을 학습할 수 있다.
 
 
 ### 14.2.3 Regularizing by Penalizing Derivatives
 Sparse autoencoder와는 다르게 latent의 미분을 penalty로 사용하는 방법도 있다.
+
 $$
 L(x, g(f(x))) + \lambda \sum_i \vert\vert\nabla_xh_i\vert\vert^2
 $$
+
 이러한 penalty를 사용하면 입력의 조그만 변화에 대해 변하지 않는 latent를 얻게 된다.
 
 
@@ -85,21 +94,21 @@ $$
 ## 14.4 Stochastic Encoders and Decoders
 Autoencoder도 순방향 신경망의 한 종류이다.
 따라서 순방향 신경망의 loss 함수를 설계했던 방법을 그대로 적용할 수 있다.
-1. 순방향 신경망의 목표는 입력 $x$, 목표 출력 $y$에 대하여 $p(y|x)$를 최대화 하는 것.
-    - 또는 $-\log p(y|x)$를 최소화
-2. 모델의 목표에 따라 $p(y|x)$ 분포를 설정한 후 $-\log p(y|x)$를 loss로 사용하여 최소화.
+1. 순방향 신경망의 목표는 입력 $x$, 목표 출력 $y$에 대하여 $p(y \vert x)$를 최대화 하는 것.
+    - 또는 $-\log p(y \vert x)$를 최소화
+2. 모델의 목표에 따라 $p(y \vert x)$ 분포를 설정한 후 $-\log p(y \vert x)$를 loss로 사용하여 최소화.
     - 예를들어 출력이 연속적인 값이면 Gaussian을 선택 -> MSE loss
 
 Autoencoder의 경우 입력과 목표 출력 모두 $x$인 경우인데, decoder 입장에서 다음과 같이 쓸 수 있다.
 $$
-\min[-\log p_{decoder}(x|h)]
+\min[-\log p_{decoder}(x \vert h)]
 $$
 따라서, autoencoder에서도 모델의 목표에 따라 분포를 Gaussian, Bernoulli, ... 등으로 선택하면 loss 함수를 자연스레 유도할 수 있다.
 
 Autoencoder가 확률론 관점에서 기존의 순방향 신경망과 다른 점은 encoder와 decoder의 확률 분포를 다음처럼 나누어 쓸 수 있다는 것이다.
 $x$와 $h$의 어떤 결합 분포 $p_{model}(h, x)$에 대하여
-- $p_{encoder}(h|x) = p_{model}(h|x)$
-- $p_{decoder}(x|h) = p_{model}(x|h)$
+- $p_{encoder}(h \vert x) = p_{model}(h \vert x)$
+- $p_{decoder}(x \vert h) = p_{model}(x \vert h)$
 
 단, 일반적으로 encoder와 decoder의 조건부 분포가 어떤 유일한 결합 분포 $p_{model}(h, x)$와 연결될 필요는 없다.
 Denoising autoencoder의 경우 근사적으로 encoder와 decoder의 조건부 분포가 하나의 결함 분포와 연결되도록 학습되는 것이 밝혀졌다 (Alain et al; 2015).
