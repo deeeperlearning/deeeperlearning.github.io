@@ -47,6 +47,49 @@ $$x_1 = w_{11}h_1 +w_{12}h_2 \\ x_2 = w_{21}h_1 +w_{22}h_2$$
 - PCA를 비선형 오토인코더로 일반화 시키는 것과 같이, ICA를 비선형 generative 모델로 확장하는 것도 가능하다고 한다.
 - ICA는 또한 통계적 의존성이 그룹 내에서는 허용되지만 그룹 간에는 권장되지 않도록 feature 그룹을 학습하는 모델로도 확장 가능하다.
 
+## 13.3 Slow Feature Analysis
+
+Slow feature analysis(SFA)는 invariant feature들을 학습하는 linear factor model이 slowness principle에 기반한다. 아이디어는 다음과 같다. scene들의 중요한 특성은 장면장면의 개별 특성보다 느리게 변한다는 것이다. 예를 들어 얼룩말이 이미지를 왼쪽에서 오른쪽으로 가로지를 때 얼룩말의 줄무늬는 각 픽셀에서 색과 검은색이 빠르게 교차하지만 얼룩말이 존재하는 지의 여부를 나타내는 특징은 변하지 않는다. 이런 시간에 따라 느리게 변하는 특징들을 학습하도록 모형을 regularize하는 것이 중요하다.
+
+Slow feature을 model에 적용하는 방법은, 비용함수에 아래와 같은 항을 추가하는 것이다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/1.png)
+
+$\lambda$는 slow feature regularization의 영향력을 결정하는 hyperparameter, t는 시간 순의 색인, $L$은 두 input간의 거리를 측정하는 손실함수, f는 regularize를 수행하는 feature extractor이다.
+
+SFA 알고리즘은 $f(x;\theta)$를 하나의 선형 변환으로 정의하고 아래와 같은 최적화 문제를 푼다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/2.png)
+
+여러개의 느린 특징을 학습하기 위해서는 다름 제약이 필요하다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/3.png)
+
+즉, 두 학습된 특징이 선형적으로 상관이 없어야 한다.  그렇지 않다면 가장 느린 신호 하나만 포착하는 결과나 나올 수 있다.
+
+## 13.4 Sparse Coding
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/4.png)
+
+요약: 어떤 input data를 학습시킬 때 부분 특성들을 나타태는 파트들의 linear combination으로 나타낼 수 있는데, 이 대 곱해지는 latent variable이 대부분 0으로 이루어지게 한다.
+
+우리에게 100장의 왜곡된 이미지들과 그에 상응하는 label로 이루어진 데이터를 가정해보자. 먼저 100장의 왜곡된 이미지들에서 품질과 관련되어 있는 이미지 특성들(f)을 도출한다. 20개를 도출했다고 하자. 즉, 각 이미지당 20개의 특성을 도출한 것이다. 한 이미지의 특성을 열 벡터(20 x 1)로 해서 행으로 차곡차곡 나열하면 하나의 행렬이 만들어지고, 이 행렬의 크기는 20 x 100이 된다. 이것을 사전(dictionary)이라고 부른다. 사전 안에 있는 하나의 열 벡터(column vector)들을 각각 atom이라고 부른다. 이 경우에는 사전 안에 100개의 atom이 있는 셈이다.
+
+어떤 이미지의 품질을 평가하고 싶다면, 우선 마찬가지로 20개의 특성을 도출해야 한다. 그 다음에 그 특성을 사전에 있는 열 벡터들, 즉 atom들의 선형 조합으로 표현되게 한다.
+
+$f=α_1f_1+α_2f_2+α_3f_3+⋯+α_{100}f_{100}$
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/5.png)
+
+이를 위한 decoding 단계에서, 최대한 많은 계수들이 0이 되게 하는 Regularizer을 사용한다. 이것이 sparse coding method이다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch13/6.png)
+
+sparse coding은 unsupervised learning의 한 방법으로, overcomplete basis vector을 기반으로 데이터를 효율적으로 표현하깅 위한 용도로 개발이 되었다.
+
+이를 통해 원 데이터의 차원보다 큰 parameter space에서 더 밀도있는 표현을 가능하게 한다. sparse coding을 사용하면, data compression, noise제거, color interpolation 등에서 탁월한 성과를 얻을 수 있다.
+
+
 
 ## 13.5 Manifold Interpretation of PCA
 
