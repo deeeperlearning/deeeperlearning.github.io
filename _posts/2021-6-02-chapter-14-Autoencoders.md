@@ -208,3 +208,35 @@ $$-\mathbb E_{\boldsymbol{\mathbf{x}}\sim \hat p_{\text{data}}(\boldsymbol{\math
   - 학습 데이터가 매우 많다면 해결 될 수 있지만, AI 분야에서 다루는 문제의 복잡성을 고려할 때 쉽지 않음
   
   - 이로 인해 manifold의 구조 자체를 파악하는 방법에 대한 연구들이 관심을 받고 있음
+
+## 14.7 Contractive Autoencoders(CAE)
+
+Contractive Autoencoders(축약 자동부호기)는 부호 $h=f(x)$에 아래와 같은 명시적인 regularization term을 추가한다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch14/1.png)
+
+penalty $\Omega (h)$는 Jacobian matrix의 편미분의 squared Frobenius norm으로 만들어져있다. denoising autoencoder와 유사점이 있는데, denoising autoencoder가 작은 Gaussian input noise의 한계 안에서 autoencoder의 reconstruction error과 Contractive Autoencoder의 Contractive panelty항이 동등한 역할을 한다.
+
+denoising autoencoder가 작은 유한한 크기의 perturbation에 저항하도록 설계되었다면 Contractive autoencoder은 feature extraction function이 무한소의 perturbation에 저항하도록 만든다.
+
+'축약'이라는 표현이 사용되는 이유는, CAE가 input perturbation에 저항하도록 훈련되므로 training point x는  그 부근의 point들과 출력 점들의 더 작은 이웃 영역으로 mapping되도록 유도된다. 다시 말해 input 영역이 축약된다고 할 수 있다.
+
+CAE를 사용하면 대부분의 점에서 ${\partial f(x) \over \partial x}$가 작은 값이 되는 autoencoder이 나온다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch14/2.png)
+
+## 14.8 Predictive Sparse Decomposition(PSD)
+
+sparse coding과 parametric autoencoder의 짬뽕이다. PSD는 반복적 추론의 결과를 **예측**하도록 parametric autoencoder을 훈련한다. PSD는 encoder $f(x)$와 decoder $g(h)$로 구성되어 있다. 학습은 아래를 최소화하는 것으로 진행된다.
+
+![_config.yml]({{ site.baseurl }}/assets/ch14/3.png)
+
+sparse coding에서처럼 훈련 과정은 h에 대한 최소화, model parameter에 대한 최소화를 번갈아 진행한다.
+
+PSD는 learned approximate inference의 한 예이다.
+
+## 14.9 Applications of Autoencoders
+
+차원축소에 autoencoder가 많이 사용되고 있다.
+
+Autoencoder을 사용한 차원 축소가 가장 잘 먹히는 곳으로 information retrieval(정보 조회)가 있다. 주어진 query entry와 유사한 항목들을 데이터베이스에서 찾아내는 것을 말한다. 저차원 binary parameter을 산출하도록 dimension reduction algorithm을 학습하면, DB의 모든 항목을 하나의 hash table에 저장할 수 있다. (0111011011010) 이 해시 테이블을 이용해 주어진 query와 동일한 binary code를 리턴함으로서 정보 조회가 끝난다. 이를 sementic hashing이라고 한다. binary code로 어떻게 만들까? 마지막 layer에 sigmoids를 encoding function과 함께 배치하면 된다.
