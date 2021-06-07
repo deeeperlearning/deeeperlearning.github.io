@@ -120,7 +120,7 @@ Denoising autoencoder의 경우 근사적으로 encoder와 decoder의 조건부 
 
 ![_config.yml]({{ site.baseurl }}/assets/ch14/Fig14_3.png)
 
-즉, 디노이징 오토인코더는 $(\tilde{\boldsymbol{x}},\boldsymbol{x})$를 통해 복원 분포  $p_{\text{reconstrunct}}(\boldsymbol{x}\ |\ \tilde{\boldsymbol{x}}) = p_{\text{decoder}}(\boldsymbol{x}\ |\ \boldsymbol{h})$를 학습하게 된다. ($\boldsymbol h = f(\tilde{\boldsymbol{x}})$) 
+즉, 디노이징 오토인코더는 $(\tilde{\boldsymbol{x}},\boldsymbol{x})$를 통해 복원 분포  $$p_{\text{reconstrunct}}(\boldsymbol{x}\ \vert\ \tilde{\boldsymbol{x}}) = p_{\text{decoder}}(\boldsymbol{x}\ \vert\ \boldsymbol{h})$$를 학습하게 된다. ($\boldsymbol h = f(\tilde{\boldsymbol{x}})$) 
 
 일반적으로 아래와 같은 기댓값에 대해 경사하강법을 적용하여 학습시킨다.
 
@@ -128,17 +128,17 @@ $$-\mathbb E_{\boldsymbol{\mathbf{x}}\sim \hat p_{\text{data}}(\boldsymbol{\math
 
 ### 14.5.1 Estimating the Score
 
-모델이 모든 학습 포인트 $\boldsymbol{x}$에서 데이터 분포와 동일한 점수를 갖도록 장려함으로써 확률 분포의 일관된 추정치를 제공하는 '점수 일치(Score matching)'는 maximum likelihood의 대안이 될 수 있다. 여기서 점수는 기울기장 $\nabla_{\boldsymbol x}\log p(\boldsymbol x)$이다. '점수 일치'는 18단원에서 자세히 다룰 예정이고, 이번 단원에서는 '기울기장을 학습하는 것 또한 $p_{\text{data}}$를 학습하는 하나의 방법이다' 정도만 알아도 충분하다.
+모델이 모든 학습 포인트 $\boldsymbol{x}$에서 데이터 분포와 동일한 점수를 갖도록 장려함으로써 확률 분포의 일관된 추정치를 제공하는 '점수 일치(Score matching)'는 maximum likelihood의 대안이 될 수 있다. 여기서 점수는 기울기장 $\nabla_{\boldsymbol{x}}\log p(\boldsymbol{x})$이다. '점수 일치'는 18단원에서 자세히 다룰 예정이고, 이번 단원에서는 '기울기장을 학습하는 것 또한 $p_{\text{data}}$를 학습하는 하나의 방법이다' 정도만 알아도 충분하다.
 
 ![_config.yml]({{ site.baseurl }}/assets/ch14/Fig14_4.png)
 
-빨간 X표를 데이터 $\boldsymbol x$, 회색 화살표를 $C(\tilde{\boldsymbol{x}}\ |\ \boldsymbol x)$ 그리고 검은 실선(manifold) 주변으로 데이터 $\boldsymbol x$가 모여있다고 하자. 
+빨간 X표를 데이터 $\boldsymbol x$, 회색 화살표를 $C(\tilde{\boldsymbol{x}} \vert \boldsymbol{x})$ 그리고 검은 실선(manifold) 주변으로 데이터 $\boldsymbol{x}$가 모여있다고 하자. 
 
-- 디노이즈 오토인코더를 $\lVert g(f(\tilde{\boldsymbol{x}}))-\boldsymbol x\rVert^2$을 최소화 하도록 학습 시킨다면 $g(f(\tilde{\boldsymbol x}))$은 데이터 $\boldsymbol x$의 무게중심에 가까워진다.
+- 디노이즈 오토인코더를 $\vert\vert g(f(\tilde{\boldsymbol{x}}))-\boldsymbol{x}\vert\vert^2$을 최소화 하도록 학습 시킨다면 $g(f(\tilde{\boldsymbol{x}}))$은 데이터 $\boldsymbol x$의 무게중심에 가까워진다.
 - 즉, manifold 외부의 점으로부터 manifold로 이동하는 벡터(초록색) $g(f(\boldsymbol x))-\boldsymbol x$ 를 학습하는 것으로 생각할수있다.
-- 또한 데이터 $\boldsymbol x$의 분포가 가우시안이라면(: $p_{\text{data}}(\boldsymbol x) \sim e^{-\lVert \boldsymbol x-\text{c.m}\rVert^2}$) 앞에서 정의한 '점수'는 $\nabla_{\boldsymbol x}\log p_{\text{data}} \sim \left(\text{C.M(manifold)}-\boldsymbol x\right)$가 되어서 벡터 ($g(f(\boldsymbol x))-\boldsymbol x$)와 동일한 의미를 가지게 된다.
+- 또한 데이터 $\boldsymbol x$의 분포가 가우시안이라면(: $p_{\text{data}}(\boldsymbol x) \sim e^{-\vert\vert \boldsymbol x-\text{c.m}\vert\vert^2}$) 앞에서 정의한 '점수'는 $\nabla_{\boldsymbol x}\log p_{\text{data}} \sim \left(\text{C.M(manifold)}-\boldsymbol x\right)$가 되어서 벡터 ($g(f(\boldsymbol x))-\boldsymbol x$)와 동일한 의미를 가지게 된다.
 
-따라서 가우시안 노이즈를 가지는 데이터에 대해  $\lVert g(f(\tilde{\boldsymbol{x}}))-\boldsymbol x\rVert^2$ 를 최소화 하도록 오토인코더를 학습시키는 것은 '점수'를 추정하는 과정과 같다. 이렇게 학습된 벡터장을 그려보면 아래와 같다.
+따라서 가우시안 노이즈를 가지는 데이터에 대해  $\vert\vert g(f(\tilde{\boldsymbol{x}}))-\boldsymbol x\vert\vert^2$ 를 최소화 하도록 오토인코더를 학습시키는 것은 '점수'를 추정하는 과정과 같다. 이렇게 학습된 벡터장을 그려보면 아래와 같다.
 
 ![_config.yml]({{ site.baseurl }}/assets/ch14/Fig14_5.png)
 
