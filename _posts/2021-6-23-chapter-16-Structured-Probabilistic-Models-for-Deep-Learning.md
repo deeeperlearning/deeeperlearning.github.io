@@ -63,7 +63,7 @@
 - 그래프 모델은 크게 방향성이 있는 경우와 없는 경우로 나눌 수 있다. 이번 절에서는 방향성이 있는 경우의 모델을 다룬다.
   - directed model, belief network, Bayesian network 등으로 불린다.
 
-![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/16.2.1_1.png)
+![_config.yml]({{ site.baseurl }}/assets/ch16/16.2.1_1.png)
 
 - Directed model은 변수 사이의 조건부 확률을 화살표로 나타낸다. 식으로 표현하면 다음과 같다.
   - $p(\vec{x}) = \prod_i (x_i \vert Pa_G(x_i))$
@@ -83,7 +83,7 @@
 - Undirected model은 상호작용의 방향성이 없는 경우에 유용한 모델이다.
   - Undirected models, Markiv random fields, Markov networks 모두 다 같은 말이다.
 
-![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/16.2.2_1.png)
+![_config.yml]({{ site.baseurl }}/assets/ch16/16.2.2_1.png)
 
 - Undirected model은 변수 사이의 상관관계를 직선으로 표현한다. 식으로는 다음과 같다.
 
@@ -161,7 +161,7 @@ Graphical 모델을 사용할 때 변수들 사이의 조건부 독립성을 판
 
    - 관측된 변수를 지나는 path는 inactive, 관측되지 않은 변수를 지나는 path는 active라고 하며, 두 변수 $a$와 $b$ 사이에 active path가 없을 때 seperated 되었다고 한다.
 
-     ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_6.png)
+     ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_6.png)
 
 
 2. D-seperation
@@ -174,19 +174,19 @@ Graphical 모델을 사용할 때 변수들 사이의 조건부 독립성을 판
 
    - 방향성이 일정한 그래프에서는 undirected의 경우와 마찬가지로 변수 $s$가 관측되면 $a$와 $b$는 분리된다.
 
-     ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_8(a).png)
+     ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_8(a).png)
 
    - 두 변수 $a,b$ 모두 $s$로 부터 파생된 경우. $s$가 관측되면 $a$와 $b$는 분리되지만, 관측되지 않은 경우에는 $a$와 $b$가 의존할 수 있다.
 
-     ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_8(b).png)
+     ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_8(b).png)
 
    - $a$와 $b$ 모두 $s$의 부모인 경우. $s$가 관측되면 $a$와 $b$는 의존한다. 예를 들어, $a$를 '동료가 휴가를 감', $b$를 '동료가 병가를 냄' 그리고 $s$를 '동료가 결근을 함'이라 해보자. $s$가 관측되면 결근한 이유가 휴가를 갔거나 병가를 냄 둘 중 하나이기 때문에 $a$와 $b$는 의존한다.
 
-     ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_8(c).png)
+     ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_8(c).png)
 
    - $(c)$와 같은 구조에서 $s$의 자식 $c$ : '동료로부터 결과 보고서를 받음'가 있을 때, 동료로부터 결과 보고서를 받지 못했다면 동료가 결근했을 가능성이 올라가기 때문에 $(c)$와 같은 이유로 $a$와 $b$는 의존한다.
 
-     ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_8(d).png)
+     ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_8(d).png)
 
    물론 그래프 형태만 보고 변수들의 모든 의존관계를 알 수는 없다. 대표적인 경우가 context-specific independences이다. 예를 들어 세 이진 변수 a,b 그리고 c가 있을 때, a가 0이면 b와 c는 독립, a가 1이면 b=c라고 하자. a=1 일 때를 그래프로 나타내면 b와 c는 연결되어 있어야한다. 하지만 이럴 경우 a=0인 경우는 나타낼 수 없다. 
 
@@ -203,19 +203,19 @@ Complete graph는 어떤 확률 분포든 표현 가능하지만 변수들 사�
 
 - Directed 모델에서 undirected 모델로 전환할 때는 모든 edge의 방향성을 없애는 것 뿐만 아니라 추가적인 edge를 연결 해야한다.
 
-  ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_11.png)
+  ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_11.png)
 
   왼쪽 그래프처럼 직선관계의 그래프는 방향성만 없애주면 되지만, 중간과 오른쪽 그래프처럼 두 변수(a, b)가 모두 하나의 변수(c)의 부모인 경우에는 부모들 사이에도 edge를 연결해 주어야한다.(이런 구조를 immortality라 부른다.) 따라서 이런 경우에는 a와 b사이의 독립성을 잃어버리게 된다. 이렇게 만들어진 undirected 그래프를 moralized 그래프라고 한다.
 
 - Undirected 모델에서 directed 모델로 전환할 때는 loop를 조심해야 한다. 길이 4 이상의 loop는 chord를 추가하여 삼각형화(?) 해주어야 한다고 한다. 그 후에 방향성을 주되 directed cycle이 생기지 않도록 만들어 주어야 한다.
 
-  ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_12.png)
+  ![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_12.png)
 
 ### 16.2.7 Factor Graphs
 
 요소 그래프는 undirected 그래프에서 하나의 clique를 정규화 되지 않은 확률분포 $\phi$로 나타내는 방법이다. 
 
-![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch16/Fig16_13.png)
+![_config.yml]({{ site.baseurl }}/assets/ch16/Fig16_13.png)
 
 위의 그림처럼 확률변수 a,b 그리고 c가 clique를 이루고 있다고 하면 다음과 같이 요소 그래프로 나타낼 수 있다.
 

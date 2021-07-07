@@ -1,8 +1,10 @@
+ 이 장에서는 처리 불가능한 partition function들을 어떻게 다루는지에 대해 다룬다. 
+
 undirected graphical model중에는 unnormalized probability distribution으로 정의되는 것들이 많다. unnormalized prob $\tilde{p}$를 아래와 같이 partition function $Z(\theta)$를 사용해 normalize시킬 수 있다. 
 
 $$p(x;\theta) = {1 \over Z(\theta)}\tilde{p}(x;\theta)$$
 
-이 표준화를 위해 $Z$는 모든 가능한 $\tilde{p}$를 더하는 형태로 구해진다. 연속 변수는 적분 $\int \tilde{p}(x;\theta)$이고, 이산변수는 합이 될 것이다. 그런데 일반적으로 여러 유용한 모형들에서 이런 계산은 intractable(계산 불가)한 경우가 많다. 모든 경우의 수를 다 고려할 수가 없기 때문이다. 이 장에서는 이런 처리 불가능한 partition function들을 어떻게 다루는지에 대해 다룬다. 
+이 표준화를 위해 $Z$는 모든 가능한 $\tilde{p}$를 더하는 형태로 구해진다. 연속 변수는 적분 $\int \tilde{p}(x;\theta)$이고, 이산변수는 합이 될 것이다. 그런데 일반적으로 여러 유용한 모형들에서 이런 계산은 intractable(계산 불가)한 경우가 많다. 모든 경우의 수를 다 고려할 수가 없기 때문이다.
 
 ## 18.1 The Log-Likelihood Gradient
 

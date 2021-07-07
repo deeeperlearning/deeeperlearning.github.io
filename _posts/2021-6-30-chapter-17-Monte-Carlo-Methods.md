@@ -1,13 +1,13 @@
+몬테카를로 방법에 대해 소개하는 장
+
 - 무작위화 알고리즘(randomized algorithm)은 크게 라스베가스, 몬테카를로 알고리즘 두 가지로 나뉨
-
-  - 라스베가스 알고리즘은 항상 정확히 맞는 답을 내놓거나, 실패했다고 보고함
-
-    - 이로 인해 랜덤한 양의 자원(메모리, 시간 등)을 사용함
-
-  - 반면, 몬테카를로 알고리즘은 랜덤한 양의 에러가 더해진 대략적인 답을 내놓음
-
-    - 에러의 양은 일반적으로 많은 자원을 사용할수록 줄어듬
-
+- 라스베가스 알고리즘은 항상 정확히 맞는 답을 내놓거나, 실패했다고 보고함
+  
+  - 이로 인해 랜덤한 양의 자원(메모리, 시간 등)을 사용함
+  
+- 반면, 몬테카를로 알고리즘은 랜덤한 양의 에러가 더해진 대략적인 답을 내놓음
+  
+  - 에러의 양은 일반적으로 많은 자원을 사용할수록 줄어듬
 - 기계학습에서 마주치는 정확한 답을 맞추기에 너무 어려운 문제의 경우엔, 정확한 결정적인(deterministic) 라스베가스 알고리즘 보다는, 대략적인(approximate) 몬테카를로 알고리즘을 쓰는 것이 좋음
   
   - 두 방법 모두 기계학습에서 널리 사용되는데, 이번 단원에서는 몬테카를로 방법에 초점을 둠
@@ -168,14 +168,14 @@ MCMC를 사용할 때 가장 곤란한 점은 두 'mode'가 잘 섞이지 않는
 
 - 마르코브 체인을 통해 샘플링 된 변수 $\boldsymbol x^{(t-1)}$은 에너지 $E(\boldsymbol x^{(t-1)})$에 따라 $\boldsymbol x^{(t)}$로 이동하는데, 일반적으로 $E(\boldsymbol x^{(t)})$는 $E(\boldsymbol x^{(t-1)})$보다 작거나 같기 때문에 $\boldsymbol x^{(t)}$는 점점 에너지가 낮은 영역으로 이동하게 된다.
 - 이렇게 에너지가 낮은 영역을 'mode'라 부르고 상대적으로 에너지가 낮기 때문에 에너지 장벽에 막혀서 다른 mode로 넘어가기 힘들다.
-  ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch17/Fig17_1.png)
+  ![_config.yml]({{ site.baseurl }}/assets/ch17/Fig17_1.png)
 - 위의 그림처럼 하나의 mode만 있는 경우에는 크게 문제가 되지 않는다.(다만, 변수들의 correlation이 높을수록 초기 위치에서 벗어나기 어렵다.) 하지만, 세번째 그림과 같이 mode가 여러개인 경우에는 처음 정해진 mode에서 벗어나기 어려운 것을 볼 수 있다.
 
 이런 현상은 잠재 변수 $\boldsymbol h$를 가지는 모델에서도 자주 일어난다.
 
 확률분포 $p(\boldsymbol x, \boldsymbol h)$ 에서 $\boldsymbol x$라는 변수를 샘플링 하기 위해 $p(\boldsymbol x\vert \boldsymbol h)$와 $p(\boldsymbol h\vert \boldsymbol x)$에서 번갈아 가며 샘플링하는 경우가 많다. 여러 mode가 잘 섞이기 위해서는 $p(\boldsymbol h\vert \boldsymbol x)$의 엔트로피가 높아야 하고, $\boldsymbol h$가 좋은 representation을 가지려면 $\boldsymbol x$와 $\boldsymbol h$ 사이의 상호의존정보가 높아야 할 것이다. 하지만 이 둘은 동시에 일어날 수 없다.
 
-![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch17/Fig17_2.png)
+![_config.yml]({{ site.baseurl }}/assets/ch17/Fig17_2.png)
 
 왼쪽 그림처럼 볼츠만 머신을 사용한 경우에는 슬로우 믹싱이 일어난 것을 볼 수 있다.
 
@@ -197,7 +197,7 @@ $$p(\boldsymbol x) \sim \exp(-\beta E(\boldsymbol x))$$
 
 - Parallel tempering(Iba, 2001) : 서로 다른 state들을 서로 다른 온도에서 병렬로 마르코브 체인을 수행하고, 각 iteration마다 메트로 폴리스 알고리즘에 따라 서로 다른 온도의 샘플을 서로 바꾼다.
 
-  ![_config.yml](/Users/kibum_onepredict/dev/deeeperlearning.github.io/_posts/{{ site.baseurl }}/assets/ch17/Parallel_tempering.png)
+  ![_config.yml]({{ site.baseurl }}/assets/ch17/Parallel_tempering.png)
 
   ([https://www.researchgate.net/figure/Schematic-of-the-parallel-tempering-method-for-fitting-the-model-In-parallel-tempering_fig6_276922924](https://www.researchgate.net/figure/Schematic-of-the-parallel-tempering-method-for-fitting-the-model-In-parallel-tempering_fig6_276922924))
 
