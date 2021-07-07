@@ -1,0 +1,59 @@
+## 18.5 Denoising Score Matching
+
+- 실제의 $p_{data}$를 구하는 대신, 아래와 같은 분포를 근사해서 스코어 매칭을 정규화해야 할 때도 있음
+
+  - 이 때 $q(x \mid y)는 작은 노이즈 $y$를 더했을 때 $x$에 대한 분포임
+  
+![_config.yml]({{ site.baseurl }}/assets/ch18/Eq18_27.PNG)
+
+  - 현실적으로 $p_{data}$를 구하기는 힘들고 샘플링할 수 밖에 없기 때문에, denoising score matching이 유용하게 됨
+  
+  - Denoising 오토인코더와 같은 개념이라 할 수 있기 때문에, 오토인코더가 partition function 문제를 해결하는 하나의 방법이라고도 할 수 있음
+
+
+
+## 18.6 Noise-Contrastive Estimation
+
+- 복잡한 partition function을 이용해서 모델을 구하는 많은 기술에서, partition function 자체를 구하지는 않음
+
+  - 예) SML(stochastic maximum likelihood)나 CD(contrastive divergence)의 경우, partition function을 직접 구하기보다 log값의 gradient를 구함
+
+
+- Noise-contrastive estimation (NCE)에서는 다른 전략을 취함
+
+  - 모델의 확률 분포를 다음과 같이 직접적으로 표현함 ($c$: $-log Z(\theta)$의 근사값)
+  
+![_config.yml]({{ site.baseurl }}/assets/ch18/Eq18_28.PNG)
+
+  - 단순히 $\theta$ 만을 구하는 것이 아니라, $c$를 또다른 파라미터로 취급하여 같은 알고리즘을 동시에 $c$와 $\theta$를 구함
+  
+  - 따라서 $log p_{model}(x)$가 실제 분포와 정확하게 같지는 않지만, $c$에 대한 근사가 개선될수록 실제 값에 가까워짐
+  
+  - Maximum likelihood에서는 $c$를 적절하게 정하는 것이 아니라 높은 값을 갖게 하므로, NCE에서는 사용하지 않음
+  
+  - $p(x)$를 구하는 비지도학습 문제를, 모델에 의해 만들어진 데이터인지 여부에 대한 binary 지도 학습 문제로 만들어줌
+  
+  
+- 특히, 노이즈 분포 $p_{noise}(x)$를 이용해서 $x$와 binary 클래스 변수 $y$에 대한 새로운 모델을 만들 수 있음
+
+  - $y$: $x$를 모델에서 만들지, 노이즈 분포에서 만들지를 정하는 스위치 변수
+
+![_config.yml]({{ site.baseurl }}/assets/ch18/Eq18_29_31.PNG)
+
+
+- 데이터를 학습시켜서 비슷한 모델을 만들 수 있음: 이번에는 스위치 변수가 $x$를 데이터에서 샘플링할지, 노이즈 분포에서 샘플링할지를 정함
+
+  - 일반적인 설정: $p_{train}(y=1)=0.5$, $p_{train}(x \mid y=1)=p_{data}(x)$, $p_{train}(x \mid y=0)=p_{noise}(x)$
+  
+  - 이로부터 $p_{joint}$를 $p_{train}$에 가까워지도록 피팅하는 일반적인 지도학습 문제로 만들 수 있음
+  
+![_config.yml]({{ site.baseurl }}/assets/ch18/Eq18_32.PNG)
+
+  - 분포 $p_{joint}$는 모델과 노이즈 분포의 로그 확률값 사이의 차이에 대한 logistic regression model이 됨
+  
+![_config.yml]({{ site.baseurl }}/assets/ch18/Eq18_33_37.PNG)
+
+
+- NCE의 핵심 아이디어는 '좋은 생성 모델은 데이터와 노이즈를 구분할 수 있어야 한다'임
+
+  - 비슷한 아이디어인 '좋은 생성 모델이 만든 샘플은 어떤 분류기로도 데이터와 구분할 수 없어야 한다'에 기반을 둔 generative adversarial 네트워크에 대해 20단원에서 소개할 예정임
