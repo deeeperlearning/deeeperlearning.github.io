@@ -1,5 +1,3 @@
-# chapter 18. Confronting the Partition Function
-
 undirected graphical model중에는 unnormalized probability distribution으로 정의되는 것들이 많다. unnormalized prob $\tilde{p}$를 아래와 같이 partition function $Z(\theta)$를 사용해 normalize시킬 수 있다. 
 
 $$p(x;\theta) = {1 \over Z(\theta)}\tilde{p}(x;\theta)$$
